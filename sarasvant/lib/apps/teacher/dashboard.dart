@@ -6,8 +6,8 @@ import 'package:responsive_framework/responsive_framework.dart';
 import '../../constants/app_constants.dart';
 import 'components/wide_tile.dart';
 
-class Home extends StatelessWidget {
-  const Home({super.key});
+class TeacherDashboard extends StatelessWidget {
+  const TeacherDashboard({super.key});
 
   @override
   Widget build(BuildContext context) {
