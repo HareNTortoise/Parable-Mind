@@ -1,7 +1,7 @@
 class Assignments {
   String id;
-  String Title;
-  String Body;
+  String title;
+  String body;
   List<String> attachments;
   DateTime dueDate;
   DateTime createdAt;
@@ -10,8 +10,8 @@ class Assignments {
 
   Assignments({
     required this.id,
-    required this.Title,
-    required this.Body,
+    required this.title,
+    required this.body,
     required this.attachments,
     required this.dueDate,
     required this.createdAt,
@@ -22,8 +22,8 @@ class Assignments {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'Title': Title,
-      'Body': Body,
+      'title': title,
+      'body': body,
       'attachments': attachments,
       'dueDate': dueDate,
       'createdAt': createdAt,
@@ -35,8 +35,8 @@ class Assignments {
   factory Assignments.fromJson(Map<String, dynamic> json) {
     return Assignments(
       id: json['id'],
-      Title: json['Title'],
-      Body: json['Body'],
+      title: json['title'],
+      body: json['body'],
       attachments: json['attachments'],
       dueDate: json['dueDate'],
       createdAt: json['createdAt'],
