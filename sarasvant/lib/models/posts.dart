@@ -1,15 +1,15 @@
 class Posts {
   String id;
-  String Title;
-  String Body;
+  String title;
+  String body;
   List<String> attachments;
   String studentId;
   List<String> commentIds;
 
   Posts({
     required this.id,
-    required this.Title,
-    required this.Body,
+    required this.title,
+    required this.body,
     required this.attachments,
     required this.studentId,
     required this.commentIds,
@@ -18,8 +18,8 @@ class Posts {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'Title': Title,
-      'Body': Body,
+      'title': title,
+      'body': body,
       'attachments': attachments,
       'studentId': studentId,
       'commentIds': commentIds,
@@ -29,8 +29,8 @@ class Posts {
   factory Posts.fromJson(Map<String, dynamic> json) {
     return Posts(
       id: json['id'],
-      Title: json['Title'],
-      Body: json['Body'],
+      title: json['title'],
+      body: json['body'],
       attachments: json['attachments'],
       studentId: json['studentId'],
       commentIds: json['commentIds'],

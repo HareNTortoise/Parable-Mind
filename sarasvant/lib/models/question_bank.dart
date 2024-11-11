@@ -1,12 +1,12 @@
 class QuestionBank {
   String id;
-  String qId;
+  String bankId;
   String chapter;
   String topic;
 
   QuestionBank({
     required this.id,
-    required this.qId,
+    required this.bankId,
     required this.chapter,
     required this.topic,
   });
@@ -14,7 +14,7 @@ class QuestionBank {
   Map<String, dynamic> toJson() {
     return {
       'id': id,
-      'qId': qId,
+      'bankId': bankId,
       'chapter': chapter,
       'topic': topic,
     };
@@ -23,7 +23,7 @@ class QuestionBank {
   factory QuestionBank.fromJson(Map<String, dynamic> json) {
     return QuestionBank(
       id: json['id'],
-      qId: json['qId'],
+      bankId: json['bankId'],
       chapter: json['chapter'],
       topic: json['topic'],
     );

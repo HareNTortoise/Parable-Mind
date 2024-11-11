@@ -1,15 +1,15 @@
 import 'package:sarasvant/models/variable.dart';
 
 class Questions {
-  String qId;
-  String poolId;
+  String id;
+  String bankId;
   String question;
   List <Variable> variable;
   int points;
 
   Questions({
-    required this.qId,
-    required this.poolId,
+    required this.id,
+    required this.bankId,
     required this.question,
     required this.variable,
     required this.points,
@@ -17,8 +17,8 @@ class Questions {
 
   Map<String, dynamic> toJson() {
     return {
-      'qId': qId,
-      'poolId': poolId,
+      'qi': id,
+      'bankId': bankId,
       'question': question,
       'variable': variable,
       'points': points,
@@ -27,8 +27,8 @@ class Questions {
 
   factory Questions.fromJson(Map<String, dynamic> json) {
     return Questions(
-      qId: json['qId'],
-      poolId: json['poolId'],
+      id: json['qIid'],
+      bankId: json['bankId'],
       question: json['question'],
       variable: json['variable'],
       points: json['points'],

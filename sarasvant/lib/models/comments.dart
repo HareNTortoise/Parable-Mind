@@ -1,22 +1,22 @@
 class Comments {
-  String commentId;
+  String id;
   String commentBody;
 
   Comments({
-    required this.commentId,
+    required this.id,
     required this.commentBody,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'commentId': commentId,
+      'id': id,
       'commentBody': commentBody,
     };
   }
 
   factory Comments.fromJson(Map<String, dynamic> json) {
     return Comments(
-      commentId: json['commentId'],
+      id: json['id'],
       commentBody: json['commentBody'],
     );
   }
