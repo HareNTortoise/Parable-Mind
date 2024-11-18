@@ -1,11 +1,12 @@
 import 'package:sarasvant/models/questions.dart';
 import 'package:sarasvant/models/variable.dart';
 
-final List<Questions> dummyQuestions = [
-  Questions(
+final List<Question> dummyQuestions = [
+  Question(
     id: 'Q1',
     bankId: 'P1',
     question: 'What is the capital of France?',
+    tags: ['geography', 'capital', 'MCQ'],
     variable: [
       Variable(
         id: 'V1',
@@ -28,10 +29,11 @@ final List<Questions> dummyQuestions = [
     ],
     points: 10,
   ),
-  Questions(
+  Question(
     id: 'Q2',
     bankId: 'P2',
     question: 'Solve: 5 + 3',
+    tags: ['math', 'addition', 'MCQ'],
     variable: [
       Variable(
         id: 'V3',
@@ -54,10 +56,11 @@ final List<Questions> dummyQuestions = [
     ],
     points: 5,
   ),
-  Questions(
+  Question(
     id: 'Q3',
     bankId: 'P1',
     question: 'What is the chemical symbol for water?',
+    tags: ['chemistry', 'water', 'MCQ'],
     variable: [
       Variable(
         id: 'V5',
@@ -80,10 +83,11 @@ final List<Questions> dummyQuestions = [
     ],
     points: 8,
   ),
-  Questions(
+  Question(
     id: 'Q4',
     bankId: 'P3',
     question: 'Who wrote "Romeo and Juliet"?',
+    tags: ['literature', 'author', 'MCQ'],
     variable: [
       Variable(
         id: 'V7',
@@ -106,10 +110,11 @@ final List<Questions> dummyQuestions = [
     ],
     points: 12,
   ),
-  Questions(
+  Question(
     id: 'Q5',
     bankId: 'P2',
     question: 'What is 10 * 10?',
+    tags: ['math', 'multiplication', 'MCQ'],
     variable: [
       Variable(
         id: 'V9',
