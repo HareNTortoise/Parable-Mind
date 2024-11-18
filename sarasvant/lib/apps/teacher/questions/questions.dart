@@ -62,10 +62,6 @@ class QuestionsState extends State<Questions> {
     });
   }
 
-  void _navigateToAddQuestionPage() {
-    context.go('/add_question');
-  }
-
   void _updateSearchMode(String mode) {
     setState(() {
       searchMode = mode;
@@ -87,7 +83,7 @@ class QuestionsState extends State<Questions> {
       width: 1920,
       child: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: _navigateToAddQuestionPage,
+          onPressed: () => context.go('/add-question'),
           child: Icon(Icons.add),
         ),
         body: SingleChildScrollView(
