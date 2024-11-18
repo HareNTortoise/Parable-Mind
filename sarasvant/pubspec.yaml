@@ -45,6 +45,7 @@ dependencies:
   logger: ^2.4.0
   auto_size_text: ^3.0.0
   flutter_expandable_fab: ^2.3.0
+  dropdown_button2: ^2.3.9
 
 dev_dependencies:
   flutter_test:
