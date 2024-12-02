@@ -46,6 +46,7 @@ dependencies:
   auto_size_text: ^3.0.0
   flutter_expandable_fab: ^2.3.0
   dropdown_button2: ^2.3.9
+  linked_scroll_controller: ^0.2.0
 
 dev_dependencies:
   flutter_test:
