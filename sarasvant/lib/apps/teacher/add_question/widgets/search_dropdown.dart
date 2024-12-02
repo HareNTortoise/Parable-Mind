@@ -100,7 +100,7 @@ class _SearchDropdownState extends State<SearchDropdown> {
           iconDisabledColor: Colors.grey,
         ),
         dropdownStyleData: DropdownStyleData(
-          maxHeight: 200,
+          maxHeight: 500,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(14),
           ),
