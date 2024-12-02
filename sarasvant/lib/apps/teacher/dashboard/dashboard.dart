@@ -4,8 +4,8 @@ import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:sarasvant/apps/teacher/dashboard/widgets/wide_tile.dart';
 import '../../../constants/app_constants.dart';
-import 'components/wide_tile.dart';
 
 class TeacherDashboard extends StatelessWidget {
   TeacherDashboard({super.key});
@@ -25,7 +25,7 @@ class TeacherDashboard extends StatelessWidget {
             childrenAnimation: ExpandableFabAnimation.none,
             type: ExpandableFabType.up,
             openButtonBuilder: RotateFloatingActionButtonBuilder(
-              child: const Icon(Icons.dashboard),
+              child: Icon(Icons.dashboard, color: Colors.tealAccent.shade700),
               fabSize: ExpandableFabSize.regular,
               foregroundColor: Colors.blue,
               backgroundColor: Colors.white,
@@ -104,7 +104,7 @@ class TeacherDashboard extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 50),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 100),
                   child: Column(
