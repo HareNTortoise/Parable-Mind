@@ -1,14 +1,73 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:highlight_text/highlight_text.dart';
+import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:logger/logger.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sarasvant/apps/teacher/add_question/widgets/search_dropdown.dart';
-import '../../../constants/app_constants.dart';
+import '../../../common/widgets/highlight_text.dart';
 
-class AddQuestion extends StatelessWidget {
+class AddQuestion extends StatefulWidget {
   const AddQuestion({super.key});
+
+  @override
+  State<AddQuestion> createState() => _AddQuestionState();
+}
+
+class _AddQuestionState extends State<AddQuestion> {
+
+  late TextEditingController _questionController;
+  late LinkedScrollControllerGroup _scrollControllers;
+  late ScrollController _questionScrollController;
+  late ScrollController _formattedQuestionViewScrollController;
+
+  final highlights = [
+    HighlightSegment(
+      start: 0,
+      end: 7,
+      style: GoogleFonts.poppins(fontSize: 21, color: Colors.white),
+      highlightColor: Colors.blue,
+      onTap: () {
+        Logger().i('Tapped on "Flutter"');
+      },
+    ),
+    HighlightSegment(
+      start: 19,
+      end: 28,
+      style: GoogleFonts.poppins(fontSize: 21, color: Colors.white),
+      highlightColor: Colors.red,
+      onTap: () {
+        Logger().i('Tapped on "supports"');
+      },
+    ),
+    HighlightSegment(
+      start: 33,
+      end: 40,
+      style: GoogleFonts.poppins(fontSize: 21, color: Colors.white),
+      highlightColor: Colors.green,
+      onTap: () {
+        Logger().i('Tapped on "Android"');
+      },
+    ),
+  ];
+
+  @override
+  void initState() {
+    _scrollControllers = LinkedScrollControllerGroup();
+    _questionController = TextEditingController();
+    _questionScrollController = _scrollControllers.addAndGet();
+    _formattedQuestionViewScrollController = _scrollControllers.addAndGet();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _questionController.dispose();
+    _questionScrollController.dispose();
+    _formattedQuestionViewScrollController.dispose();
+
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +82,7 @@ class AddQuestion extends StatelessWidget {
                 Align(
                   alignment: Alignment.topLeft,
                   child: AutoSizeText(
-                    AppConstants.appName,
+                    'Add Question',
                     maxLines: 2,
                     minFontSize: 80,
                     style: GoogleFonts.poppins(
@@ -38,44 +97,66 @@ class AddQuestion extends StatelessWidget {
                     Expanded(
                       flex: 4,
                       child: Container(
-                        height: 700,
+                        height: 730,
                         margin: const EdgeInsets.only(right: 50),
                         padding: const EdgeInsets.all(40),
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(50),
                         ),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Column(
                           children: [
-                            Text(
-                              'Q.',
-                              style: GoogleFonts.jost(fontSize: 32),
-                            ),
-                            SizedBox(width: 20),
-                            Expanded(
-                              child: TextFormField(
-                                controller: HighlightTextEditingController(
-                                  highlightRanges: [
-                                    Range(0, 3), // Highlights indices 0 to 2
-                                    Range(5, 10), // Highlights indices 5 to 9
-                                  ],
-                                  onTextSelectionChanged: (start, end) {
-                                    // Do something with the selection range
-                                  },
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Q.',
+                                  style: GoogleFonts.jost(fontSize: 32),
                                 ),
-                                decoration: InputDecoration(
-                                  hintText: 'Enter your question here',
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(50),
+                                SizedBox(width: 20),
+                                Expanded(
+                                  child: Column(
+                                    children: [
+                                      TextFormField(
+                                        scrollController: _questionScrollController,
+                                        controller: _questionController,
+                                        onChanged: (value) {
+                                          setState(() {});
+                                        },
+                                        decoration: InputDecoration(
+                                          hintText: 'Enter your question here',
+                                          border: OutlineInputBorder(
+                                            borderRadius: BorderRadius.circular(50),
+                                          ),
+                                          fillColor: Colors.white,
+                                          filled: true,
+                                          contentPadding: const EdgeInsets.all(30),
+                                        ),
+                                        maxLines: 8,
+                                        style: GoogleFonts.poppins(fontSize: 21),
+                                      ),
+                                      SizedBox(height: 30),
+                                      Container(
+                                        padding: const EdgeInsets.all(30),
+                                        width: double.infinity,
+                                        height: 300,
+                                        decoration: BoxDecoration(
+                                          color: Colors.white,
+                                          borderRadius: BorderRadius.circular(50),
+                                        ),
+                                        child: SingleChildScrollView(
+                                          controller: _formattedQuestionViewScrollController,
+                                          child: HighlightAbleText(
+                                            text: _questionController.text,
+                                            highlights: highlights,
+                                            defaultTextStyle: GoogleFonts.poppins(fontSize: 21),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
                                   ),
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  contentPadding: const EdgeInsets.all(30),
                                 ),
-                                maxLines: 15,
-                                style: GoogleFonts.poppins(fontSize: 24),
-                              ),
+                              ],
                             ),
                           ],
                         ),
@@ -84,12 +165,12 @@ class AddQuestion extends StatelessWidget {
                     Expanded(
                       flex: 2,
                       child: Container(
-                        height: 700,
+                        height: 730,
                         margin: const EdgeInsets.only(left: 50),
                         padding: const EdgeInsets.all(40),
                         decoration: BoxDecoration(
                           color: Colors.grey[200],
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(50),
                         ),
                         child: Column(
                           children: [
@@ -111,89 +192,4 @@ class AddQuestion extends StatelessWidget {
       ),
     );
   }
-}
-
-class HighlightTextEditingController extends TextEditingController {
-  final List<Range> highlightRanges;
-  final Function(int start, int end)? onTextSelectionChanged;
-
-  HighlightTextEditingController({
-    required this.highlightRanges,
-    this.onTextSelectionChanged,
-  }) : super() {
-    // Add a listener to detect text selection changes
-    this.addListener(_onSelectionChange);
-  }
-
-  // Callback to be triggered when the selection changes
-  void _onSelectionChange() {
-    final selection = this.selection;
-    if (selection != null && selection.isValid) {
-      // Call the provided callback with the start and end indices
-      onTextSelectionChanged?.call(selection.start, selection.end);
-    }
-  }
-
-  @override
-  TextSpan buildTextSpan({
-    required BuildContext context,
-    TextStyle? style,
-    bool? withComposing,
-  }) {
-    style ??= const TextStyle();
-    final children = <InlineSpan>[];
-
-    int currentIndex = 0;
-
-    for (final range in highlightRanges) {
-      // Skip this range if its end index exceeds the current text length
-      if (range.end > text.length) {
-        continue;
-      }
-
-      // Add non-highlighted text before the current highlight range
-      if (currentIndex < range.start) {
-        children.add(TextSpan(
-          text: text.substring(currentIndex, range.start),
-          style: style,
-        ));
-      }
-
-      // Add highlighted text for the current range as a WidgetSpan
-      children.add(WidgetSpan(
-        alignment: PlaceholderAlignment.middle,
-        child: Container(
-          decoration: BoxDecoration(
-            color: Colors.yellow,
-            borderRadius: BorderRadius.circular(8.0),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 2.0, vertical: 1.0),
-          child: Text(
-            text.substring(range.start, range.end),
-            style: style,
-          ),
-        ),
-      ));
-
-      // Update the current index to the end of the highlighted range
-      currentIndex = range.end;
-    }
-
-    // Add any remaining non-highlighted text after the last highlight range
-    if (currentIndex < text.length) {
-      children.add(TextSpan(
-        text: text.substring(currentIndex),
-        style: style,
-      ));
-    }
-
-    return TextSpan(style: style, children: children);
-  }
-}
-
-class Range {
-  final int start;
-  final int end;
-
-  Range(this.start, this.end);
 }
