@@ -2,14 +2,12 @@ import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class SearchDropdown extends StatefulWidget {
   const SearchDropdown({super.key, required this.items, this.selectedValue, this.onChanged});
 
   final List<String> items;
   final String? selectedValue;
   final ValueChanged<String?>? onChanged;
-
 
   @override
   State<SearchDropdown> createState() => _SearchDropdownState();
@@ -18,6 +16,7 @@ class SearchDropdown extends StatefulWidget {
 class _SearchDropdownState extends State<SearchDropdown> {
   String? selectedValue;
   final dropdownKey = GlobalKey<DropdownButton2State>();
+  final searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +43,7 @@ class _SearchDropdownState extends State<SearchDropdown> {
                     const SizedBox(width: 14),
                     Text(
                       selectedValue ?? widget.items.first,
-                      style: GoogleFonts.jost(
+                      style: GoogleFonts.poppins(
                         fontSize: 18,
                         color: Colors.black,
                       ),
@@ -59,19 +58,59 @@ class _SearchDropdownState extends State<SearchDropdown> {
         ),
         isExpanded: true,
         items: widget.items
-            .map((String item) => DropdownMenuItem<String>(
-          value: item,
-          child: Text(
-            item,
-            style: const TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
-            ),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ))
+            .map(
+              (String item) => DropdownMenuItem<String>(
+                value: item,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 14),
+                  child: Text(
+                    item,
+                    style: GoogleFonts.poppins(
+                      fontSize: 21,
+                      color: Colors.black,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+            )
             .toList(),
+        dropdownSearchData: DropdownSearchData(
+          searchController: searchController,
+          searchInnerWidgetHeight: 50,
+          searchInnerWidget: Container(
+            margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            height: 78,
+            padding: const EdgeInsets.all(12),
+            child: TextFormField(
+              expands: true,
+              maxLines: null,
+              controller: searchController,
+              style: GoogleFonts.jost(
+                fontSize: 18,
+                color: Colors.black,
+              ),
+              decoration: InputDecoration(
+                isDense: true,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 14,
+                  vertical: 8,
+                ),
+                hintText: 'Search for an item...',
+                hintStyle: GoogleFonts.jost(
+                  fontSize: 18,
+                  color: Colors.black54,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+            ),
+          ),
+          searchMatchFn: (item, searchValue) {
+            return item.value.toString().toLowerCase().contains(searchValue.toLowerCase());
+          },
+        ),
         value: selectedValue,
         onChanged: (value) {
           setState(() {
@@ -102,7 +141,7 @@ class _SearchDropdownState extends State<SearchDropdown> {
         dropdownStyleData: DropdownStyleData(
           maxHeight: 500,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(14),
+            borderRadius: BorderRadius.circular(35),
           ),
           scrollbarTheme: ScrollbarThemeData(
             radius: const Radius.circular(40),
@@ -111,7 +150,7 @@ class _SearchDropdownState extends State<SearchDropdown> {
           ),
         ),
         menuItemStyleData: MenuItemStyleData(
-         // overlayColor: MaterialStateProperty.all(Colors.redAccent),
+          // overlayColor: MaterialStateProperty.all(Colors.redAccent),
           height: 70,
           padding: EdgeInsets.only(left: 14, right: 14),
         ),

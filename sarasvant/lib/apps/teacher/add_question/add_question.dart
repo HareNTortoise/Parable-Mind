@@ -174,10 +174,20 @@ class _AddQuestionState extends State<AddQuestion> {
                         ),
                         child: Column(
                           children: [
+                            Text(
+                              'Choose Question Bank',
+                              style: GoogleFonts.jost(fontSize: 32),
+                            ),
+                            SizedBox(height: 30),
                             SearchDropdown(
-                              items: ['MCQ', 'Short Answer', 'Long Answer'],
+                              items: ['Bank 1', 'Bank 2', 'Bank 3', 'Bank 4', 'Bank 5'],
                               selectedValue: 'MCQ',
                               onChanged: (value) {},
+                            ),
+                            SizedBox(height: 30),
+                            Text(
+                              'Variables',
+                              style: GoogleFonts.jost(fontSize: 32),
                             ),
                           ],
                         ),
