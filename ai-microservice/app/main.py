@@ -3,9 +3,10 @@ from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 from app.routes.ping import router as ping_router
 from config.logging_config import logger
+from config.settings import settings
 
 app = FastAPI(
-    title="AI Microservice",
+    title=settings.APP_NAME,
     description="A simple AI microservice with a ping endpoint and logging.",
     version="1.0.0",
     contact={
@@ -19,7 +20,7 @@ app = FastAPI(
     }
 )
 
-logger.info("Starting AI Microservice")
+logger.info("Starting %s", settings.APP_NAME)
 
 app.include_router(ping_router, prefix="", tags=["Ping"])
 

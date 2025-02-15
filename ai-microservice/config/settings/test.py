@@ -1,7 +1,8 @@
-# test.py
-from pydantic import BaseSettings
-class Settings(BaseSettings):
+# settings/test.py
+from pydantic_settings import BaseSettings
+
+
+class TestSettings(BaseSettings):
     APP_NAME: str = "AI Microservice - Test"
-    HOST: str = "0.0.0.0"
-    PORT: int = 8001
     DEBUG: bool = False
+    LOG_LEVEL: str = "INFO"

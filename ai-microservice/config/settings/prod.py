@@ -1,7 +1,8 @@
-# prod.py
-from pydantic import BaseSettings
-class Settings(BaseSettings):
+# settings/prod.py
+from pydantic_settings import BaseSettings
+
+
+class ProdSettings(BaseSettings):
     APP_NAME: str = "AI Microservice - Prod"
-    HOST: str = "0.0.0.0"
-    PORT: int = 8002
     DEBUG: bool = False
+    LOG_LEVEL: str = "WARNING"

@@ -1,22 +1,24 @@
 import os
 from pydantic import BaseSettings
-from ai_microservice.config.settings import dev, test, prod
+from config.settings import dev, test, prod
+
 
 class Settings(BaseSettings):
     APP_NAME: str
     HOST: str
     PORT: int
     DEBUG: bool
-    
+
     class Config:
-        env_file = f"../.env"
+        env_file = "../.env"
+
 
 ENV = os.getenv("ENV", "dev")
 if ENV == "dev":
-    settings = dev.Settings()
+    settings = dev.DevSettings()
 elif ENV == "test":
-    settings = test.Settings()
+    settings = test.TestSettings()
 elif ENV == "prod":
-    settings = prod.Settings()
+    settings = prod.ProdSettings()
 else:
-    settings = dev.Settings()
+    settings = dev.DevSettings()
