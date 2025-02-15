@@ -1,4 +1,8 @@
 # main.py
+"""
+This module initializes and configures the FastAPI application.
+It sets up the application with routes, logging, and custom OpenAPI schema.
+"""
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 from app.routes.ping import router as ping_router
@@ -27,6 +31,12 @@ app.include_router(ping_router, prefix="", tags=["Ping"])
 # Custom OpenAPI Schema
 
 def custom_openapi():
+    """
+    Generates a custom OpenAPI schema for the FastAPI application.
+
+    Returns:
+        dict: The OpenAPI schema.
+    """
     if app.openapi_schema:
         return app.openapi_schema
     openapi_schema = get_openapi(

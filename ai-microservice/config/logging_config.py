@@ -1,4 +1,8 @@
-# logging_config.py
+"""
+This module configures the logging for the application.
+It sets the log level, format, and handlers based on the application settings.
+"""
+
 import logging
 import sys
 from config.settings import settings
