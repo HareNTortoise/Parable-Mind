@@ -113,7 +113,9 @@ class TeacherDashboard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           GestureDetector(
-                            onTap: () {},
+                            onTap: () {
+                              context.push('/teacher-dashboard/question-banks');
+                            },
                             child: WideTile(
                               title: AutoSizeText(
                                 "Question Banks",
@@ -131,7 +133,7 @@ class TeacherDashboard extends StatelessWidget {
                             ),
                           ),
                           GestureDetector(
-                            onTap: () => context.push('/home/add_question'),
+                            onTap: () => context.push('/teacher-dashboard/questions'),
                             child: WideTile(
                               title: AutoSizeText(
                                 "Questions",
