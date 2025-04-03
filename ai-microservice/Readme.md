@@ -26,9 +26,9 @@ uvicorn app.main:app --host 0.0.0.0 --port 8000
 
 ## API Endpoints
 
-| Method | Endpoint | Description |
-|--------|---------|-------------|
-| GET    | `/ping` | Returns `{ "message": "ping" }` |
+| Method | Endpoint | Description                     |
+| ------ | -------- | ------------------------------- |
+| GET    | `/ping`  | Returns `{ "message": "ping" }` |
 
 ## OpenAPI Documentation
 
@@ -36,6 +36,12 @@ Once the server is running, visit:
 
 - [Swagger UI](http://127.0.0.1:8000/docs)
 - [ReDoc UI](http://127.0.0.1:8000/redoc)
+
+## Environment Variables
+
+The service uses the following environment variable, ensure they are set in .env file:
+
+- `GOOGLE_API_KEY`: API key required for accessing Gemini LLM used in the microservice.
 
 ## Logging
 

@@ -6,8 +6,10 @@ It sets up the application with routes, logging, and custom OpenAPI schema.
 from fastapi import FastAPI
 from fastapi.openapi.utils import get_openapi
 from app.routes.ping import router as ping_router
+from app.routes.context_generator import router as context_generator_router
 from config.logging_config import logger
 from config.settings import settings
+
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -27,6 +29,7 @@ app = FastAPI(
 logger.info("Starting %s", settings.APP_NAME)
 
 app.include_router(ping_router, prefix="", tags=["Ping"])
+app.include_router(context_generator_router, prefix="", tags=["Context Generator"])
 
 # Custom OpenAPI Schema
 
