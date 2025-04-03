@@ -1,0 +1,50 @@
+{
+	"info": {
+		"_postman_id": "7e7f3bb7-580a-4509-b9ff-9f28bfa89488",
+		"name": "Parable Mind",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32315525",
+		"_collection_link": "https://crimson-capsule-249854.postman.co/workspace/My-Workspace~abfc4b32-b2f1-4e15-8d54-4a1376f3e469/collection/32315525-7e7f3bb7-580a-4509-b9ff-9f28bfa89488?action=share&source=collection_link&creator=32315525"
+	},
+	"item": [
+		{
+			"name": "AI microservice",
+			"item": [
+				{
+					"name": "context generator",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"question\": \"Given a square of side 4. find its area\",\n    \"keywords\": [\"Mickey mouse\", \"Goofy\"]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/generate-context",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"generate-context"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
