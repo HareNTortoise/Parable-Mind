@@ -8,6 +8,7 @@ from fastapi.openapi.utils import get_openapi
 from app.routes.ping import router as ping_router
 from app.routes.context_generator import router as context_generator_router
 from app.routes.mcq_variation_generator import router as mcq_variation_generator_router
+from app.routes.msq_variation_generator import router as msq_variation_generator_router
 from config.logging_config import logger
 from config.settings import settings
 
@@ -30,10 +31,15 @@ app = FastAPI(
 logger.info("Starting %s", settings.APP_NAME)
 
 app.include_router(ping_router, prefix="", tags=["Ping"])
-app.include_router(context_generator_router, prefix="", tags=["Context Generator"])
-app.include_router(mcq_variation_generator_router, prefix="", tags=["MCQ Variation Generator"])
+app.include_router(context_generator_router, prefix="",
+                   tags=["Context Generator"])
+app.include_router(mcq_variation_generator_router,
+                   prefix="", tags=["MCQ Variation Generator"])
+app.include_router(msq_variation_generator_router,
+                   prefix="", tags=["MSQ Variation Generator"])
 
 # Custom OpenAPI Schema
+
 
 def custom_openapi():
     """
@@ -52,5 +58,6 @@ def custom_openapi():
     )
     app.openapi_schema = openapi_schema
     return app.openapi_schema
+
 
 app.openapi = custom_openapi
