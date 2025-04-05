@@ -1,9 +1,13 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"log"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
@@ -12,7 +16,7 @@ import (
 	"server/internal/firebase"
 	"server/internal/routes"
 
-	_ "server/internal/docs" // Swagger docs import
+	_ "server/internal/docs"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -25,45 +29,58 @@ import (
 // @BasePath        /
 
 func main() {
-	// Load env vars
+	// Warm start: load env and initialize Firestore
+	log.Println("🟡 Warming up server...")
+
 	if err := godotenv.Load(); err != nil {
-		log.Println("⚠️  .env file not found, relying on system environment variables")
+		log.Println("⚠️  .env file not found, using system environment variables")
 	}
 
-	// Initialize Firebase
 	firebase.InitFirestore()
 
-	// Setup Gin engine
 	router := gin.Default()
 
-	// ✅ Add CORS middleware
-	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:8080"},
-		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
-		AllowCredentials: true,
-	}))
+	// Enable CORS
+	router.Use(cors.Default())
 
-	// Setup routes
+	// Routes
 	routes.SetupRoutes(router)
-
-	// Swagger UI
+	routes.RegisterClassroomRoutes(router)
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-
-	// Health check
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
 	})
 
-	// Start server
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
-	fmt.Printf("🚀 Server is running at:     http://localhost:%s\n", port)
-	fmt.Printf("📘 Swagger documentation:    http://localhost:%s/docs/index.html\n", port)
+	addr := ":" + port
 
-	if err := router.Run(":" + port); err != nil {
-		log.Fatalf("❌ Failed to start server: %v", err)
-	}
+	// Startup logs
+	fmt.Printf("✅ Server ready at:        http://localhost:%s\n", port)
+	fmt.Printf("📘 Swagger docs at:        http://localhost:%s/docs/index.html\n", port)
+
+	// Graceful shutdown support
+	srv := &gin.Engine{}
+	srv = router
+
+	go func() {
+		if err := srv.Run(addr); err != nil {
+			log.Fatalf("❌ Server error: %v", err)
+		}
+	}()
+
+	// Wait for termination signal (SIGINT, SIGTERM)
+	quit := make(chan os.Signal, 1)
+	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
+	<-quit
+
+	log.Println("🛑 Shutting down server gracefully...")
+
+	_, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	// You can add shutdown logic here if needed (e.g., closing DB)
+	log.Println("✅ Cleanup done. Exiting.")
 }
