@@ -2,8 +2,8 @@ package questions
 
 import (
 	"net/http"
-	questionsModel "server/internal/model/questions"
-	"server/internal/service/questions"
+	"server/internal/model/questions"
+	serviceQuestions "server/internal/service/questions"
 
 	"github.com/gin-gonic/gin"
 )
@@ -14,16 +14,14 @@ import (
 // @Produce json
 // @Param msq body questions.MSQ true "MSQ JSON"
 // @Success 201 {object} questions.MSQ
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /msqs [post]
 func CreateMSQ(c *gin.Context) {
-	var m questionsModel.MSQ
+	var m questions.MSQ
 	if err := c.ShouldBindJSON(&m); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := questions.CreateMSQ(m); err != nil {
+	if err := serviceQuestions.CreateMSQ(m); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create MSQ"})
 		return
 	}
@@ -35,11 +33,10 @@ func CreateMSQ(c *gin.Context) {
 // @Produce json
 // @Param id path string true "MSQ ID"
 // @Success 200 {object} questions.MSQ
-// @Failure 404 {object} map[string]string
 // @Router /msqs/{id} [get]
 func GetMSQ(c *gin.Context) {
 	id := c.Param("id")
-	m, err := questions.GetMSQ(id)
+	m, err := serviceQuestions.GetMSQ(id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "MSQ not found"})
 		return
@@ -51,11 +48,10 @@ func GetMSQ(c *gin.Context) {
 // @Tags MSQs
 // @Param id path string true "MSQ ID"
 // @Success 200 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /msqs/{id} [delete]
 func DeleteMSQ(c *gin.Context) {
 	id := c.Param("id")
-	if err := questions.DeleteMSQ(id); err != nil {
+	if err := serviceQuestions.DeleteMSQ(id); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete MSQ"})
 		return
 	}
@@ -68,7 +64,6 @@ func DeleteMSQ(c *gin.Context) {
 // @Param limit query string false "Pagination limit"
 // @Param offset query string false "Pagination offset"
 // @Success 200 {array} questions.MSQ
-// @Failure 500 {object} map[string]string
 // @Router /msqs [get]
 func GetAllMSQs(c *gin.Context) {
 	filters := map[string]string{
@@ -76,7 +71,7 @@ func GetAllMSQs(c *gin.Context) {
 		"limit":  c.DefaultQuery("limit", "10"),
 		"offset": c.DefaultQuery("offset", "0"),
 	}
-	msqs, err := questions.GetAllMSQs(filters)
+	msqs, err := serviceQuestions.GetAllMSQs(filters)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch MSQs"})
 		return
@@ -91,17 +86,15 @@ func GetAllMSQs(c *gin.Context) {
 // @Param id path string true "MSQ ID"
 // @Param msq body questions.MSQ true "Updated MSQ"
 // @Success 200 {object} questions.MSQ
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /msqs/{id} [put]
 func UpdateMSQ(c *gin.Context) {
 	id := c.Param("id")
-	var m questionsModel.MSQ
+	var m questions.MSQ
 	if err := c.ShouldBindJSON(&m); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := questions.UpdateMSQ(id, m); err != nil {
+	if err := serviceQuestions.UpdateMSQ(id, m); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update MSQ"})
 		return
 	}
@@ -115,8 +108,6 @@ func UpdateMSQ(c *gin.Context) {
 // @Param id path string true "MSQ ID"
 // @Param updates body map[string]interface{} true "Fields to update"
 // @Success 200 {object} map[string]string
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /msqs/{id} [patch]
 func PatchMSQ(c *gin.Context) {
 	id := c.Param("id")
@@ -125,7 +116,7 @@ func PatchMSQ(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := questions.PatchMSQ(id, updates); err != nil {
+	if err := serviceQuestions.PatchMSQ(id, updates); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to patch MSQ"})
 		return
 	}
