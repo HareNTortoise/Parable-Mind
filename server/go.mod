@@ -2,6 +2,8 @@ module server
 
 go 1.23.0
 
+toolchain go1.23.8
+
 require (
 	cloud.google.com/go/firestore v1.18.0
 	github.com/gin-contrib/cors v1.7.5

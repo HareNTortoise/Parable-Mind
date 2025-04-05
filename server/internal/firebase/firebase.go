@@ -13,10 +13,11 @@ import (
 
 var Client *firestore.Client
 
-func InitFirestore() {
-	ctx := context.Background()
+func createFirebaseCredentialsFromEnv() []byte {
+	privateKey := os.Getenv("FIREBASE_PRIVATE_KEY")
 
-	privateKey := strings.ReplaceAll(os.Getenv("FIREBASE_PRIVATE_KEY"), `\\n`, "\n")
+	// Convert \\n (escaped newlines) to real \n
+	privateKey = strings.ReplaceAll(privateKey, `\n`, "\n")
 
 	cred := map[string]string{
 		"type":                        os.Getenv("FIREBASE_TYPE"),
@@ -29,17 +30,23 @@ func InitFirestore() {
 		"token_uri":                   os.Getenv("FIREBASE_TOKEN_URI"),
 		"auth_provider_x509_cert_url": os.Getenv("FIREBASE_AUTH_PROVIDER_X509_CERT_URL"),
 		"client_x509_cert_url":        os.Getenv("FIREBASE_CLIENT_X509_CERT_URL"),
+		"universe_domain":             "googleapis.com",
 	}
 
 	credJSON, err := json.Marshal(cred)
 	if err != nil {
-		log.Fatalf("❌ Failed to marshal credentials: %v", err)
+		log.Fatalf("❌ Failed to marshal Firebase credentials: %v", err)
 	}
+	return credJSON
+}
 
-	opt := option.WithCredentialsJSON(credJSON)
-	projectID := os.Getenv("FIREBASE_PROJECT_ID")
+func InitFirestore() {
+	log.Println("🟡 Warming up Firestore...")
 
-	client, err := firestore.NewClient(ctx, projectID, opt)
+	ctx := context.Background()
+	creds := option.WithCredentialsJSON(createFirebaseCredentialsFromEnv())
+
+	client, err := firestore.NewClient(ctx, os.Getenv("FIREBASE_PROJECT_ID"), creds)
 	if err != nil {
 		log.Fatalf("❌ Failed to initialize Firestore: %v", err)
 	}
