@@ -1,31 +1,31 @@
 package questions
 
 import (
-	modelQuestions "server/internal/model/questions"
-	"server/internal/repository/questions"
+	"server/internal/model/questions"
+	repo "server/internal/repository/questions"
 )
 
-func CreateMCQ(m modelQuestions.MCQ) error {
-	return questions.SaveMCQ(m)
+func CreateMCQ(m questions.MCQ) error {
+	return repo.SaveMCQ(m)
 }
 
-func GetMCQ(id string) (*modelQuestions.MCQ, error) {
-	return questions.GetMCQByID(id)
+func GetMCQ(id string) (*questions.MCQ, error) {
+	return repo.GetMCQByID(id)
 }
 
 func DeleteMCQ(id string) error {
-	return questions.DeleteMCQ(id)
+	return repo.DeleteMCQ(id)
 }
 
-func GetAllMCQs(filters map[string]string) ([]modelQuestions.MCQ, error) {
-	return questions.GetAllMCQs(filters)
+func GetAllMCQs(filters map[string]string) ([]questions.MCQ, error) {
+	return repo.GetAllMCQs(filters)
 }
 
-func UpdateMCQ(id string, updated modelQuestions.MCQ) error {
+func UpdateMCQ(id string, updated questions.MCQ) error {
 	updated.ID = id
-	return questions.SaveMCQ(updated)
+	return repo.SaveMCQ(updated)
 }
 
 func PatchMCQ(id string, updates map[string]interface{}) error {
-	return questions.PatchMCQ(id, updates)
+	return repo.PatchMCQ(id, updates)
 }
