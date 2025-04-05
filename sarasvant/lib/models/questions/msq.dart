@@ -4,10 +4,10 @@ class MSQ {
   String id;
   String bankId;
   String question;
-  List <Variable> variable;
+  List<Variable> variable;
   int points;
-  List <String> options;
-  List <String> answer;
+  List<String> options;
+  List<int> answerIndices;
 
   MSQ({
     required this.id,
@@ -16,30 +16,30 @@ class MSQ {
     required this.variable,
     required this.points,
     required this.options,
-    required this.answer,
+    required this.answerIndices,
   });
 
   Map<String, dynamic> toJson() {
     return {
-      'qi': id,
+      'id': id,
       'bankId': bankId,
       'question': question,
       'variable': variable,
       'points': points,
       'options': options,
-      'answer': answer,
+      'answerIndices': answerIndices,
     };
   }
 
   factory MSQ.fromJson(Map<String, dynamic> json) {
     return MSQ(
-      id: json['qIid'],
+      id: json['id'],
       bankId: json['bankId'],
       question: json['question'],
       variable: json['variable'],
       points: json['points'],
       options: json['options'],
-      answer: json['answer'],
+      answerIndices: json['answerIndices'],
     );
   }
 }
