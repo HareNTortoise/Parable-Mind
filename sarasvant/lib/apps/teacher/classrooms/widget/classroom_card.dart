@@ -21,7 +21,8 @@ class ClassroomCard extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, '/classroom/${classroom.id}');
+        // Navigator.pushNamed(context, '/classroom/${classroom.id}');
+        /// TODO: Implement navigation to classroom details
       },
       child: Card(
         shape: RoundedRectangleBorder(
