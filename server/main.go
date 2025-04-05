@@ -51,6 +51,7 @@ func main() {
 	routes.RegisterQuestionBankRoutes(router)
 	routes.RegisterStudentRoutes(router)
 	routes.RegisterSubmissionRoutes(router)
+	routes.RegisterTeacherRoutes(router)
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
