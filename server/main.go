@@ -56,6 +56,8 @@ func main() {
 	routes.RegisterVariableRoutes(router)
 	questions.RegisterMCQRoutes(router)
 	questions.RegisterMSQRoutes(router)
+	questions.RegisterNATRoutes(router)
+	questions.RegisterSubjectiveRoutes(router)
 
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET("/health", func(c *gin.Context) {
