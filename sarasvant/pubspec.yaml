@@ -28,6 +28,8 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  flutter_web_plugins:
+    sdk: flutter
   flutter:
     sdk: flutter
 
@@ -47,6 +49,10 @@ dependencies:
   flutter_expandable_fab: ^2.4.1
   dropdown_button2: ^2.3.9
   linked_scroll_controller: ^0.2.0
+  firebase_auth: ^5.5.2
+  google_sign_in: ^6.3.0
+  flutter_svg: ^2.0.17
+  pinput: ^5.0.1
 
 dev_dependencies:
   flutter_test:
@@ -100,3 +106,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package
+  assets:
+    - lib/assets/google.svg
+    - lib/assets/phone_sms.svg
+

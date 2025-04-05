@@ -4,7 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sarasvant/models/question_bank.dart';
 import 'package:go_router/go_router.dart';
-import '../../../constants/dummy_data/question_bank.dart';
+
+import '../../../../constants/dummy_data/question_bank.dart';
 
 class QuestionBankPage extends StatefulWidget {
   const QuestionBankPage({super.key});

@@ -4,8 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:linked_scroll_controller/linked_scroll_controller.dart';
 import 'package:logger/logger.dart';
 import 'package:responsive_framework/responsive_framework.dart';
-import 'package:sarasvant/apps/teacher/add_question/widgets/search_dropdown.dart';
-import '../../../common/widgets/highlight_text.dart';
+import 'package:sarasvant/apps/teacher/screens/add_question/widgets/search_dropdown.dart';
+import '../../../../common/widgets/highlight_text.dart';
 
 class AddQuestion extends StatefulWidget {
   const AddQuestion({super.key});

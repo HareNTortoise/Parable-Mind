@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sarasvant/apps/teacher/classrooms/widget/classroom_card.dart';
-import '../../../constants/dummy_data/assignments.dart';
-import '../../../constants/dummy_data/classroom.dart';
-import '../../../constants/dummy_data/teacher.dart';
+import 'package:sarasvant/apps/teacher/screens/classrooms/widget/classroom_card.dart';
+import '../../../../constants/dummy_data/assignments.dart';
+import '../../../../constants/dummy_data/classroom.dart';
+import '../../../../constants/dummy_data/teacher.dart';
 
 class ClassroomsPage extends StatelessWidget {
   const ClassroomsPage({super.key});
