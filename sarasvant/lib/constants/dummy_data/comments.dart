@@ -3,82 +3,102 @@ import 'package:sarasvant/models/comments.dart';
 final List<Comments> dummyComments = [
   Comments(
     id: '901',
-    commentBody: 'This is a great post! Really enjoyed reading it.',
+    commentBody: 'The explanation of Newton\'s First Law was very clear.',
   ),
   Comments(
     id: '902',
-    commentBody: 'I have a question regarding this topic. Can you clarify the last point?',
+    commentBody: 'Can you provide more examples for Newton\'s Laws?',
   ),
   Comments(
     id: '903',
-    commentBody: 'Thanks for sharing this information, it was very helpful.',
+    commentBody: 'The chemical reaction equations were well explained.',
   ),
   Comments(
     id: '904',
-    commentBody: 'I disagree with the analysis in the second paragraph. Can we discuss it further?',
+    commentBody: 'I have a question about the balancing of chemical equations.',
   ),
   Comments(
     id: '905',
-    commentBody: 'Looking forward to more content like this! Keep it up!',
+    commentBody: 'The algebraic expressions section was very helpful.',
   ),
   Comments(
     id: '906',
-    commentBody: 'I think you missed an important point in your explanation. Can you elaborate?',
+    commentBody: 'Can you elaborate on solving quadratic equations?',
   ),
   Comments(
     id: '907',
-    commentBody: 'This topic is very relevant to current trends in the industry. Great job!',
+    commentBody: 'The cell structure diagrams were very informative.',
   ),
   Comments(
     id: '908',
-    commentBody: 'I would love to see more examples that illustrate these points.',
+    commentBody: 'Can you include more details on cell organelles?',
   ),
   Comments(
     id: '909',
-    commentBody: 'Excellent post! I completely agree with the conclusions drawn here.',
+    commentBody: 'The timeline of World War II events was very detailed.',
   ),
   Comments(
     id: '910',
-    commentBody: 'Can you recommend some further readings on this subject?',
+    commentBody: 'Can you recommend further readings on World War II?',
   ),
   Comments(
     id: '911',
-    commentBody: 'This article gave me a new perspective on this topic. Thank you!',
+    commentBody: 'The impact of World War II on global politics was well covered.',
   ),
   Comments(
     id: '912',
-    commentBody: 'I have been following this subject for a while, and this is a solid overview.',
+    commentBody: 'The introduction to Quantum Mechanics was very thorough.',
   ),
   Comments(
     id: '913',
-    commentBody: 'Could you clarify the statistics mentioned in the third paragraph? I’m not sure I understood them correctly.',
+    commentBody: 'Can you clarify the concept of wave-particle duality?',
   ),
   Comments(
     id: '914',
-    commentBody: 'Really insightful! I will share this with my colleagues.',
+    commentBody: 'The explanation of relativity was very insightful.',
   ),
   Comments(
     id: '915',
-    commentBody: 'Is there a way to access more detailed case studies on this topic?',
+    commentBody: 'Can you provide more examples on time dilation?',
   ),
   Comments(
     id: '916',
-    commentBody: 'This post made me realize how much I still need to learn about this subject.',
+    commentBody: 'The numerical problems were challenging but fair.',
   ),
   Comments(
     id: '917',
-    commentBody: 'I appreciate the depth of this analysis, but I would love to see a follow-up with more real-world examples.',
+    commentBody: 'I appreciate the detailed solutions provided.',
   ),
   Comments(
     id: '918',
-    commentBody: 'This is a great starting point, but I would suggest including some references to studies or research papers.',
+    commentBody: 'The subjective questions were thought-provoking.',
   ),
   Comments(
     id: '919',
-    commentBody: 'The examples you used are very helpful in understanding complex concepts. Great job!',
+    commentBody: 'The mix of question types was very effective.',
   ),
   Comments(
     id: '920',
-    commentBody: 'I think this article has some outdated information. Can you update it with more recent data?',
+    commentBody: 'Can you update the assignment with more recent data?',
+  ),
+  Comments(
+    id: '921',
+    commentBody: 'The Quantum Mechanics assignment was very challenging.',
+  ),
+  Comments(
+    id: '922',
+    commentBody: 'The questions on Relativity were well-structured.',
+  ),
+  Comments(
+    id: '923',
+    commentBody: 'The subjective questions in the History assignment were engaging.',
+  ),
+  Comments(
+    id: '924',
+    commentBody: 'The numerical questions in the Physics assignment were tricky but fair.',
+  ),
+  Comments(
+    id: '925',
+    commentBody: 'Great mix of question types in the Chemistry assignment!',
   ),
 ];
