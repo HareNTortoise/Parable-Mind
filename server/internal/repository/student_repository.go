@@ -4,6 +4,7 @@ import (
 	"context"
 	"server/internal/firebase"
 	"server/internal/model"
+	"strconv"
 
 	"cloud.google.com/go/firestore"
 )
@@ -39,7 +40,16 @@ func GetAllStudents(filters map[string]string) ([]model.Student, error) {
 		q = q.Where("rollNo", "==", rollNo)
 	}
 
-	iter := q.Documents(ctx)
+	limit := 10
+	offset := 0
+	if l, err := strconv.Atoi(filters["limit"]); err == nil {
+		limit = l
+	}
+	if o, err := strconv.Atoi(filters["offset"]); err == nil {
+		offset = o
+	}
+
+	iter := q.Offset(offset).Limit(limit).Documents(ctx)
 	var results []model.Student
 	for {
 		doc, err := iter.Next()

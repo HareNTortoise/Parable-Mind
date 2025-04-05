@@ -66,6 +66,8 @@ func DeleteStudent(c *gin.Context) {
 // @Tags Students
 // @Param email query string false "Filter by email"
 // @Param rollNo query string false "Filter by roll number"
+// @Param limit query string false "Pagination limit"
+// @Param offset query string false "Pagination offset"
 // @Success 200 {array} model.Student
 // @Failure 500 {object} map[string]string
 // @Router /students [get]
@@ -73,6 +75,8 @@ func GetAllStudents(c *gin.Context) {
 	filters := map[string]string{
 		"email":  c.Query("email"),
 		"rollNo": c.Query("rollNo"),
+		"limit":  c.DefaultQuery("limit", "10"),
+		"offset": c.DefaultQuery("offset", "0"),
 	}
 	students, err := service.GetAllStudents(filters)
 	if err != nil {
