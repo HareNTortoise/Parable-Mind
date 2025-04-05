@@ -1,3 +1,4 @@
+// controller/questions/mcq_controller.go
 package questions
 
 import (
@@ -6,6 +7,7 @@ import (
 	service "server/internal/service/questions"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // @Summary Create MCQ
@@ -21,6 +23,7 @@ func CreateMCQ(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	m.ID = uuid.New().String()
 	if err := service.CreateMCQ(m); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create MCQ"})
 		return
@@ -94,6 +97,7 @@ func UpdateMCQ(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	m.ID = id
 	if err := service.UpdateMCQ(id, m); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update MCQ"})
 		return

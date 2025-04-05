@@ -1,3 +1,4 @@
+// controller/assignment_controller.go
 package controller
 
 import (
@@ -6,40 +7,36 @@ import (
 	"server/internal/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
-// @Summary      Create a new assignment
-// @Description  Creates a new assignment with optional question types
-// @Tags         Assignments
-// @Accept       json
-// @Produce      json
-// @Param        assignment  body      model.Assignment  true  "Assignment JSON"
-// @Success      201         {object}  model.Assignment
-// @Failure      400         {object}  map[string]string
-// @Failure      500         {object}  map[string]string
-// @Router       /assignments [post]
+// @Summary Create Assignment
+// @Tags Assignments
+// @Accept json
+// @Produce json
+// @Param assignment body model.Assignment true "Assignment JSON"
+// @Success 201 {object} model.Assignment
+// @Router /assignments [post]
 func CreateAssignment(c *gin.Context) {
 	var a model.Assignment
 	if err := c.ShouldBindJSON(&a); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	a.ID = uuid.New().String() // Auto-generate ID
 	if err := service.CreateAssignment(a); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create assignment"})
 		return
 	}
 	c.JSON(http.StatusCreated, a)
 }
 
-// @Summary      Get a single assignment
-// @Description  Get an assignment by its ID
-// @Tags         Assignments
-// @Accept       json
-// @Produce      json
-// @Param        id   path      string  true  "Assignment ID"
-// @Success      200  {object}  model.Assignment
-// @Failure      404  {object}  map[string]string
-// @Router       /assignments/{id} [get]
+// @Summary Get Assignment by ID
+// @Tags Assignments
+// @Produce json
+// @Param id path string true "Assignment ID"
+// @Success 200 {object} model.Assignment
+// @Router /assignments/{id} [get]
 func GetAssignment(c *gin.Context) {
 	id := c.Param("id")
 	a, err := service.GetAssignment(id)
@@ -50,36 +47,29 @@ func GetAssignment(c *gin.Context) {
 	c.JSON(http.StatusOK, a)
 }
 
-// @Summary      Delete an assignment
-// @Description  Delete an assignment by ID
-// @Tags         Assignments
-// @Accept       json
-// @Produce      json
-// @Param        id   path      string  true  "Assignment ID"
-// @Success      200  {object}  map[string]string
-// @Failure      500  {object}  map[string]string
-// @Router       /assignments/{id} [delete]
+// @Summary Delete Assignment
+// @Tags Assignments
+// @Param id path string true "Assignment ID"
+// @Success 200 {object} map[string]string
+// @Router /assignments/{id} [delete]
 func DeleteAssignment(c *gin.Context) {
 	id := c.Param("id")
 	err := service.DeleteAssignment(id)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete assignment"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Assignment deleted"})
 }
 
-// @Summary      Update an assignment
-// @Description  Update assignment fields by ID
-// @Tags         Assignments
-// @Accept       json
-// @Produce      json
-// @Param        id          path      string            true  "Assignment ID"
-// @Param        assignment  body      model.Assignment  true  "Updated assignment"
-// @Success      200         {object}  model.Assignment
-// @Failure      400         {object}  map[string]string
-// @Failure      500         {object}  map[string]string
-// @Router       /assignments/{id} [put]
+// @Summary Update Assignment
+// @Tags Assignments
+// @Accept json
+// @Produce json
+// @Param id path string true "Assignment ID"
+// @Param assignment body model.Assignment true "Updated Assignment"
+// @Success 200 {object} model.Assignment
+// @Router /assignments/{id} [put]
 func UpdateAssignment(c *gin.Context) {
 	id := c.Param("id")
 	var updated model.Assignment
@@ -95,18 +85,15 @@ func UpdateAssignment(c *gin.Context) {
 	c.JSON(http.StatusOK, updated)
 }
 
-// @Summary      List assignments with filters and pagination
-// @Description  Get all assignments (filter by points, dueDate; paginate using limit/offset)
-// @Tags         Assignments
-// @Accept       json
-// @Produce      json
-// @Param        points   query     int     false  "Filter by points"
-// @Param        dueDate  query     string  false  "Filter by dueDate (RFC3339 format)"
-// @Param        limit    query     int     false  "Limit results"
-// @Param        offset   query     int     false  "Offset results"
-// @Success      200      {array}   model.Assignment
-// @Failure      500      {object}  map[string]string
-// @Router       /assignments [get]
+// @Summary Get All Assignments
+// @Tags Assignments
+// @Produce json
+// @Param points query string false "Filter by points"
+// @Param dueDate query string false "Filter by due date"
+// @Param limit query string false "Pagination limit"
+// @Param offset query string false "Pagination offset"
+// @Success 200 {array} model.Assignment
+// @Router /assignments [get]
 func GetAllAssignments(c *gin.Context) {
 	limit := c.DefaultQuery("limit", "10")
 	offset := c.DefaultQuery("offset", "0")

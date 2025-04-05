@@ -1,3 +1,4 @@
+// controller/variable_controller.go
 package controller
 
 import (
@@ -6,6 +7,7 @@ import (
 	"server/internal/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // @Summary Create Variable
@@ -16,16 +18,17 @@ import (
 // @Success 201 {object} model.Variable
 // @Router /variables [post]
 func CreateVariable(c *gin.Context) {
-	var v model.Variable
-	if err := c.ShouldBindJSON(&v); err != nil {
+	var variable model.Variable
+	if err := c.ShouldBindJSON(&variable); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := service.CreateVariable(v); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create"})
+	variable.ID = uuid.New().String() // Auto-generate ID
+	if err := service.CreateVariable(variable); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create variable"})
 		return
 	}
-	c.JSON(http.StatusCreated, v)
+	c.JSON(http.StatusCreated, variable)
 }
 
 // @Summary Get Variable by ID
@@ -36,12 +39,12 @@ func CreateVariable(c *gin.Context) {
 // @Router /variables/{id} [get]
 func GetVariable(c *gin.Context) {
 	id := c.Param("id")
-	v, err := service.GetVariable(id)
+	variable, err := service.GetVariable(id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Variable not found"})
 		return
 	}
-	c.JSON(http.StatusOK, v)
+	c.JSON(http.StatusOK, variable)
 }
 
 // @Summary Delete Variable
@@ -52,14 +55,15 @@ func GetVariable(c *gin.Context) {
 func DeleteVariable(c *gin.Context) {
 	id := c.Param("id")
 	if err := service.DeleteVariable(id); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete variable"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Deleted"})
+	c.JSON(http.StatusOK, gin.H{"message": "Variable deleted"})
 }
 
-// @Summary Get all Variables
+// @Summary Get All Variables
 // @Tags Variables
+// @Produce json
 // @Param limit query string false "Limit"
 // @Param offset query string false "Offset"
 // @Success 200 {array} model.Variable
@@ -69,34 +73,35 @@ func GetAllVariables(c *gin.Context) {
 		"limit":  c.DefaultQuery("limit", "10"),
 		"offset": c.DefaultQuery("offset", "0"),
 	}
-	items, err := service.GetAllVariables(filters)
+	variables, err := service.GetAllVariables(filters)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch variables"})
 		return
 	}
-	c.JSON(http.StatusOK, items)
+	c.JSON(http.StatusOK, variables)
 }
 
 // @Summary Update Variable
 // @Tags Variables
 // @Accept json
 // @Produce json
-// @Param id path string true "ID"
-// @Param variable body model.Variable true "Variable"
+// @Param id path string true "Variable ID"
+// @Param variable body model.Variable true "Updated Variable"
 // @Success 200 {object} model.Variable
 // @Router /variables/{id} [put]
 func UpdateVariable(c *gin.Context) {
 	id := c.Param("id")
-	var v model.Variable
-	if err := c.ShouldBindJSON(&v); err != nil {
+	var variable model.Variable
+	if err := c.ShouldBindJSON(&variable); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := service.UpdateVariable(id, v); err != nil {
+	variable.ID = id
+	if err := service.UpdateVariable(id, variable); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Update failed"})
 		return
 	}
-	c.JSON(http.StatusOK, v)
+	c.JSON(http.StatusOK, variable)
 }
 
 // @Summary Patch Variable

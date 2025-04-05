@@ -3,7 +3,7 @@ import '../../../models/questions/mcq.dart';
 final List<MCQ> dummyMCQs = [
   MCQ(
     id: 'mcq_1',
-    bankId: '101',
+    bankId: '202',
     question: 'What is the acceleration of an object when a force of 20N is applied to a mass of 5kg?',
     variableIds: [],
     points: 5,
@@ -12,7 +12,7 @@ final List<MCQ> dummyMCQs = [
   ),
   MCQ(
     id: 'mcq_2',
-    bankId: '102',
+    bankId: '202',
     question: 'What is the frequency of a wave with a speed of 300 m/s and a wavelength of 5 m?',
     variableIds: [],
     points: 5,
@@ -21,7 +21,7 @@ final List<MCQ> dummyMCQs = [
   ),
   MCQ(
     id: 'mcq_3',
-    bankId: '103',
+    bankId: '206',
     question: 'Calculate the area of a rectangle with length 10m and width 5m.',
     variableIds: [],
     points: 5,
@@ -30,7 +30,7 @@ final List<MCQ> dummyMCQs = [
   ),
   MCQ(
     id: 'mcq_4',
-    bankId: '104',
+    bankId: '206',
     question: 'What is the potential energy of a 10kg object lifted to a height of 5m? (g = 9.8 m/s²)',
     variableIds: [],
     points: 6,
@@ -39,7 +39,7 @@ final List<MCQ> dummyMCQs = [
   ),
   MCQ(
     id: 'mcq_5',
-    bankId: '105',
+    bankId: '207',
     question: 'What is the volume of a cylinder with radius 2m and height 10m? (Use π = 3.14)',
     variableIds: [],
     points: 6,

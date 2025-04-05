@@ -22,6 +22,7 @@ final GoRouter router = GoRouter(
         GoRoute(path: '/question-banks', pageBuilder: (context, state) => MaterialPage(child: QuestionBankPage())),
         GoRoute(path: '/questions', pageBuilder: (context, state) => MaterialPage(child: Questions())),
         GoRoute(path: '/classrooms', pageBuilder: (context, state) => MaterialPage(child: ClassroomsPage())),
+        GoRoute(path: '/assignments', pageBuilder: (context, state) => MaterialPage(child: AssignmentsPage())),
       ],
     ),
     GoRoute(path: '/add-question', pageBuilder: (context, state) => MaterialPage(child: AddQuestion())),

@@ -1,3 +1,4 @@
+// controller/post_controller.go
 package controller
 
 import (
@@ -6,6 +7,7 @@ import (
 	"server/internal/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // @Summary Create Post
@@ -16,16 +18,17 @@ import (
 // @Success 201 {object} model.Post
 // @Router /posts [post]
 func CreatePost(c *gin.Context) {
-	var p model.Post
-	if err := c.ShouldBindJSON(&p); err != nil {
+	var post model.Post
+	if err := c.ShouldBindJSON(&post); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := service.CreatePost(p); err != nil {
+	post.ID = uuid.New().String() // Auto-generate ID
+	if err := service.CreatePost(post); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create post"})
 		return
 	}
-	c.JSON(http.StatusCreated, p)
+	c.JSON(http.StatusCreated, post)
 }
 
 // @Summary Get Post by ID
@@ -36,12 +39,12 @@ func CreatePost(c *gin.Context) {
 // @Router /posts/{id} [get]
 func GetPost(c *gin.Context) {
 	id := c.Param("id")
-	p, err := service.GetPost(id)
+	post, err := service.GetPost(id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Post not found"})
 		return
 	}
-	c.JSON(http.StatusOK, p)
+	c.JSON(http.StatusOK, post)
 }
 
 // @Summary Delete Post
@@ -58,18 +61,19 @@ func DeletePost(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Post deleted"})
 }
 
-// @Summary Get all Posts
+// @Summary Get All Posts
 // @Tags Posts
+// @Produce json
+// @Param limit query string false "Limit"
+// @Param offset query string false "Offset"
 // @Param userId query string false "Filter by user ID"
-// @Param limit query string false "Pagination limit"
-// @Param offset query string false "Pagination offset"
 // @Success 200 {array} model.Post
 // @Router /posts [get]
 func GetAllPosts(c *gin.Context) {
 	filters := map[string]string{
-		"userId": c.Query("userId"),
 		"limit":  c.DefaultQuery("limit", "10"),
 		"offset": c.DefaultQuery("offset", "0"),
+		"userId": c.Query("userId"),
 	}
 	posts, err := service.GetAllPosts(filters)
 	if err != nil {
@@ -89,16 +93,17 @@ func GetAllPosts(c *gin.Context) {
 // @Router /posts/{id} [put]
 func UpdatePost(c *gin.Context) {
 	id := c.Param("id")
-	var p model.Post
-	if err := c.ShouldBindJSON(&p); err != nil {
+	var post model.Post
+	if err := c.ShouldBindJSON(&post); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := service.UpdatePost(id, p); err != nil {
+	post.ID = id
+	if err := service.UpdatePost(id, post); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Update failed"})
 		return
 	}
-	c.JSON(http.StatusOK, p)
+	c.JSON(http.StatusOK, post)
 }
 
 // @Summary Patch Post
