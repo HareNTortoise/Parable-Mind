@@ -44,8 +44,9 @@ func main() {
 	router.Use(cors.Default())
 
 	// Routes
-	routes.SetupRoutes(router)
+	routes.RegisterAssignmentRoutes(router)
 	routes.RegisterClassroomRoutes(router)
+	routes.RegisterCommentRoutes(router)
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
