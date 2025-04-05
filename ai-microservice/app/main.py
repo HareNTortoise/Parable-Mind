@@ -9,6 +9,7 @@ from app.routes.ping import router as ping_router
 from app.routes.context_generator import router as context_generator_router
 from app.routes.mcq_variation_generator import router as mcq_variation_generator_router
 from app.routes.msq_variation_generator import router as msq_variation_generator_router
+from app.routes.variable_detector import router as variable_detector_router
 from config.logging_config import logger
 from config.settings import settings
 
@@ -37,6 +38,8 @@ app.include_router(mcq_variation_generator_router,
                    prefix="", tags=["MCQ Variation Generator"])
 app.include_router(msq_variation_generator_router,
                    prefix="", tags=["MSQ Variation Generator"])
+app.include_router(variable_detector_router,
+                   prefix="", tags=["Variable Detector"])
 
 # Custom OpenAPI Schema
 
