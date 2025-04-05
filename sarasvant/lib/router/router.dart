@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:sarasvant/apps/teacher/dashboard/dashboard.dart';
 import '../apps/teacher/add_question/add_question.dart';
+import '../apps/teacher/assignments/assignments.dart';
 import '../apps/teacher/classrooms/classrooms.dart';
 import '../apps/teacher/question_bank/question_bank.dart';
 import '../apps/teacher/questions/questions.dart';
@@ -17,6 +18,7 @@ final GoRouter router = GoRouter(
         GoRoute(path: '/question-banks', pageBuilder: (context, state) => MaterialPage(child: QuestionBankPage())),
         GoRoute(path: '/questions', pageBuilder: (context, state) => MaterialPage(child: Questions())),
         GoRoute(path: '/classrooms', pageBuilder: (context, state) => MaterialPage(child: ClassroomsPage())),
+        GoRoute(path: '/assignments', pageBuilder: (context, state) => MaterialPage(child: AssignmentsPage())),
       ],
     ),
     GoRoute(path: '/add-question', pageBuilder: (context, state) => MaterialPage(child: AddQuestion())),
