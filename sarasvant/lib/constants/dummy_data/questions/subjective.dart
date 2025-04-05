@@ -1,4 +1,3 @@
-import 'package:sarasvant/models/variable.dart';
 import '../../../models/questions/subjective.dart';
 
 final List<Subjective> dummySubjectives = [
@@ -6,7 +5,7 @@ final List<Subjective> dummySubjectives = [
     id: 'sub_1',
     bankId: '401',
     question: 'Explain Newton’s First Law of Motion with an example.',
-    variable: [],
+    variableIds: [],
     points: 10,
     idealAnswer: 'Newton’s First Law states that an object will remain at rest or in uniform motion unless acted upon by an external force. For example, a book on a table stays at rest until pushed.',
     gradingCriteria: [
@@ -19,17 +18,7 @@ final List<Subjective> dummySubjectives = [
     id: 'sub_2',
     bankId: '402',
     question: 'Discuss the impact of climate change on global agriculture.',
-    variable: [
-      Variable(
-        id: 'var_1',
-        name: 'CO2 Levels',
-        namePosition: {'start': (0, 0), 'end': (0, 10)},
-        valuePosition: {},
-        unit: 'ppm',
-        unitPosition: {},
-        variableType: 'numeric',
-      ),
-    ],
+    variableIds: [],
     points: 15,
     idealAnswer: 'Climate change has led to unpredictable weather patterns, affecting crop yields. Increased CO2 levels can enhance photosynthesis in some plants but cause stress in others due to extreme heat and water scarcity.',
     gradingCriteria: [
@@ -42,7 +31,7 @@ final List<Subjective> dummySubjectives = [
     id: 'sub_3',
     bankId: '403',
     question: 'What is the importance of biodiversity in maintaining ecosystem balance?',
-    variable: [],
+    variableIds: [],
     points: 12,
     idealAnswer: 'Biodiversity ensures ecosystem stability by maintaining food chains and nutrient cycles. It helps in pollination, climate regulation, and provides resilience against environmental changes.',
     gradingCriteria: [
@@ -55,7 +44,7 @@ final List<Subjective> dummySubjectives = [
     id: 'sub_4',
     bankId: '404',
     question: 'Describe the process of photosynthesis and its significance for life on Earth.',
-    variable: [],
+    variableIds: [],
     points: 10,
     idealAnswer: 'Photosynthesis is the process by which green plants convert sunlight, carbon dioxide, and water into glucose and oxygen. It is vital as it produces oxygen and forms the base of the food chain.',
     gradingCriteria: [
@@ -68,7 +57,7 @@ final List<Subjective> dummySubjectives = [
     id: 'sub_5',
     bankId: '405',
     question: 'Explain the economic principle of supply and demand with a real-world example.',
-    variable: [],
+    variableIds: [],
     points: 8,
     idealAnswer: 'Supply and demand describe the relationship between the availability of a product and its price. For example, during the COVID-19 pandemic, the high demand for masks and limited supply led to price increases.',
     gradingCriteria: [

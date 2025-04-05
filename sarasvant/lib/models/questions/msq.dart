@@ -1,10 +1,8 @@
-import 'package:sarasvant/models/variable.dart';
-
 class MSQ {
   String id;
   String bankId;
   String question;
-  List<Variable> variable;
+  List<String> variableIds;
   int points;
   List<String> options;
   List<int> answerIndices;
@@ -13,7 +11,7 @@ class MSQ {
     required this.id,
     required this.bankId,
     required this.question,
-    required this.variable,
+    required this.variableIds,
     required this.points,
     required this.options,
     required this.answerIndices,
@@ -24,7 +22,7 @@ class MSQ {
       'id': id,
       'bankId': bankId,
       'question': question,
-      'variable': variable,
+      'variableIds': variableIds,
       'points': points,
       'options': options,
       'answerIndices': answerIndices,
@@ -36,10 +34,10 @@ class MSQ {
       id: json['id'],
       bankId: json['bankId'],
       question: json['question'],
-      variable: json['variable'],
+      variableIds: List<String>.from(json['variableIds']),
       points: json['points'],
-      options: json['options'],
-      answerIndices: json['answerIndices'],
+      options: List<String>.from(json['options']),
+      answerIndices: List<int>.from(json['answerIndices']),
     );
   }
 }
