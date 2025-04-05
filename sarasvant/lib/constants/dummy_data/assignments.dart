@@ -12,7 +12,7 @@ final List<Assignments> dummyAssignments = [
     mcqIds: ['mcq_3', 'mcq_4', 'mcq_10', 'mcq_11'],
     msqIds: ['msq_1', 'msq_6'],
     natIds: ['nat_1', 'nat_6'],
-    subjectiveIds: [],
+    subjectiveIds: ['sub_1'],
   ),
   Assignments(
     id: '202',
@@ -25,7 +25,7 @@ final List<Assignments> dummyAssignments = [
     mcqIds: ['mcq_1', 'mcq_2', 'mcq_15', 'mcq_16'],
     msqIds: ['msq_2', 'msq_7'],
     natIds: ['nat_2', 'nat_7'],
-    subjectiveIds: [],
+    subjectiveIds: ['sub_2'],
   ),
   Assignments(
     id: '203',
@@ -38,7 +38,7 @@ final List<Assignments> dummyAssignments = [
     mcqIds: ['mcq_5', 'mcq_12', 'mcq_13'],
     msqIds: ['msq_3', 'msq_8'],
     natIds: ['nat_3', 'nat_8'],
-    subjectiveIds: [],
+    subjectiveIds: ['sub_3'],
   ),
   Assignments(
     id: '204',
@@ -51,7 +51,7 @@ final List<Assignments> dummyAssignments = [
     mcqIds: ['mcq_6', 'mcq_7', 'mcq_14'],
     msqIds: ['msq_4', 'msq_9'],
     natIds: ['nat_4', 'nat_9'],
-    subjectiveIds: [],
+    subjectiveIds: ['sub_4'],
   ),
   Assignments(
     id: '205',
@@ -64,7 +64,7 @@ final List<Assignments> dummyAssignments = [
     mcqIds: ['mcq_8', 'mcq_9', 'mcq_17', 'mcq_18'],
     msqIds: ['msq_5', 'msq_10'],
     natIds: ['nat_5', 'nat_10'],
-    subjectiveIds: ['sub_1', 'sub_2'],
+    subjectiveIds: ['sub_5', 'sub_6', 'sub_7', 'sub_8', 'sub_9', 'sub_10'],
   ),
   Assignments(
     id: '206',
