@@ -8,14 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// @Summary Create a variable
+// @Summary Create Variable
 // @Tags Variables
 // @Accept json
 // @Produce json
 // @Param variable body model.Variable true "Variable JSON"
 // @Success 201 {object} model.Variable
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /variables [post]
 func CreateVariable(c *gin.Context) {
 	var v model.Variable
@@ -24,75 +22,68 @@ func CreateVariable(c *gin.Context) {
 		return
 	}
 	if err := service.CreateVariable(v); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create variable"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create"})
 		return
 	}
 	c.JSON(http.StatusCreated, v)
 }
 
-// @Summary Get a variable by ID
+// @Summary Get Variable by ID
 // @Tags Variables
 // @Produce json
 // @Param id path string true "Variable ID"
 // @Success 200 {object} model.Variable
-// @Failure 404 {object} map[string]string
 // @Router /variables/{id} [get]
 func GetVariable(c *gin.Context) {
 	id := c.Param("id")
 	v, err := service.GetVariable(id)
 	if err != nil {
-		c.JSON(http.StatusNotFound, gin.H{"error": "Variable not found"})
+		c.JSON(http.StatusNotFound, gin.H{"error": "Not found"})
 		return
 	}
 	c.JSON(http.StatusOK, v)
 }
 
-// @Summary Delete a variable
+// @Summary Delete Variable
 // @Tags Variables
 // @Param id path string true "Variable ID"
 // @Success 200 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /variables/{id} [delete]
 func DeleteVariable(c *gin.Context) {
 	id := c.Param("id")
 	if err := service.DeleteVariable(id); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete variable"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Variable deleted"})
+	c.JSON(http.StatusOK, gin.H{"message": "Deleted"})
 }
 
-// @Summary Get all variables
+// @Summary Get all Variables
 // @Tags Variables
-// @Param variableType query string false "Filter by variable type"
-// @Param limit query string false "Pagination limit"
-// @Param offset query string false "Pagination offset"
+// @Param limit query string false "Limit"
+// @Param offset query string false "Offset"
 // @Success 200 {array} model.Variable
-// @Failure 500 {object} map[string]string
 // @Router /variables [get]
 func GetAllVariables(c *gin.Context) {
 	filters := map[string]string{
-		"variableType": c.Query("variableType"),
-		"limit":        c.DefaultQuery("limit", "10"),
-		"offset":       c.DefaultQuery("offset", "0"),
+		"limit":  c.DefaultQuery("limit", "10"),
+		"offset": c.DefaultQuery("offset", "0"),
 	}
-	variables, err := service.GetAllVariables(filters)
+	items, err := service.GetAllVariables(filters)
 	if err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch variables"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch"})
 		return
 	}
-	c.JSON(http.StatusOK, variables)
+	c.JSON(http.StatusOK, items)
 }
 
-// @Summary Update a variable
+// @Summary Update Variable
 // @Tags Variables
 // @Accept json
 // @Produce json
-// @Param id path string true "Variable ID"
-// @Param variable body model.Variable true "Updated Variable"
+// @Param id path string true "ID"
+// @Param variable body model.Variable true "Variable"
 // @Success 200 {object} model.Variable
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /variables/{id} [put]
 func UpdateVariable(c *gin.Context) {
 	id := c.Param("id")
@@ -102,21 +93,19 @@ func UpdateVariable(c *gin.Context) {
 		return
 	}
 	if err := service.UpdateVariable(id, v); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update variable"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Update failed"})
 		return
 	}
 	c.JSON(http.StatusOK, v)
 }
 
-// @Summary Patch a variable
+// @Summary Patch Variable
 // @Tags Variables
 // @Accept json
 // @Produce json
-// @Param id path string true "Variable ID"
-// @Param updates body map[string]interface{} true "Fields to update"
+// @Param id path string true "ID"
+// @Param updates body map[string]interface{} true "Updates"
 // @Success 200 {object} map[string]string
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /variables/{id} [patch]
 func PatchVariable(c *gin.Context) {
 	id := c.Param("id")
@@ -126,8 +115,8 @@ func PatchVariable(c *gin.Context) {
 		return
 	}
 	if err := service.PatchVariable(id, updates); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to patch variable"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Patch failed"})
 		return
 	}
-	c.JSON(http.StatusOK, gin.H{"message": "Variable updated"})
+	c.JSON(http.StatusOK, gin.H{"message": "Updated"})
 }

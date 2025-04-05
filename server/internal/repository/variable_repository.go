@@ -1,4 +1,3 @@
-// repository/variable_repository.go
 package repository
 
 import (
@@ -33,10 +32,6 @@ func DeleteVariable(id string) error {
 func GetAllVariables(filters map[string]string) ([]model.Variable, error) {
 	ctx := context.Background()
 	q := firebase.Client.Collection("variables").Query
-
-	if vtype, ok := filters["variableType"]; ok && vtype != "" {
-		q = q.Where("variableType", "==", vtype)
-	}
 
 	limit := 10
 	offset := 0
