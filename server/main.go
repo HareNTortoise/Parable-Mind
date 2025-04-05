@@ -47,6 +47,7 @@ func main() {
 	routes.RegisterAssignmentRoutes(router)
 	routes.RegisterClassroomRoutes(router)
 	routes.RegisterCommentRoutes(router)
+	routes.RegisterPostRoutes(router)
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
