@@ -1,10 +1,8 @@
-import 'package:sarasvant/models/variable.dart';
-
 class Subjective {
   String id;
   String bankId;
   String question;
-  List <Variable> variable;
+  List<String> variableIds;
   int points;
   String? idealAnswer;
   List<String>? gradingCriteria;
@@ -13,7 +11,7 @@ class Subjective {
     required this.id,
     required this.bankId,
     required this.question,
-    required this.variable,
+    required this.variableIds,
     required this.points,
     this.idealAnswer,
     this.gradingCriteria,
@@ -24,7 +22,7 @@ class Subjective {
       'id': id,
       'bankId': bankId,
       'question': question,
-      'variable': variable,
+      'variableIds': variableIds,
       'points': points,
       'idealAnswer': idealAnswer,
       'gradingCriteria': gradingCriteria,
@@ -36,11 +34,10 @@ class Subjective {
       id: json['id'],
       bankId: json['bankId'],
       question: json['question'],
-      variable: json['variable'],
+      variableIds: List<String>.from(json['variableIds']),
       points: json['points'],
       idealAnswer: json['idealAnswer'],
-      gradingCriteria: json['gradingCriteria'],
+      gradingCriteria: List<String>.from(json['gradingCriteria']),
     );
   }
-
 }

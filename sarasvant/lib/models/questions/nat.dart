@@ -1,10 +1,8 @@
-import 'package:sarasvant/models/variable.dart';
-
 class NAT {
   String id;
   String bankId;
   String question;
-  List<Variable> variable;
+  List<String> variableIds;
   int points;
   double answer;
 
@@ -12,7 +10,7 @@ class NAT {
     required this.id,
     required this.bankId,
     required this.question,
-    required this.variable,
+    required this.variableIds,
     required this.points,
     required this.answer,
   });
@@ -22,7 +20,7 @@ class NAT {
       'id': id,
       'bankId': bankId,
       'question': question,
-      'variable': variable,
+      'variableIds': variableIds,
       'points': points,
       'answer': answer,
     };
@@ -33,7 +31,7 @@ class NAT {
       id: json['id'],
       bankId: json['bankId'],
       question: json['question'],
-      variable: json['variable'],
+      variableIds: List<String>.from(json['variableIds']),
       points: json['points'],
       answer: json['answer'].toDouble(),
     );
