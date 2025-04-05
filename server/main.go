@@ -15,6 +15,7 @@ import (
 
 	"server/internal/firebase"
 	"server/internal/routes"
+	"server/internal/routes/questions"
 
 	_ "server/internal/docs"
 
@@ -53,6 +54,8 @@ func main() {
 	routes.RegisterSubmissionRoutes(router)
 	routes.RegisterTeacherRoutes(router)
 	routes.RegisterVariableRoutes(router)
+	questions.RegisterMCQRoutes(router)
+
 	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
