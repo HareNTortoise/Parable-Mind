@@ -71,6 +71,99 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "msq variations generator",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"question\": \"Which animals are mammals?\",\n  \"options\": [\"Dog\", \"Shark\", \"Cat\", \"Eagle\"],\n  \"answer_indices\": [0, 2]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/generate-msq-variations",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"generate-msq-variations"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "variable detector",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"question\": \"Calculate the area of a rectangle width 5. The length is repeated twice in the question. Consider the length to be double as the width\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/detect-variables",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"detect-variables"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "variable randomizer",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"question\": \"Calculate the area of a rectangle with width 5 and length 15\",\n    \"user_prompt\": \"randomize width between 4 to 10 and length should be 4, or 12\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://0.0.0.0:8000/extract-and-randomize",
+							"protocol": "http",
+							"host": [
+								"0",
+								"0",
+								"0",
+								"0"
+							],
+							"port": "8000",
+							"path": [
+								"extract-and-randomize"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		}
