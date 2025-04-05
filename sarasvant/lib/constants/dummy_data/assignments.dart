@@ -11,7 +11,7 @@ final List<Assignments> dummyAssignments = [
     commentIds: ['901', '902'],
     mcqIds: ['mcq_3', 'mcq_4', 'mcq_10', 'mcq_11'],
     msqIds: ['msq_1', 'msq_6'],
-    natIds: [],
+    natIds: ['nat_1', 'nat_6'],
     subjectiveIds: [],
   ),
   Assignments(
@@ -24,7 +24,7 @@ final List<Assignments> dummyAssignments = [
     commentIds: ['903', '904'],
     mcqIds: ['mcq_1', 'mcq_2', 'mcq_15', 'mcq_16'],
     msqIds: ['msq_2', 'msq_7'],
-    natIds: [],
+    natIds: ['nat_2', 'nat_7'],
     subjectiveIds: [],
   ),
   Assignments(
@@ -37,7 +37,7 @@ final List<Assignments> dummyAssignments = [
     commentIds: ['905', '906'],
     mcqIds: ['mcq_5', 'mcq_12', 'mcq_13'],
     msqIds: ['msq_3', 'msq_8'],
-    natIds: [],
+    natIds: ['nat_3', 'nat_8'],
     subjectiveIds: [],
   ),
   Assignments(
@@ -50,7 +50,7 @@ final List<Assignments> dummyAssignments = [
     commentIds: ['907', '908'],
     mcqIds: ['mcq_6', 'mcq_7', 'mcq_14'],
     msqIds: ['msq_4', 'msq_9'],
-    natIds: ['nat_1', 'nat_2'],
+    natIds: ['nat_4', 'nat_9'],
     subjectiveIds: [],
   ),
   Assignments(
@@ -63,7 +63,7 @@ final List<Assignments> dummyAssignments = [
     commentIds: ['909', '910', '911'],
     mcqIds: ['mcq_8', 'mcq_9', 'mcq_17', 'mcq_18'],
     msqIds: ['msq_5', 'msq_10'],
-    natIds: [],
+    natIds: ['nat_5', 'nat_10'],
     subjectiveIds: ['sub_1', 'sub_2'],
   ),
   Assignments(
