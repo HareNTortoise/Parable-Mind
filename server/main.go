@@ -1,10 +1,11 @@
-// main.go (entry point)
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 
@@ -24,24 +25,45 @@ import (
 // @BasePath        /
 
 func main() {
-	_ = godotenv.Load()
+	// Load env vars
+	if err := godotenv.Load(); err != nil {
+		log.Println("⚠️  .env file not found, relying on system environment variables")
+	}
+
+	// Initialize Firebase
 	firebase.InitFirestore()
 
-	r := gin.Default()
-	routes.SetupRoutes(r)
+	// Setup Gin engine
+	router := gin.Default()
 
-	// Swagger UI endpoint
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+	// ✅ Add CORS middleware
+	router.Use(cors.New(cors.Config{
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:8080"},
+		AllowMethods:     []string{"GET", POST, "PUT", "DELETE", "OPTIONS"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
+		AllowCredentials: true,
+	}))
+
+	// Setup routes
+	routes.SetupRoutes(router)
+
+	// Swagger UI
+	router.GET("/docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	// Health check
-	r.GET("/health", func(c *gin.Context) {
+	router.GET("/health", func(c *gin.Context) {
 		c.JSON(200, gin.H{"status": "ok"})
 	})
 
+	// Start server
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8080"
 	}
-	log.Println("🚀 Server running on port:", port)
-	r.Run(":" + port)
+	fmt.Printf("🚀 Server is running at:     http://localhost:%s\n", port)
+	fmt.Printf("📘 Swagger documentation:    http://localhost:%s/docs/index.html\n", port)
+
+	if err := router.Run(":" + port); err != nil {
+		log.Fatalf("❌ Failed to start server: %v", err)
+	}
 }
