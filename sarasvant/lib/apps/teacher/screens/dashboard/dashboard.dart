@@ -193,7 +193,7 @@ class TeacherDashboard extends StatelessWidget {
                                 ),
                               ),
                               GestureDetector(
-                                onTap: () => context.push('/home/assignments'),
+                                onTap: () => context.push('/teacher-dashboard/assignments'),
                                 child: WideTile(
                                   title: AutoSizeText(
                                     "Assignments",

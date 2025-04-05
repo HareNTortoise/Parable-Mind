@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sarasvant/apps/teacher/assignments/widget/question_tile.dart';
-import '../../../constants/dummy_data/questions/mcq.dart';
-import '../../../constants/dummy_data/questions/msq.dart';
-import '../../../constants/dummy_data/questions/nat.dart';
-import '../../../constants/dummy_data/questions/subjective.dart';
-import '../../../models/assignments.dart';
+import 'package:sarasvant/apps/teacher/screens/assignments/widget/question_tile.dart';
+import '../../../../constants/dummy_data/questions/mcq.dart';
+import '../../../../constants/dummy_data/questions/msq.dart';
+import '../../../../constants/dummy_data/questions/nat.dart';
+import '../../../../constants/dummy_data/questions/subjective.dart';
+import '../../../../models/assignments.dart';
 
 class AssignmentDetailPage extends StatelessWidget {
   final Assignments assignment;

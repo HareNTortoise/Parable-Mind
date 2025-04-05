@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sarasvant/apps/teacher/assignments/widget/assignment_tile.dart';
-import '../../../constants/dummy_data/assignments.dart';
+import 'package:sarasvant/apps/teacher/screens/assignments/widget/assignment_tile.dart';
+import '../../../../constants/dummy_data/assignments.dart';
 
 class AssignmentsPage extends StatelessWidget {
   const AssignmentsPage({super.key});
