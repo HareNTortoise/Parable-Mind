@@ -1,14 +1,14 @@
 class Classroom {
   String id;
   String subject;
-  String teacherId;
+  List<String> teacherIds;
   List<String> assignmentIds;
   int credits;
 
   Classroom({
     required this.id,
     required this.subject,
-    required this.teacherId,
+    required this.teacherIds,
     required this.assignmentIds,
     required this.credits,
   });
@@ -17,7 +17,7 @@ class Classroom {
     return {
       'id': id,
       'subject': subject,
-      'teacherId': teacherId,
+      'teacherIds': teacherIds,
       'assignmentIds': assignmentIds,
       'credits': credits,
     };
@@ -27,8 +27,8 @@ class Classroom {
     return Classroom(
       id: json['id'],
       subject: json['subject'],
-      teacherId: json['teacherId'],
-      assignmentIds: json['assignmentIds'],
+      teacherIds: List<String>.from(json['teacherIds']),
+      assignmentIds: List<String>.from(json['assignmentIds']),
       credits: json['credits'],
     );
   }
