@@ -1,3 +1,4 @@
+// controller/student_controller.go
 package controller
 
 import (
@@ -6,16 +7,15 @@ import (
 	"server/internal/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
-// @Summary Create a student
+// @Summary Create Student
 // @Tags Students
 // @Accept json
 // @Produce json
 // @Param student body model.Student true "Student JSON"
 // @Success 201 {object} model.Student
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /students [post]
 func CreateStudent(c *gin.Context) {
 	var student model.Student
@@ -23,6 +23,7 @@ func CreateStudent(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	student.ID = uuid.New().String() // Auto-generate ID
 	if err := service.CreateStudent(student); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create student"})
 		return
@@ -30,12 +31,11 @@ func CreateStudent(c *gin.Context) {
 	c.JSON(http.StatusCreated, student)
 }
 
-// @Summary Get a student by ID
+// @Summary Get Student by ID
 // @Tags Students
 // @Produce json
 // @Param id path string true "Student ID"
 // @Success 200 {object} model.Student
-// @Failure 404 {object} map[string]string
 // @Router /students/{id} [get]
 func GetStudent(c *gin.Context) {
 	id := c.Param("id")
@@ -47,11 +47,10 @@ func GetStudent(c *gin.Context) {
 	c.JSON(http.StatusOK, student)
 }
 
-// @Summary Delete a student
+// @Summary Delete Student
 // @Tags Students
 // @Param id path string true "Student ID"
 // @Success 200 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /students/{id} [delete]
 func DeleteStudent(c *gin.Context) {
 	id := c.Param("id")
@@ -62,21 +61,21 @@ func DeleteStudent(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Student deleted"})
 }
 
-// @Summary Get all students
+// @Summary Get All Students
 // @Tags Students
+// @Produce json
+// @Param limit query string false "Limit"
+// @Param offset query string false "Offset"
 // @Param email query string false "Filter by email"
 // @Param rollNo query string false "Filter by roll number"
-// @Param limit query string false "Pagination limit"
-// @Param offset query string false "Pagination offset"
 // @Success 200 {array} model.Student
-// @Failure 500 {object} map[string]string
 // @Router /students [get]
 func GetAllStudents(c *gin.Context) {
 	filters := map[string]string{
-		"email":  c.Query("email"),
-		"rollNo": c.Query("rollNo"),
 		"limit":  c.DefaultQuery("limit", "10"),
 		"offset": c.DefaultQuery("offset", "0"),
+		"email":  c.Query("email"),
+		"rollNo": c.Query("rollNo"),
 	}
 	students, err := service.GetAllStudents(filters)
 	if err != nil {
@@ -86,15 +85,13 @@ func GetAllStudents(c *gin.Context) {
 	c.JSON(http.StatusOK, students)
 }
 
-// @Summary Update a student
+// @Summary Update Student
 // @Tags Students
 // @Accept json
 // @Produce json
 // @Param id path string true "Student ID"
-// @Param student body model.Student true "Updated student"
+// @Param student body model.Student true "Updated Student"
 // @Success 200 {object} model.Student
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /students/{id} [put]
 func UpdateStudent(c *gin.Context) {
 	id := c.Param("id")
@@ -103,8 +100,9 @@ func UpdateStudent(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	student.ID = id
 	if err := service.UpdateStudent(id, student); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update student"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Update failed"})
 		return
 	}
 	c.JSON(http.StatusOK, student)

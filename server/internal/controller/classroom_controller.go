@@ -1,3 +1,4 @@
+// controller/classroom_controller.go
 package controller
 
 import (
@@ -6,6 +7,7 @@ import (
 	"server/internal/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // @Summary Create Classroom
@@ -16,16 +18,17 @@ import (
 // @Success 201 {object} model.Classroom
 // @Router /classrooms [post]
 func CreateClassroom(c *gin.Context) {
-	var cls model.Classroom
-	if err := c.ShouldBindJSON(&cls); err != nil {
+	var classroom model.Classroom
+	if err := c.ShouldBindJSON(&classroom); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := service.CreateClassroom(cls); err != nil {
+	classroom.ID = uuid.New().String() // Auto-generate ID
+	if err := service.CreateClassroom(classroom); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create classroom"})
 		return
 	}
-	c.JSON(http.StatusCreated, cls)
+	c.JSON(http.StatusCreated, classroom)
 }
 
 // @Summary Get Classroom by ID
@@ -36,12 +39,12 @@ func CreateClassroom(c *gin.Context) {
 // @Router /classrooms/{id} [get]
 func GetClassroom(c *gin.Context) {
 	id := c.Param("id")
-	cls, err := service.GetClassroom(id)
+	classroom, err := service.GetClassroom(id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Classroom not found"})
 		return
 	}
-	c.JSON(http.StatusOK, cls)
+	c.JSON(http.StatusOK, classroom)
 }
 
 // @Summary Delete Classroom
@@ -58,23 +61,26 @@ func DeleteClassroom(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Classroom deleted"})
 }
 
-// @Summary Get all Classrooms
+// @Summary Get All Classrooms
 // @Tags Classrooms
-// @Param limit query string false "Pagination limit"
-// @Param offset query string false "Pagination offset"
+// @Produce json
+// @Param limit query string false "Limit"
+// @Param offset query string false "Offset"
 // @Success 200 {array} model.Classroom
 // @Router /classrooms [get]
 func GetAllClassrooms(c *gin.Context) {
 	filters := map[string]string{
-		"limit":  c.DefaultQuery("limit", "10"),
-		"offset": c.DefaultQuery("offset", "0"),
+		"limit":     c.DefaultQuery("limit", "10"),
+		"offset":    c.DefaultQuery("offset", "0"),
+		"subject":   c.Query("subject"),
+		"teacherId": c.Query("teacherId"),
 	}
-	items, err := service.GetAllClassrooms(filters)
+	classrooms, err := service.GetAllClassrooms(filters)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch classrooms"})
 		return
 	}
-	c.JSON(http.StatusOK, items)
+	c.JSON(http.StatusOK, classrooms)
 }
 
 // @Summary Update Classroom
@@ -87,16 +93,17 @@ func GetAllClassrooms(c *gin.Context) {
 // @Router /classrooms/{id} [put]
 func UpdateClassroom(c *gin.Context) {
 	id := c.Param("id")
-	var cls model.Classroom
-	if err := c.ShouldBindJSON(&cls); err != nil {
+	var classroom model.Classroom
+	if err := c.ShouldBindJSON(&classroom); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := service.UpdateClassroom(id, cls); err != nil {
+	classroom.ID = id
+	if err := service.UpdateClassroom(id, classroom); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Update failed"})
 		return
 	}
-	c.JSON(http.StatusOK, cls)
+	c.JSON(http.StatusOK, classroom)
 }
 
 // @Summary Patch Classroom
@@ -104,7 +111,7 @@ func UpdateClassroom(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param id path string true "Classroom ID"
-// @Param updates body map[string]interface{} true "Fields to update"
+// @Param updates body map[string]interface{} true "Partial updates"
 // @Success 200 {object} map[string]string
 // @Router /classrooms/{id} [patch]
 func PatchClassroom(c *gin.Context) {

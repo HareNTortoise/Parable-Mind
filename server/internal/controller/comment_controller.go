@@ -1,3 +1,4 @@
+// controller/comment_controller.go
 package controller
 
 import (
@@ -6,16 +7,15 @@ import (
 	"server/internal/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
-// @Summary Create a comment
+// @Summary Create Comment
 // @Tags Comments
 // @Accept json
 // @Produce json
 // @Param comment body model.Comment true "Comment JSON"
 // @Success 201 {object} model.Comment
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /comments [post]
 func CreateComment(c *gin.Context) {
 	var comment model.Comment
@@ -23,6 +23,7 @@ func CreateComment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	comment.ID = uuid.New().String() // Auto-generate ID
 	if err := service.CreateComment(comment); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create comment"})
 		return
@@ -30,12 +31,11 @@ func CreateComment(c *gin.Context) {
 	c.JSON(http.StatusCreated, comment)
 }
 
-// @Summary Get a comment by ID
+// @Summary Get Comment by ID
 // @Tags Comments
 // @Produce json
 // @Param id path string true "Comment ID"
 // @Success 200 {object} model.Comment
-// @Failure 404 {object} map[string]string
 // @Router /comments/{id} [get]
 func GetComment(c *gin.Context) {
 	id := c.Param("id")
@@ -47,11 +47,10 @@ func GetComment(c *gin.Context) {
 	c.JSON(http.StatusOK, comment)
 }
 
-// @Summary Delete a comment
+// @Summary Delete Comment
 // @Tags Comments
 // @Param id path string true "Comment ID"
 // @Success 200 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /comments/{id} [delete]
 func DeleteComment(c *gin.Context) {
 	id := c.Param("id")
@@ -62,10 +61,10 @@ func DeleteComment(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Comment deleted"})
 }
 
-// @Summary Get all comments
+// @Summary Get All Comments
 // @Tags Comments
+// @Produce json
 // @Success 200 {array} model.Comment
-// @Failure 500 {object} map[string]string
 // @Router /comments [get]
 func GetAllComments(c *gin.Context) {
 	comments, err := service.GetAllComments()
@@ -76,15 +75,13 @@ func GetAllComments(c *gin.Context) {
 	c.JSON(http.StatusOK, comments)
 }
 
-// @Summary Update a comment
+// @Summary Update Comment
 // @Tags Comments
 // @Accept json
 // @Produce json
 // @Param id path string true "Comment ID"
-// @Param comment body model.Comment true "Updated comment"
+// @Param comment body model.Comment true "Updated Comment"
 // @Success 200 {object} model.Comment
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /comments/{id} [put]
 func UpdateComment(c *gin.Context) {
 	id := c.Param("id")
@@ -93,8 +90,9 @@ func UpdateComment(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	comment.ID = id
 	if err := service.UpdateComment(id, comment); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update comment"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Update failed"})
 		return
 	}
 	c.JSON(http.StatusOK, comment)

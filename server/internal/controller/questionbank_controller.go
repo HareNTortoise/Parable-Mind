@@ -1,3 +1,4 @@
+// controller/question_bank_controller.go
 package controller
 
 import (
@@ -6,6 +7,7 @@ import (
 	"server/internal/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // @Summary Create QuestionBank
@@ -21,6 +23,7 @@ func CreateQuestionBank(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	q.ID = uuid.New().String() // Auto-generate ID
 	if err := service.CreateQuestionBank(q); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create question bank"})
 		return
@@ -98,6 +101,7 @@ func UpdateQuestionBank(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+	q.ID = id
 	if err := service.UpdateQuestionBank(id, q); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Update failed"})
 		return

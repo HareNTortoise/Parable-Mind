@@ -1,11 +1,13 @@
+// controller/questions/msq_controller.go
 package questions
 
 import (
 	"net/http"
 	"server/internal/model/questions"
-	serviceQuestions "server/internal/service/questions"
+	service "server/internal/service/questions"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // @Summary Create MSQ
@@ -21,7 +23,8 @@ func CreateMSQ(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := serviceQuestions.CreateMSQ(m); err != nil {
+	m.ID = uuid.New().String()
+	if err := service.CreateMSQ(m); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create MSQ"})
 		return
 	}
@@ -36,7 +39,7 @@ func CreateMSQ(c *gin.Context) {
 // @Router /msqs/{id} [get]
 func GetMSQ(c *gin.Context) {
 	id := c.Param("id")
-	m, err := serviceQuestions.GetMSQ(id)
+	m, err := service.GetMSQ(id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "MSQ not found"})
 		return
@@ -51,15 +54,16 @@ func GetMSQ(c *gin.Context) {
 // @Router /msqs/{id} [delete]
 func DeleteMSQ(c *gin.Context) {
 	id := c.Param("id")
-	if err := serviceQuestions.DeleteMSQ(id); err != nil {
+	if err := service.DeleteMSQ(id); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete MSQ"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "MSQ deleted"})
 }
 
-// @Summary Get all MSQs
+// @Summary Get All MSQs
 // @Tags MSQs
+// @Produce json
 // @Param bankId query string false "Filter by bank ID"
 // @Param limit query string false "Pagination limit"
 // @Param offset query string false "Pagination offset"
@@ -71,7 +75,7 @@ func GetAllMSQs(c *gin.Context) {
 		"limit":  c.DefaultQuery("limit", "10"),
 		"offset": c.DefaultQuery("offset", "0"),
 	}
-	msqs, err := serviceQuestions.GetAllMSQs(filters)
+	msqs, err := service.GetAllMSQs(filters)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch MSQs"})
 		return
@@ -94,7 +98,8 @@ func UpdateMSQ(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := serviceQuestions.UpdateMSQ(id, m); err != nil {
+	m.ID = id
+	if err := service.UpdateMSQ(id, m); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update MSQ"})
 		return
 	}
@@ -116,7 +121,7 @@ func PatchMSQ(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := serviceQuestions.PatchMSQ(id, updates); err != nil {
+	if err := service.PatchMSQ(id, updates); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to patch MSQ"})
 		return
 	}

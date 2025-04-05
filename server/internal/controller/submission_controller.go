@@ -1,3 +1,4 @@
+// controller/submission_controller.go
 package controller
 
 import (
@@ -6,52 +7,50 @@ import (
 	"server/internal/service"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
-// @Summary Create a submission
+// @Summary Create Submission
 // @Tags Submissions
 // @Accept json
 // @Produce json
 // @Param submission body model.Submission true "Submission JSON"
 // @Success 201 {object} model.Submission
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /submissions [post]
 func CreateSubmission(c *gin.Context) {
-	var s model.Submission
-	if err := c.ShouldBindJSON(&s); err != nil {
+	var submission model.Submission
+	if err := c.ShouldBindJSON(&submission); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := service.CreateSubmission(s); err != nil {
+	submission.ID = uuid.New().String() // Auto-generate ID
+	if err := service.CreateSubmission(submission); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create submission"})
 		return
 	}
-	c.JSON(http.StatusCreated, s)
+	c.JSON(http.StatusCreated, submission)
 }
 
-// @Summary Get a submission by ID
+// @Summary Get Submission by ID
 // @Tags Submissions
 // @Produce json
 // @Param id path string true "Submission ID"
 // @Success 200 {object} model.Submission
-// @Failure 404 {object} map[string]string
 // @Router /submissions/{id} [get]
 func GetSubmission(c *gin.Context) {
 	id := c.Param("id")
-	s, err := service.GetSubmission(id)
+	submission, err := service.GetSubmission(id)
 	if err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Submission not found"})
 		return
 	}
-	c.JSON(http.StatusOK, s)
+	c.JSON(http.StatusOK, submission)
 }
 
-// @Summary Delete a submission
+// @Summary Delete Submission
 // @Tags Submissions
 // @Param id path string true "Submission ID"
 // @Success 200 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /submissions/{id} [delete]
 func DeleteSubmission(c *gin.Context) {
 	id := c.Param("id")
@@ -62,18 +61,13 @@ func DeleteSubmission(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Submission deleted"})
 }
 
-// @Summary Get all submissions
+// @Summary Get All Submissions
 // @Tags Submissions
-// @Param studentId query string false "Filter by student ID"
-// @Param assignmentId query string false "Filter by assignment ID"
+// @Produce json
 // @Success 200 {array} model.Submission
-// @Failure 500 {object} map[string]string
 // @Router /submissions [get]
 func GetAllSubmissions(c *gin.Context) {
-	filters := map[string]string{
-		"studentId":    c.Query("studentId"),
-		"assignmentId": c.Query("assignmentId"),
-	}
+	filters := map[string]string{} // Define appropriate filters if needed
 	submissions, err := service.GetAllSubmissions(filters)
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to fetch submissions"})
@@ -82,28 +76,27 @@ func GetAllSubmissions(c *gin.Context) {
 	c.JSON(http.StatusOK, submissions)
 }
 
-// @Summary Update a submission
+// @Summary Update Submission
 // @Tags Submissions
 // @Accept json
 // @Produce json
 // @Param id path string true "Submission ID"
 // @Param submission body model.Submission true "Updated Submission"
 // @Success 200 {object} model.Submission
-// @Failure 400 {object} map[string]string
-// @Failure 500 {object} map[string]string
 // @Router /submissions/{id} [put]
 func UpdateSubmission(c *gin.Context) {
 	id := c.Param("id")
-	var s model.Submission
-	if err := c.ShouldBindJSON(&s); err != nil {
+	var submission model.Submission
+	if err := c.ShouldBindJSON(&submission); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	if err := service.UpdateSubmission(id, s); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to update submission"})
+	submission.ID = id
+	if err := service.UpdateSubmission(id, submission); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Update failed"})
 		return
 	}
-	c.JSON(http.StatusOK, s)
+	c.JSON(http.StatusOK, submission)
 }
 
 // @Summary Patch a submission
