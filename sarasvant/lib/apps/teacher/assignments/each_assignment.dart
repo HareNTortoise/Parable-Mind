@@ -26,18 +26,108 @@ class AssignmentDetailPage extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(assignment.body, style: GoogleFonts.poppins(fontSize: 14)),
+            Text(assignment.title, style: GoogleFonts.poppins(fontSize: 20, fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Text(assignment.body, style: GoogleFonts.poppins()),
             const SizedBox(height: 16),
-            Text("Due: ${assignment.dueDate.toLocal().toString().split(' ')[0]}",
-                style: GoogleFonts.poppins(fontSize: 13, color: Colors.red[400])),
+            Text("Due: ${assignment.dueDate.toLocal().toString().split(' ')[0]}", style: GoogleFonts.poppins(color: Colors.red[400])),
             const SizedBox(height: 24),
-            ...mcqs.map((q) => QuestionTile(question: q.question, options: q.options, points: q.points)),
-            ...msqs.map((q) => QuestionTile(question: q.question, options: q.options, points: q.points)),
-            ...nats.map((q) => QuestionTile(question: q.question, points: q.points)),
-            ...subjectives.map((q) => QuestionTile(question: q.question, points: q.points)),
+
+            if (mcqs.isNotEmpty)
+              buildQuestionSection(
+                title: "Multiple Choice Questions",
+                description: "Choose the correct option. Only one answer is correct.",
+                backgroundColor: Colors.blue,
+                children: mcqs.map((q) => QuestionTile(
+                  question: q.question,
+                  options: q.options,
+                  points: q.points,
+                )).toList(),
+              ),
+
+            if (msqs.isNotEmpty)
+              buildQuestionSection(
+                title: "Multiple Select Questions",
+                description: "Select all correct options. More than one may apply.",
+                backgroundColor: Colors.green,
+                children: msqs.map((q) => QuestionTile(
+                  question: q.question,
+                  options: q.options,
+                  points: q.points,
+                )).toList(),
+              ),
+
+            if (nats.isNotEmpty)
+              buildQuestionSection(
+                title: "Numerical Answer Type",
+                description: "Type the numerical answer without options.",
+                backgroundColor: Colors.orange,
+                children: nats.map((q) => QuestionTile(
+                  question: q.question,
+                  points: q.points,
+                )).toList(),
+              ),
+
+            if (subjectives.isNotEmpty)
+              buildQuestionSection(
+                title: "Subjective Questions",
+                description: "Write descriptive answers in your own words.",
+                backgroundColor: Colors.purple,
+                children: subjectives.map((q) => QuestionTile(
+                  question: q.question,
+                  points: q.points,
+                )).toList(),
+              ),
           ],
         ),
-      ),
+      )
     );
   }
 }
+
+Widget buildQuestionSection({
+  required String title,
+  required String description,
+  required List<Widget> children,
+  required Color backgroundColor,
+}) {
+  return Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const SizedBox(height: 24),
+      Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: backgroundColor.withOpacity(0.1),
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              title,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 4),
+            Text(
+              description,
+              style: GoogleFonts.poppins(
+                fontSize: 13,
+                color: Colors.grey[600],
+              ),
+            ),
+            const SizedBox(height: 12),
+            ...children,
+          ],
+        ),
+      ),
+      const SizedBox(height: 12),
+      Divider(thickness: 1.2, color: Colors.grey[300]),
+    ],
+  );
+}
+
