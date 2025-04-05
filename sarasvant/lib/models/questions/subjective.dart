@@ -21,7 +21,7 @@ class Subjective {
 
   Map<String, dynamic> toJson() {
     return {
-      'qi': id,
+      'id': id,
       'bankId': bankId,
       'question': question,
       'variable': variable,
@@ -33,7 +33,7 @@ class Subjective {
 
   factory Subjective.fromJson(Map<String, dynamic> json) {
     return Subjective(
-      id: json['qIid'],
+      id: json['id'],
       bankId: json['bankId'],
       question: json['question'],
       variable: json['variable'],

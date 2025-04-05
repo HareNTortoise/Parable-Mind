@@ -6,7 +6,7 @@ final List<Posts> dummyPosts = [
     title: 'Understanding Calculus',
     body: 'Can anyone help me with limits and derivatives?',
     attachments: ['calculus_notes.pdf'],
-    studentId: '301',
+    userId: '301',
     commentIds: ['601', '602'],
   ),
   Posts(
@@ -14,7 +14,7 @@ final List<Posts> dummyPosts = [
     title: 'Science Project Ideas',
     body: 'Looking for ideas for my upcoming science fair project.',
     attachments: [],
-    studentId: '302',
+    userId: '302',
     commentIds: ['603', '604'],
   ),
   Posts(
@@ -22,7 +22,7 @@ final List<Posts> dummyPosts = [
     title: 'History Presentation',
     body: 'Sharing my presentation slides on World War II.',
     attachments: ['ww2_presentation.pptx'],
-    studentId: '303',
+    userId: '303',
     commentIds: ['605'],
   ),
   Posts(
@@ -30,7 +30,7 @@ final List<Posts> dummyPosts = [
     title: 'Essay Writing Tips',
     body: 'Does anyone have tips for writing a good essay?',
     attachments: [],
-    studentId: '304',
+    userId: '304',
     commentIds: ['606', '607'],
   ),
   Posts(
@@ -38,7 +38,7 @@ final List<Posts> dummyPosts = [
     title: 'Python Programming Challenge',
     body: 'Participate in this week’s coding challenge on recursion.',
     attachments: ['challenge_details.txt'],
-    studentId: '305',
+    userId: '305',
     commentIds: ['608', '609', '610'],
   ),
 ];

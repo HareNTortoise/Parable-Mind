@@ -4,9 +4,9 @@ class NAT {
   String id;
   String bankId;
   String question;
-  List <Variable> variable;
+  List<Variable> variable;
   int points;
-  int answer;
+  double answer;
 
   NAT({
     required this.id,
@@ -19,7 +19,7 @@ class NAT {
 
   Map<String, dynamic> toJson() {
     return {
-      'qi': id,
+      'id': id,
       'bankId': bankId,
       'question': question,
       'variable': variable,
@@ -30,13 +30,12 @@ class NAT {
 
   factory NAT.fromJson(Map<String, dynamic> json) {
     return NAT(
-      id: json['qIid'],
+      id: json['id'],
       bankId: json['bankId'],
       question: json['question'],
       variable: json['variable'],
       points: json['points'],
-      answer: json['answer'],
+      answer: json['answer'].toDouble(),
     );
   }
-
 }

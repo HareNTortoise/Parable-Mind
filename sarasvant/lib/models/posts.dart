@@ -3,7 +3,7 @@ class Posts {
   String title;
   String body;
   List<String> attachments;
-  String studentId;
+  String userId;
   List<String> commentIds;
 
   Posts({
@@ -11,7 +11,7 @@ class Posts {
     required this.title,
     required this.body,
     required this.attachments,
-    required this.studentId,
+    required this.userId,
     required this.commentIds,
   });
 
@@ -21,7 +21,7 @@ class Posts {
       'title': title,
       'body': body,
       'attachments': attachments,
-      'studentId': studentId,
+      'userId': userId,
       'commentIds': commentIds,
     };
   }
@@ -32,7 +32,7 @@ class Posts {
       title: json['title'],
       body: json['body'],
       attachments: json['attachments'],
-      studentId: json['studentId'],
+      userId: json['userId'],
       commentIds: json['commentIds'],
     );
   }

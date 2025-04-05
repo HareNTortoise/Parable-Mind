@@ -9,7 +9,7 @@ final List<MSQ> dummyMSQs = [
     variable: [],
     points: 5,
     options: ['2', '4', '7', '9'],
-    answer: ['2', '7'],
+    answerIndices: [0, 2],
   ),
   MSQ(
     id: 'msq_2',
@@ -33,11 +33,7 @@ final List<MSQ> dummyMSQs = [
       'For every action, there is an equal and opposite reaction',
       'Energy cannot be created or destroyed',
     ],
-    answer: [
-      'Law of Inertia',
-      'F = ma',
-      'For every action, there is an equal and opposite reaction',
-    ],
+    answerIndices: [0, 1, 2],
   ),
   MSQ(
     id: 'msq_3',
@@ -46,7 +42,7 @@ final List<MSQ> dummyMSQs = [
     variable: [],
     points: 5,
     options: ['Java', 'Python', 'C++', 'Ruby'],
-    answer: ['Java', 'C++'],
+    answerIndices: [0, 2],
   ),
   MSQ(
     id: 'msq_4',
@@ -55,7 +51,7 @@ final List<MSQ> dummyMSQs = [
     variable: [],
     points: 4,
     options: ['Solar', 'Wind', 'Coal', 'Natural Gas'],
-    answer: ['Solar', 'Wind'],
+    answerIndices: [0, 1],
   ),
   MSQ(
     id: 'msq_5',
@@ -74,6 +70,6 @@ final List<MSQ> dummyMSQs = [
     ],
     points: 6,
     options: ['HCl', 'NaOH', 'CH3COOH', 'KOH'],
-    answer: ['HCl', 'CH3COOH'],
+    answerIndices: [0, 2],
   ),
 ];
