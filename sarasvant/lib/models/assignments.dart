@@ -1,8 +1,3 @@
-import 'package:sarasvant/models/questions/mcq.dart';
-import 'package:sarasvant/models/questions/msq.dart';
-import 'package:sarasvant/models/questions/nat.dart';
-import 'package:sarasvant/models/questions/subjective.dart';
-
 class Assignments {
   String id;
   String title;
@@ -11,10 +6,10 @@ class Assignments {
   DateTime createdAt;
   int points;
   List<String> commentIds;
-  List<MCQ>? mcqs;
-  List<MSQ>? msqs;
-  List<NAT>? nats;
-  List<Subjective>? subjectives;
+  List<String>? mcqIds;
+  List<String>? msqIds;
+  List<String>? natIds;
+  List<String>? subjectiveIds;
 
   Assignments({
     required this.id,
@@ -24,10 +19,10 @@ class Assignments {
     required this.createdAt,
     required this.points,
     required this.commentIds,
-    this.mcqs,
-    this.msqs,
-    this.nats,
-    this.subjectives,
+    this.mcqIds,
+    this.msqIds,
+    this.natIds,
+    this.subjectiveIds,
   });
 
   Map<String, dynamic> toJson() {
@@ -39,10 +34,10 @@ class Assignments {
       'createdAt': createdAt,
       'points': points,
       'commentIds': commentIds,
-      'mcqs': mcqs,
-      'msqs': msqs,
-      'nats': nats,
-      'subjectives': subjectives,
+      'mcqIds': mcqIds,
+      'msqIds': msqIds,
+      'natIds': natIds,
+      'subjectiveIds': subjectiveIds,
     };
   }
 
@@ -55,10 +50,10 @@ class Assignments {
       createdAt: json['createdAt'],
       points: json['points'],
       commentIds: json['commentIds'],
-      mcqs: json['mcqs'],
-      msqs: json['msqs'],
-      nats: json['nats'],
-      subjectives: json['subjectives'],
+      mcqIds: json['mcqIds'],
+      msqIds: json['msqIds'],
+      natIds: json['natIds'],
+      subjectiveIds: json['subjectiveIds'],
     );
   }
 }
