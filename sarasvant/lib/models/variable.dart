@@ -1,19 +1,17 @@
 class Variable {
   String id;
   String name;
-  Map<String, (int, int)> namePosition;
-  Map<String, (int, int)> valuePosition;
-  String unit;
-  Map<String, (int, int)> unitPosition;
+  List<int> namePositions;
+  String value;
+  List<int> valuePositions;
   String variableType;
 
   Variable({
     required this.id,
     required this.name,
-    required this.namePosition,
-    required this.valuePosition,
-    required this.unit,
-    required this.unitPosition,
+    required this.namePositions,
+    required this.value,
+    required this.valuePositions,
     required this.variableType,
   });
 
@@ -21,10 +19,9 @@ class Variable {
     return {
       'id': id,
       'name': name,
-      'namePosition': namePosition,
-      'valuePosition': valuePosition,
-      'unit': unit,
-      'unitPosition': unitPosition,
+      'namePositions': namePositions,
+      'value': value,
+      'valuePositions': valuePositions,
       'variableType': variableType,
     };
   }
@@ -33,10 +30,9 @@ class Variable {
     return Variable(
       id: json['id'],
       name: json['name'],
-      namePosition: json['namePosition'],
-      valuePosition: json['valuePosition'],
-      unit: json['unit'],
-      unitPosition: json['unitPosition'],
+      namePositions: List<int>.from(json['namePositions']),
+      value: json['value'],
+      valuePositions: List<int>.from(json['valuePositions']),
       variableType: json['variableType'],
     );
   }

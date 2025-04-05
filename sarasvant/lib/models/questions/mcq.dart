@@ -1,10 +1,8 @@
-import '../variable.dart';
-
 class MCQ {
   String id;
   String bankId;
   String question;
-  List<Variable> variable;
+  List<String> variableIds;
   int points;
   List<String> options;
   int answerIndex;
@@ -13,7 +11,7 @@ class MCQ {
     required this.id,
     required this.bankId,
     required this.question,
-    required this.variable,
+    required this.variableIds,
     required this.points,
     required this.options,
     required this.answerIndex,
@@ -24,7 +22,7 @@ class MCQ {
       'id': id,
       'bankId': bankId,
       'question': question,
-      'variable': variable,
+      'variableIds': variableIds,
       'points': points,
       'options': options,
       'answerIndex': answerIndex,
@@ -36,9 +34,9 @@ class MCQ {
       id: json['id'],
       bankId: json['bankId'],
       question: json['question'],
-      variable: json['variable'],
+      variableIds: List<String>.from(json['variableIds']),
       points: json['points'],
-      options: json['options'],
+      options: List<String>.from(json['options']),
       answerIndex: json['answerIndex'],
     );
   }
