@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:sarasvant/apps/teacher/dashboard/dashboard.dart';
-import '../apps/teacher/add_question/add_question.dart';
-import '../apps/teacher/classrooms/classrooms.dart';
-import '../apps/teacher/question_bank/question_bank.dart';
-import '../apps/teacher/questions/questions.dart';
+import '../apps/teacher/screens/add_question/add_question.dart';
+import '../apps/teacher/screens/classrooms/classrooms.dart';
+import '../apps/teacher/screens/dashboard/dashboard.dart';
+import '../apps/teacher/screens/question_bank/question_bank.dart';
+import '../apps/teacher/screens/questions/questions.dart';
 
 final GoRouter router = GoRouter(
   initialLocation: '/teacher-dashboard',
