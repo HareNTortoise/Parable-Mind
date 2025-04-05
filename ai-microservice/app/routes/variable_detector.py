@@ -31,8 +31,11 @@ class Variable(BaseModel):
     value: Optional[str] = Field(
         description="The value of the variable. Can be null if only the variable name is present."
     )
-    positions: List[int] = Field(
-        description="The true positions of the variable in the question."
+    namePositions: List[int] = Field(
+        description="The true positions of the variable name in the question."
+    )
+    valuePositions: List[int] = Field(
+        description="The true positions of the variable value in the question."
     )
 
 
