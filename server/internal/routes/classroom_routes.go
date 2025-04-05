@@ -7,13 +7,13 @@ import (
 )
 
 func RegisterClassroomRoutes(r *gin.Engine) {
-	classroom := r.Group("/classrooms")
+	cls := r.Group("/classrooms")
 	{
-		classroom.GET("", controller.GetAllClassrooms)
-		classroom.GET(":id", controller.GetClassroom)
-		classroom.POST("", controller.CreateClassroom)
-		classroom.PUT(":id", controller.UpdateClassroom)
-		classroom.PATCH(":id", controller.PatchClassroom)
-		classroom.DELETE(":id", controller.DeleteClassroom)
+		cls.GET("", controller.GetAllClassrooms)
+		cls.GET(":id", controller.GetClassroom)
+		cls.POST("", controller.CreateClassroom)
+		cls.PUT(":id", controller.UpdateClassroom)
+		cls.PATCH(":id", controller.PatchClassroom)
+		cls.DELETE(":id", controller.DeleteClassroom)
 	}
 }

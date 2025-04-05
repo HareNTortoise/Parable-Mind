@@ -4,6 +4,7 @@ import (
 	"context"
 	"server/internal/firebase"
 	"server/internal/model"
+	"strconv"
 
 	"cloud.google.com/go/firestore"
 )
@@ -28,8 +29,20 @@ func DeleteClassroom(id string) error {
 	return err
 }
 
-func GetAllClassrooms() ([]model.Classroom, error) {
-	iter := firebase.Client.Collection("classrooms").Documents(context.Background())
+func GetAllClassrooms(filters map[string]string) ([]model.Classroom, error) {
+	ctx := context.Background()
+	q := firebase.Client.Collection("classrooms").Query
+
+	limit := 10
+	offset := 0
+	if l, err := strconv.Atoi(filters["limit"]); err == nil {
+		limit = l
+	}
+	if o, err := strconv.Atoi(filters["offset"]); err == nil {
+		offset = o
+	}
+
+	iter := q.Offset(offset).Limit(limit).Documents(ctx)
 	var results []model.Classroom
 	for {
 		doc, err := iter.Next()

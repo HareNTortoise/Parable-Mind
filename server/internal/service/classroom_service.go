@@ -2,30 +2,30 @@ package service
 
 import (
 	"server/internal/model"
-	"server/internal/repository"
+	repo "server/internal/repository"
 )
 
 func CreateClassroom(c model.Classroom) error {
-	return repository.SaveClassroom(c)
+	return repo.SaveClassroom(c)
 }
 
 func GetClassroom(id string) (*model.Classroom, error) {
-	return repository.GetClassroomByID(id)
+	return repo.GetClassroomByID(id)
 }
 
 func DeleteClassroom(id string) error {
-	return repository.DeleteClassroom(id)
+	return repo.DeleteClassroom(id)
 }
 
-func GetAllClassrooms() ([]model.Classroom, error) {
-	return repository.GetAllClassrooms()
+func GetAllClassrooms(filters map[string]string) ([]model.Classroom, error) {
+	return repo.GetAllClassrooms(filters)
 }
 
 func UpdateClassroom(id string, updated model.Classroom) error {
 	updated.ID = id
-	return repository.SaveClassroom(updated)
+	return repo.SaveClassroom(updated)
 }
 
 func PatchClassroom(id string, updates map[string]interface{}) error {
-	return repository.PatchClassroom(id, updates)
+	return repo.PatchClassroom(id, updates)
 }
