@@ -7,13 +7,13 @@ import (
 )
 
 func RegisterPostRoutes(r *gin.Engine) {
-	post := r.Group("/posts")
+	p := r.Group("/posts")
 	{
-		post.GET("", controller.GetAllPosts)
-		post.GET(":id", controller.GetPost)
-		post.POST("", controller.CreatePost)
-		post.PUT(":id", controller.UpdatePost)
-		post.PATCH(":id", controller.PatchPost)
-		post.DELETE(":id", controller.DeletePost)
+		p.GET("", controller.GetAllPosts)
+		p.GET(":id", controller.GetPost)
+		p.POST("", controller.CreatePost)
+		p.PUT(":id", controller.UpdatePost)
+		p.PATCH(":id", controller.PatchPost)
+		p.DELETE(":id", controller.DeletePost)
 	}
 }

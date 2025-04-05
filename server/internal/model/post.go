@@ -5,6 +5,6 @@ type Post struct {
 	Title       string   `json:"title" firestore:"title"`
 	Body        string   `json:"body" firestore:"body"`
 	Attachments []string `json:"attachments" firestore:"attachments"`
-	StudentID   string   `json:"studentId" firestore:"studentId"`
+	UserID      string   `json:"userId" firestore:"userId"`
 	CommentIDs  []string `json:"commentIds" firestore:"commentIds"`
 }

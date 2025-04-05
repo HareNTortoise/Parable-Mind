@@ -4,6 +4,7 @@ import (
 	"context"
 	"server/internal/firebase"
 	"server/internal/model"
+	"strconv"
 
 	"cloud.google.com/go/firestore"
 )
@@ -28,8 +29,24 @@ func DeletePost(id string) error {
 	return err
 }
 
-func GetAllPosts() ([]model.Post, error) {
-	iter := firebase.Client.Collection("posts").Documents(context.Background())
+func GetAllPosts(filters map[string]string) ([]model.Post, error) {
+	ctx := context.Background()
+	q := firebase.Client.Collection("posts").Query
+
+	if userId, ok := filters["userId"]; ok && userId != "" {
+		q = q.Where("userId", "==", userId)
+	}
+
+	limit := 10
+	offset := 0
+	if l, err := strconv.Atoi(filters["limit"]); err == nil {
+		limit = l
+	}
+	if o, err := strconv.Atoi(filters["offset"]); err == nil {
+		offset = o
+	}
+
+	iter := q.Offset(offset).Limit(limit).Documents(ctx)
 	var results []model.Post
 	for {
 		doc, err := iter.Next()
