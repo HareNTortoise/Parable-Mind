@@ -4,6 +4,7 @@ import (
 	"context"
 	"server/internal/firebase"
 	"server/internal/model"
+	"strconv"
 
 	"cloud.google.com/go/firestore"
 )
@@ -28,15 +29,27 @@ func DeleteQuestionBank(id string) error {
 	return err
 }
 
-func GetAllQuestionBanks(filters map[string]string, limit, offset int) ([]model.QuestionBank, error) {
+func GetAllQuestionBanks(filters map[string]string) ([]model.QuestionBank, error) {
 	ctx := context.Background()
 	q := firebase.Client.Collection("questionBanks").Query
 
-	if chapter, ok := filters["chapter"]; ok {
+	if topic, ok := filters["topic"]; ok && topic != "" {
+		q = q.Where("topic", "==", topic)
+	}
+	if chapter, ok := filters["chapter"]; ok && chapter != "" {
 		q = q.Where("chapter", "==", chapter)
 	}
-	if topic, ok := filters["topic"]; ok {
-		q = q.Where("topic", "==", topic)
+	if teacherId, ok := filters["teacherId"]; ok && teacherId != "" {
+		q = q.Where("teacherId", "==", teacherId)
+	}
+
+	limit := 10
+	offset := 0
+	if l, err := strconv.Atoi(filters["limit"]); err == nil {
+		limit = l
+	}
+	if o, err := strconv.Atoi(filters["offset"]); err == nil {
+		offset = o
 	}
 
 	iter := q.Offset(offset).Limit(limit).Documents(ctx)
@@ -46,9 +59,9 @@ func GetAllQuestionBanks(filters map[string]string, limit, offset int) ([]model.
 		if err != nil {
 			break
 		}
-		var qb model.QuestionBank
-		doc.DataTo(&qb)
-		results = append(results, qb)
+		var q model.QuestionBank
+		doc.DataTo(&q)
+		results = append(results, q)
 	}
 	return results, nil
 }
