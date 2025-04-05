@@ -159,7 +159,7 @@ class TeacherDashboard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
                           GestureDetector(
-                            onTap: () => context.push('/home/classrooms'),
+                            onTap: () => context.push('/teacher-dashboard/classrooms'),
                             child: WideTile(
                               title: AutoSizeText(
                                 "Classrooms",
