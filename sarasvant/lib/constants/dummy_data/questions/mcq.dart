@@ -28,7 +28,7 @@ final List<MCQ> dummyMCQs = [
     ],
     points: 5,
     options: ['2 m/s²', '4 m/s²', '5 m/s²', '10 m/s²'],
-    answer: '4 m/s²',
+    answerIndex: 1,
   ),
   MCQ(
     id: 'mcq_2',
@@ -56,7 +56,7 @@ final List<MCQ> dummyMCQs = [
     ],
     points: 5,
     options: ['10 Hz', '50 Hz', '60 Hz', '75 Hz'],
-    answer: '60 Hz',
+    answerIndex: 2,
   ),
   MCQ(
     id: 'mcq_3',
@@ -84,7 +84,7 @@ final List<MCQ> dummyMCQs = [
     ],
     points: 5,
     options: ['50 m²', '100 m²', '200 m²', '300 m²'],
-    answer: '50 m²',
+    answerIndex: 0,
   ),
   MCQ(
     id: 'mcq_4',
@@ -112,7 +112,7 @@ final List<MCQ> dummyMCQs = [
     ],
     points: 6,
     options: ['490 J', '980 J', '1960 J', '2940 J'],
-    answer: '490 J',
+    answerIndex: 0,
   ),
   MCQ(
     id: 'mcq_5',
@@ -140,6 +140,6 @@ final List<MCQ> dummyMCQs = [
     ],
     points: 6,
     options: ['125.6 m³', '314 m³', '502.4 m³', '628 m³'],
-    answer: '125.6 m³',
+    answerIndex: 0,
   ),
 ];
