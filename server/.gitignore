@@ -24,8 +24,8 @@ vendor/
 *.env
 config/serviceAccountKey.json
 
-# Swagger generated docs (optional if you regenerate on build)
-internal/docs/*
+# # Swagger generated docs (optional if you regenerate on build)
+# internal/docs/*
 
 # Keep docs folder structure, ignore contents
 !internal/docs/.gitkeep
