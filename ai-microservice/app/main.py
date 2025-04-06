@@ -11,6 +11,7 @@ from app.routes.mcq_variation_generator import router as mcq_variation_generator
 from app.routes.msq_variation_generator import router as msq_variation_generator_router
 from app.routes.variable_randomizer import router as variable_randomizer_router
 from app.routes.variable_detector import router as variable_detector_router
+from app.routes.question_segmentation import router as question_segmentation_router
 from config.logging_config import logger
 from config.settings import settings
 from fastapi.middleware.cors import CORSMiddleware
@@ -55,6 +56,9 @@ app.include_router(variable_detector_router,
                    prefix="", tags=["Variable Detector"])
 app.include_router(variable_randomizer_router,
                    prefix="", tags=["Variable Randomizer"])
+app.include_router(question_segmentation_router,
+                   prefix="", tags=["Question Segmentation"])
+
 
 # Custom OpenAPI Schema
 
