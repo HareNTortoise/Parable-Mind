@@ -10,6 +10,7 @@ import '../../../../constants/dummy_data/questions/mcq.dart';
 import '../../../../constants/dummy_data/questions/msq.dart';
 import '../../../../constants/dummy_data/questions/nat.dart';
 import '../../../../constants/dummy_data/questions/subjective.dart';
+import 'components/context_generation_dialog.dart';
 
 class Questions extends StatefulWidget {
   const Questions({super.key});
@@ -19,12 +20,7 @@ class Questions extends StatefulWidget {
 }
 
 class QuestionsState extends State<Questions> {
-  List<dynamic> allQuestions = [
-    ...dummyMCQs,
-    ...dummyMSQs,
-    ...dummyNATs,
-    ...dummySubjectives
-  ];
+  List<dynamic> allQuestions = [...dummyMCQs, ...dummyMSQs, ...dummyNATs, ...dummySubjectives];
   List<dynamic> filteredQuestions = [];
   String searchQuery = "";
   String searchMode = "Search by question";
@@ -48,8 +44,10 @@ class QuestionsState extends State<Questions> {
   void _applyFilters() {
     setState(() {
       filteredQuestions = allQuestions.where((question) {
-        bool matchesSearch = searchMode == "Search by question" ? question.question.toLowerCase().contains(searchQuery) : true;
-        bool matchesPoints = searchMode == "Filter by points" ? (question.points >= minPoints && question.points <= maxPoints) : true;
+        bool matchesSearch =
+        searchMode == "Search by question" ? question.question.toLowerCase().contains(searchQuery) : true;
+        bool matchesPoints =
+        searchMode == "Filter by points" ? (question.points >= minPoints && question.points <= maxPoints) : true;
         bool matchesType = selectedType == "All" || question.runtimeType.toString() == selectedType;
         return matchesSearch && matchesPoints && matchesType;
       }).toList();
@@ -73,6 +71,13 @@ class QuestionsState extends State<Questions> {
   void _updateQuestionType(String type) {
     setState(() {
       selectedType = type;
+      _applyFilters();
+    });
+  }
+
+  void _refreshQuestions() {
+    setState(() {
+      allQuestions = [...dummyMCQs, ...dummyMSQs, ...dummyNATs, ...dummySubjectives];
       _applyFilters();
     });
   }
@@ -122,8 +127,7 @@ class QuestionsState extends State<Questions> {
                                     onChanged: _filterQuestions,
                                     decoration: InputDecoration(
                                       hintText: 'Search questions...',
-                                      prefixIcon: Icon(Icons.search,
-                                          color: Colors.teal[700]),
+                                      prefixIcon: Icon(Icons.search, color: Colors.teal[700]),
                                       border: OutlineInputBorder(
                                         borderRadius: BorderRadius.circular(10),
                                       ),
@@ -133,8 +137,7 @@ class QuestionsState extends State<Questions> {
                                 const SizedBox(width: 10),
                                 PopupMenuButton<String>(
                                   onSelected: _updateSearchMode,
-                                  icon: Icon(Icons.filter_list,
-                                      color: Colors.teal[700]),
+                                  icon: Icon(Icons.filter_list, color: Colors.teal[700]),
                                   itemBuilder: (context) => [
                                     PopupMenuItem(
                                       value: "Search by question",
@@ -167,8 +170,7 @@ class QuestionsState extends State<Questions> {
                                 itemBuilder: (context, index) {
                                   final question = filteredQuestions[index];
                                   return Card(
-                                    margin: const EdgeInsets.symmetric(
-                                        vertical: 10),
+                                    margin: const EdgeInsets.symmetric(vertical: 10),
                                     shape: RoundedRectangleBorder(
                                       borderRadius: BorderRadius.circular(15),
                                     ),
@@ -180,33 +182,42 @@ class QuestionsState extends State<Questions> {
                                           fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      subtitle: Column(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.start,
+                                      subtitle: Row(
                                         children: [
-                                          Text("Type: ${question.runtimeType}",
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500)),
-                                          if (question is MCQ ||
-                                              question is MSQ) ...[
-                                            Text("Options:",
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 16,
-                                                    fontWeight:
-                                                    FontWeight.w500)),
-                                            ...question.options
-                                                .asMap()
-                                                .entries
-                                                .map((entry) => Text(
-                                                "${String.fromCharCode(97 + entry.key as int)}) ${entry.value}",
-                                                style: GoogleFonts.poppins(
-                                                    fontSize: 16))),
-                                          ],
-                                          Text("Points: ${question.points}",
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 16,
-                                                  fontWeight: FontWeight.w500)),
+                                          Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text("Type: ${question.runtimeType}",
+                                                  style:
+                                                  GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500)),
+                                              if (question is MCQ || question is MSQ) ...[
+                                                Text("Options:",
+                                                    style:
+                                                    GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500)),
+                                                ...question.options.asMap().entries.map((entry) => Text(
+                                                    "${String.fromCharCode(97 + entry.key as int)}) ${entry.value}",
+                                                    style: GoogleFonts.poppins(fontSize: 16))),
+                                              ],
+                                              Text("Points: ${question.points}",
+                                                  style:
+                                                  GoogleFonts.poppins(fontSize: 16, fontWeight: FontWeight.w500)),
+                                            ],
+                                          ),
+                                          const Spacer(),
+                                          // button for context generation dialog
+                                          IconButton(
+                                            icon: Icon(Icons.lightbulb_outline_rounded, color: Colors.orange[700]),
+                                            onPressed: () async {
+                                              await showDialog(context: context, builder: (context) =>
+                                                  ContextGenerationDialog(
+                                                    question: question.question,
+                                                    type: question.runtimeType.toString(),
+                                                    id: question.id,
+                                                  )
+                                              );
+                                              _refreshQuestions();
+                                            },
+                                          ),
                                         ],
                                       ),
                                       isThreeLine: true,
