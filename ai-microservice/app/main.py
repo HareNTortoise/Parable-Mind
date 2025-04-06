@@ -13,6 +13,7 @@ from app.routes.variable_randomizer import router as variable_randomizer_router
 from app.routes.variable_detector import router as variable_detector_router
 from config.logging_config import logger
 from config.settings import settings
+from fastapi.middleware.cors import CORSMiddleware
 
 
 app = FastAPI(
@@ -29,6 +30,17 @@ app = FastAPI(
         "url": "https://opensource.org/licenses/MIT",
     }
 )
+
+origins = ["*"]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 
 logger.info("Starting %s", settings.APP_NAME)
 
