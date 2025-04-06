@@ -40,4 +40,25 @@ class Subjective {
       gradingCriteria: List<String>.from(json['gradingCriteria']),
     );
   }
+
+  Subjective copyWith({
+    String? id,
+    String? bankId,
+    String? question,
+    List<String>? variableIds,
+    int? points,
+    String? idealAnswer,
+    List<String>? gradingCriteria,
+  }) {
+    return Subjective(
+      id: id ?? this.id,
+      bankId: bankId ?? this.bankId,
+      question: question ?? this.question,
+      variableIds: variableIds ?? this.variableIds,
+      points: points ?? this.points,
+      idealAnswer: idealAnswer ?? this.idealAnswer,
+      gradingCriteria: gradingCriteria ?? this.gradingCriteria,
+    );
+  }
+
 }

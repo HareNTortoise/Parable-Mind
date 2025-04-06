@@ -36,4 +36,22 @@ class NAT {
       answer: json['answer'].toDouble(),
     );
   }
+
+  NAT copyWith({
+    String? id,
+    String? bankId,
+    String? question,
+    List<String>? variableIds,
+    int? points,
+    double? answer,
+  }) {
+    return NAT(
+      id: id ?? this.id,
+      bankId: bankId ?? this.bankId,
+      question: question ?? this.question,
+      variableIds: variableIds ?? this.variableIds,
+      points: points ?? this.points,
+      answer: answer ?? this.answer,
+    );
+  }
 }

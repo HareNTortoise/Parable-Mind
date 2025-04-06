@@ -40,4 +40,24 @@ class MSQ {
       answerIndices: List<int>.from(json['answerIndices']),
     );
   }
+
+  MSQ copyWith({
+    String? id,
+    String? bankId,
+    String? question,
+    List<String>? variableIds,
+    int? points,
+    List<String>? options,
+    List<int>? answerIndices,
+  }) {
+    return MSQ(
+      id: id ?? this.id,
+      bankId: bankId ?? this.bankId,
+      question: question ?? this.question,
+      variableIds: variableIds ?? this.variableIds,
+      points: points ?? this.points,
+      options: options ?? this.options,
+      answerIndices: answerIndices ?? this.answerIndices,
+    );
+  }
 }

@@ -40,4 +40,24 @@ class MCQ {
       answerIndex: json['answerIndex'],
     );
   }
+
+  MCQ copyWith({
+    String? id,
+    String? bankId,
+    String? question,
+    List<String>? variableIds,
+    int? points,
+    List<String>? options,
+    int? answerIndex,
+  }) {
+    return MCQ(
+      id: id ?? this.id,
+      bankId: bankId ?? this.bankId,
+      question: question ?? this.question,
+      variableIds: variableIds ?? this.variableIds,
+      points: points ?? this.points,
+      options: options ?? this.options,
+      answerIndex: answerIndex ?? this.answerIndex,
+    );
+  }
 }
