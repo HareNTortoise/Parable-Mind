@@ -2,12 +2,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:sarasvant/repositories/ai/context_generator.dart';
 import 'package:sarasvant/router/router.dart';
 import 'apps/auth/blocs/auth_bloc.dart';
 import 'apps/auth/cubit/phone_form/phone_number_form_cubit.dart';
 import 'apps/auth/services/google_auth_services.dart';
 import 'apps/auth/services/phone_auth_services.dart';
 import 'apps/language/blocs/l10n/l10n_bloc.dart';
+import 'apps/teacher/blocs/context_generation/context_generation_bloc.dart';
 import 'constants/app_constants.dart';
 import 'firebase_options.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
@@ -30,6 +32,7 @@ class Sarasvant extends StatelessWidget {
       providers: [
         RepositoryProvider(create: (context) => GoogleAuth()),
         RepositoryProvider(create: (context) => PhoneAuth()),
+        RepositoryProvider(create: (context) => AIRepository()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -40,6 +43,11 @@ class Sarasvant extends StatelessWidget {
           ),
           BlocProvider(create: (context) => PhoneNumberFormCubit()),
           BlocProvider(create: (context) => L10nBloc()),
+          BlocProvider(
+            create: (context) => ContextGeneratorBloc(
+              RepositoryProvider.of<AIRepository>(context),
+            ),
+          ),
         ],
         child: MaterialApp.router(
           title: AppConstants.appName,
