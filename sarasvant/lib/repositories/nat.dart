@@ -19,7 +19,8 @@ class NATRepository {
       return response.data;
     } catch (e) {
       _logger.e('Error creating NAT: $e');
-      return {};
+      dummyNATs.add(nat);
+      return nat.toJson();
     }
   }
 
@@ -31,7 +32,7 @@ class NATRepository {
           .toList();
     } catch (e) {
       _logger.e('Error fetching NATs: $e');
-      return dummyNATs;
+      return dummyNATs.where((nat) => nat.bankId == bankId).toList();
     }
   }
 
@@ -41,7 +42,11 @@ class NATRepository {
       return response.data;
     } catch (e) {
       _logger.e('Error updating NAT: $e');
-      return {};
+      final index = dummyNATs.indexWhere((item) => item.id == id);
+      if (index != -1) {
+        dummyNATs[index] = nat;
+      }
+      return nat.toJson();
     }
   }
 
@@ -51,7 +56,8 @@ class NATRepository {
       return true;
     } catch (e) {
       _logger.e('Error deleting NAT: $e');
-      return false;
+      dummyNATs.removeWhere((nat) => nat.id == id);
+      return true;
     }
   }
 }

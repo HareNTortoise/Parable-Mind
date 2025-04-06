@@ -19,7 +19,8 @@ class MCQRepository {
       return response.data;
     } catch (e) {
       _logger.e('Error creating MCQ: $e');
-      return {};
+      dummyMCQs.add(mcq);
+      return mcq.toJson();
     }
   }
 
@@ -31,7 +32,7 @@ class MCQRepository {
           .toList();
     } catch (e) {
       _logger.e('Error fetching MCQs: $e');
-      return dummyMCQs;
+      return dummyMCQs.where((mcq) => mcq.bankId == bankId).toList();
     }
   }
 
@@ -41,7 +42,11 @@ class MCQRepository {
       return response.data;
     } catch (e) {
       _logger.e('Error updating MCQ: $e');
-      return {};
+      final index = dummyMCQs.indexWhere((item) => item.id == id);
+      if (index != -1) {
+        dummyMCQs[index] = mcq;
+      }
+      return mcq.toJson();
     }
   }
 
@@ -51,7 +56,8 @@ class MCQRepository {
       return true;
     } catch (e) {
       _logger.e('Error deleting MCQ: $e');
-      return false;
+      dummyMCQs.removeWhere((mcq) => mcq.id == id);
+      return true;
     }
   }
 }

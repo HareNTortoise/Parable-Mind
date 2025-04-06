@@ -19,7 +19,8 @@ class MSQRepository {
       return response.data;
     } catch (e) {
       _logger.e('Error creating MSQ: $e');
-      return {};
+      dummyMSQs.add(msq);
+      return msq.toJson();
     }
   }
 
@@ -31,7 +32,7 @@ class MSQRepository {
           .toList();
     } catch (e) {
       _logger.e('Error fetching MSQs: $e');
-      return dummyMSQs;
+      return dummyMSQs.where((msq) => msq.bankId == bankId).toList();
     }
   }
 
@@ -41,7 +42,11 @@ class MSQRepository {
       return response.data;
     } catch (e) {
       _logger.e('Error updating MSQ: $e');
-      return {};
+      final index = dummyMSQs.indexWhere((item) => item.id == id);
+      if (index != -1) {
+        dummyMSQs[index] = msq;
+      }
+      return msq.toJson();
     }
   }
 
@@ -51,7 +56,8 @@ class MSQRepository {
       return true;
     } catch (e) {
       _logger.e('Error deleting MSQ: $e');
-      return false;
+      dummyMSQs.removeWhere((msq) => msq.id == id);
+      return true;
     }
   }
 }

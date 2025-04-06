@@ -19,7 +19,8 @@ class SubjectiveRepository {
       return response.data;
     } catch (e) {
       _logger.e('Error creating Subjective: $e');
-      return {};
+      dummySubjectives.add(subjective);
+      return subjective.toJson();
     }
   }
 
@@ -31,7 +32,7 @@ class SubjectiveRepository {
           .toList();
     } catch (e) {
       _logger.e('Error fetching Subjectives: $e');
-      return dummySubjectives;
+      return dummySubjectives.where((subjective) => subjective.bankId == bankId).toList();
     }
   }
 
@@ -41,7 +42,11 @@ class SubjectiveRepository {
       return response.data;
     } catch (e) {
       _logger.e('Error updating Subjective: $e');
-      return {};
+      final index = dummySubjectives.indexWhere((item) => item.id == id);
+      if (index != -1) {
+        dummySubjectives[index] = subjective;
+      }
+      return subjective.toJson();
     }
   }
 
@@ -51,7 +56,8 @@ class SubjectiveRepository {
       return true;
     } catch (e) {
       _logger.e('Error deleting Subjective: $e');
-      return false;
+      dummySubjectives.removeWhere((subjective) => subjective.id == id);
+      return true;
     }
   }
 }
