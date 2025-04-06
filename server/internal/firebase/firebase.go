@@ -13,10 +13,9 @@ import (
 
 var Client *firestore.Client
 
+// Constructs the Firebase credentials JSON from environment variables
 func createFirebaseCredentialsFromEnv() []byte {
 	privateKey := os.Getenv("FIREBASE_PRIVATE_KEY")
-
-	// Convert \\n (escaped newlines) to real \n
 	privateKey = strings.ReplaceAll(privateKey, `\n`, "\n")
 
 	cred := map[string]string{
@@ -37,16 +36,23 @@ func createFirebaseCredentialsFromEnv() []byte {
 	if err != nil {
 		log.Fatalf("❌ Failed to marshal Firebase credentials: %v", err)
 	}
+
 	return credJSON
 }
 
+// Initialize Firebase Firestore
 func InitFirestore() {
 	log.Println("🟡 Warming up Firestore...")
 
 	ctx := context.Background()
 	creds := option.WithCredentialsJSON(createFirebaseCredentialsFromEnv())
 
-	client, err := firestore.NewClient(ctx, os.Getenv("FIREBASE_PROJECT_ID"), creds)
+	projectID := os.Getenv("FIREBASE_PROJECT_ID")
+	if projectID == "" {
+		log.Fatal("❌ FIREBASE_PROJECT_ID is not set")
+	}
+
+	client, err := firestore.NewClient(ctx, projectID, creds)
 	if err != nil {
 		log.Fatalf("❌ Failed to initialize Firestore: %v", err)
 	}
