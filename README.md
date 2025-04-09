@@ -42,7 +42,8 @@ Parable Mind addresses this by:
 ## 🏗️ Tech Stack
 
 - **Frontend**: Flutter Web  
-- **Backend**: Firebase (Auth, Firestore)  
+- **Backend**: Firebase (Auth, Firestore) , Go
+- **Microservices**: Python
 - **AI Integration**: OpenAI / Gemini APIs *(Planned)*  
 - **Routing & State**: GoRouter, Flutter Bloc  
 - **Responsive Design**: Responsive Framework
@@ -58,21 +59,9 @@ Parable Mind addresses this by:
 
 ---
 
-## 🌐 Live Demo
-
-Coming soon...
-
----
-
-## 📽️ Demo Video
-
-[Link to demo video (3 min)](https://your-demo-link.com)
-
----
-
 ## 📁 GitHub Repo
 
-[Parable Mind – GitHub Repository](https://github.com/your-repo-link)
+[Parable Mind – GitHub Repository]([https://github.com/your-repo-link](https://github.com/HareNTortoise/Parable-Mind))
 
 ---
 
@@ -85,7 +74,7 @@ Open issues, suggest ideas, or fork the repo and raise a PR.
 
 ## 📜 License
 
-MIT License. See `LICENSE` for details.
+BSD 3-Clause License. See `LICENSE` for details.
 
 ---
 
