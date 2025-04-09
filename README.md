@@ -61,7 +61,8 @@ Parable Mind addresses this by:
 
 ## 📁 GitHub Repo
 
-[Parable Mind – GitHub Repository]([https://github.com/your-repo-link](https://github.com/HareNTortoise/Parable-Mind))
+
+[Parable Mind – GitHub Repository](https://github.com/HareNTortoise/Parable-Mind/)
 
 ---
 
