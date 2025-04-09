@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"log"
 	"os"
 	"os/signal"
@@ -30,10 +31,25 @@ import (
 func main() {
 	log.Println("🟡 Warming up server...")
 
-	// Load environment variables
-	if err := godotenv.Load(); err != nil {
-		log.Println("⚠️  .env file not found, using system environment variables")
+	// Log contents of /secrets/ENV_FILE (for debug)
+	if file, err := os.Open("/secrets/ENV_FILE"); err != nil {
+		log.Printf("❌ Cannot read ENV_FILE: %v", err)
+	} else {
+		defer file.Close()
+		content, _ := io.ReadAll(file)
+		log.Println("📄 ENV_FILE loaded:\n" + string(content))
 	}
+
+	// Load environment variables
+	if err := godotenv.Load("/secrets/ENV_FILE"); err != nil {
+		log.Println("❌ Failed to load /secrets/ENV_FILE:", err)
+	} else {
+		log.Println("✅ Loaded env from /secrets/ENV_FILE")
+	}
+
+	// Debug log to confirm env vars are loaded
+	log.Printf("✅ FIREBASE_PROJECT_ID: %s", os.Getenv("FIREBASE_PROJECT_ID"))
+	log.Printf("✅ PORT: %s", os.Getenv("PORT"))
 
 	// Initialize Firebase
 	firebase.InitFirestore()
@@ -73,9 +89,7 @@ func main() {
 	gracefulShutdown()
 }
 
-// registerRoutes registers all API routes.
 func registerRoutes(router *gin.Engine) {
-	// Core routes
 	routes.RegisterAssignmentRoutes(router)
 	routes.RegisterClassroomRoutes(router)
 	routes.RegisterCommentRoutes(router)
@@ -86,21 +100,17 @@ func registerRoutes(router *gin.Engine) {
 	routes.RegisterTeacherRoutes(router)
 	routes.RegisterVariableRoutes(router)
 
-	// Question types
 	questions.RegisterMCQRoutes(router)
 	questions.RegisterMSQRoutes(router)
 	questions.RegisterNATRoutes(router)
 	questions.RegisterSubjectiveRoutes(router)
 }
 
-// gracefulShutdown listens for termination signals to cleanly shut down the server.
 func gracefulShutdown() {
 	quit := make(chan os.Signal, 1)
 	signal.Notify(quit, syscall.SIGINT, syscall.SIGTERM)
 	<-quit
 
 	log.Println("🛑 Shutting down server...")
-
-	// If you need cleanup logic (e.g., closing Firestore or DB), do it here.
 	log.Println("✅ Server exited cleanly")
 }
