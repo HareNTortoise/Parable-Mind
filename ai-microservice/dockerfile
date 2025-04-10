@@ -16,6 +16,6 @@ RUN pip install --upgrade pip \
 # ---- Copy Project ----
 COPY . .
 
+ENV PORT 8080
 
-# ---- Run Uvicorn Server ----
-CMD exec python3 server.py
+CMD exec uvicorn main:app --host 0.0.0.0 --port ${PORT}
