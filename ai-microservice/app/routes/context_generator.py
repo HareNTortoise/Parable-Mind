@@ -1,3 +1,4 @@
+from app.prompts.context_generator_prompt import CONTEXT_GENEATOR_PROMPT
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 from langchain_google_genai import ChatGoogleGenerativeAI
@@ -7,26 +8,26 @@ import os
 from langchain_core.prompts import PromptTemplate
 from dotenv import load_dotenv
 
-load_dotenv() 
-
-if "GOOGLE_API_KEY" not in os.environ:
-    os.environ["GOOGLE_API_KEY"] = getpass.getpass("You have not entered the GOOGLE_API_KEY in .env file. Enter your Google AI API key: ")
+load_dotenv()
 
 router = APIRouter()
+
 
 class ContextRequest(BaseModel):
     question: str
     keywords: list[str] = []
     language: str = "English"
 
+
 # Initialize the LLM
 llm = ChatGoogleGenerativeAI(model="gemini-2.0-flash")
 
 # Load the context generation prompt template
-from app.prompts.context_generator_prompt import CONTEXT_GENEATOR_PROMPT
 
 # Create a prompt template
-prompt_template = PromptTemplate.from_template(template=CONTEXT_GENEATOR_PROMPT)
+prompt_template = PromptTemplate.from_template(
+    template=CONTEXT_GENEATOR_PROMPT)
+
 
 @router.post(
     "/generate-context",
@@ -47,8 +48,10 @@ def generate_context(request: ContextRequest):
     try:
         # Extract data from the request payload
         question = request.question
-        keywords = ",".join(request.keywords) if hasattr(request, 'keywords') and request.keywords else ""
-        language = request.language if hasattr(request, 'language') and request.language else "English"
+        keywords = ",".join(request.keywords) if hasattr(
+            request, 'keywords') and request.keywords else ""
+        language = request.language if hasattr(
+            request, 'language') and request.language else "English"
 
         # Format the prompt using the template
         formatted_prompt = prompt_template.format(
