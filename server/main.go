@@ -31,20 +31,26 @@ import (
 func main() {
 	log.Println("🟡 Warming up server...")
 
-	// Log contents of /secrets/ENV_FILE (for debug)
-	if file, err := os.Open("/secrets/ENV_FILE"); err != nil {
-		log.Printf("❌ Cannot read ENV_FILE: %v", err)
-	} else {
+	// Attempt to load secret from Cloud Run secret mount
+	if file, err := os.Open("/secrets/ENV_FILE"); err == nil {
 		defer file.Close()
 		content, _ := io.ReadAll(file)
-		log.Println("📄 ENV_FILE loaded:\n" + string(content))
-	}
+		log.Println("📄 ENV_FILE loaded from /secrets:\n" + string(content))
 
-	// Load environment variables
-	if err := godotenv.Load("/secrets/ENV_FILE"); err != nil {
-		log.Println("❌ Failed to load /secrets/ENV_FILE:", err)
+		if err := godotenv.Load("/secrets/ENV_FILE"); err != nil {
+			log.Println("❌ Failed to load /secrets/ENV_FILE:", err)
+		} else {
+			log.Println("✅ Environment loaded from /secrets/ENV_FILE")
+		}
 	} else {
-		log.Println("✅ Loaded env from /secrets/ENV_FILE")
+		// Fallback to local development .env file
+		log.Println("⚠️  /secrets/ENV_FILE not found, trying local .env")
+
+		if err := godotenv.Load(); err != nil {
+			log.Println("❌ Failed to load local .env:", err)
+		} else {
+			log.Println("✅ Environment loaded from local .env")
+		}
 	}
 
 	// Debug log to confirm env vars are loaded
