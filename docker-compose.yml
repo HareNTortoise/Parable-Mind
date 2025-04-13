@@ -1,8 +1,8 @@
-version: "3.9"
-
 services:
   ai:
-    build: ./ai-microservice
+    image: parablemind/ai-microservice:latest
+    build:
+      context: ./ai-microservice
     container_name: ai-microservice
     ports:
       - "8000:8000"
@@ -16,15 +16,23 @@ services:
       retries: 3
 
   server:
-    build: ./server
+    image: parablemind/go-backend:latest
+    build:
+      context: ./server
     container_name: go-backend
     ports:
       - "8080:8080"
     env_file:
       - ./server/.env
     restart: always
+    depends_on:
+      - ai
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:8080"]
       interval: 30s
       timeout: 10s
       retries: 3
+
+networks:
+  default:
+    name: platelink-net
