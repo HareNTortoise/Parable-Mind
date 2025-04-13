@@ -1,0 +1,30 @@
+version: "3.9"
+
+services:
+  ai:
+    build: ./ai-microservice
+    container_name: ai-microservice
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./ai-microservice/.env
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  server:
+    build: ./server
+    container_name: go-backend
+    ports:
+      - "8080:8080"
+    env_file:
+      - ./server/.env
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080"]
+      interval: 30s
+      timeout: 10s
+      retries: 3

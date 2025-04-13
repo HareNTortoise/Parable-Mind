@@ -4,6 +4,7 @@ It sets up the application with routes, logging, and custom OpenAPI schema.
 """
 
 import os
+from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request
 from fastapi.openapi.utils import get_openapi
 from fastapi.middleware.cors import CORSMiddleware
@@ -11,7 +12,6 @@ from config.logging_config import logger
 from config.settings import settings
 
 # Routers
-import uvicorn
 from app.routes.ping import router as ping_router
 from app.routes.context_generator import router as context_generator_router
 from app.routes.mcq_variation_generator import router as mcq_variation_generator_router
@@ -21,6 +21,12 @@ from app.routes.variable_detector import router as variable_detector_router
 from app.routes.question_segmentation import router as question_segmentation_router
 
 # ─────────────────────────────────────────────────────────────────────────────
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    logger.info("🔄 Application startup")
+    yield
+    logger.info("🔻 Application shutdown")
 
 app = FastAPI(
     title=settings.APP_NAME,
@@ -37,7 +43,8 @@ app = FastAPI(
     license_info={
         "name": "MIT",
         "url": "https://opensource.org/licenses/MIT",
-    }
+    },
+    lifespan=lifespan
 )
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -58,7 +65,7 @@ app.add_middleware(
 # 🔐 Log key environment values
 logger.info("🔧 App: %s", settings.APP_NAME)
 logger.info("🔑 GOOGLE_API_KEY loaded: %s", bool(os.getenv("GOOGLE_API_KEY")))
-logger.info("🚪 PORT set to: %s", os.getenv("PORT", "8080"))
+logger.info("🚪 PORT set to: %s", os.getenv("PORT", "8000"))
 
 # 🧠 Register routers
 app.include_router(ping_router, prefix="", tags=["Ping"])
@@ -96,7 +103,7 @@ async def health():
 async def root():
     return {"message": f"{settings.APP_NAME} is running."}
 
-# ✅ Log each request (optional)
+# ✅ Log each request
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     logger.info(f"📥 {request.method} {request.url}")
@@ -104,17 +111,8 @@ async def log_requests(request: Request, call_next):
     logger.info(f"📤 Status code: {response.status_code}")
     return response
 
-# ✅ Lifecycle events
-@app.on_event("startup")
-async def startup_event():
-    logger.info("🔄 Application startup")
-
-@app.on_event("shutdown")
-async def shutdown_event():
-    logger.info("🔻 Application shutdown")
-
 # ✅ Run via CLI: python main.py (for local testing)
 if __name__ == "__main__":
     import uvicorn
-    port = int(os.getenv("PORT", 8080))
+    port = int(os.getenv("PORT", 8000))
     uvicorn.run("main:app", host="0.0.0.0", port=port, reload=False)
