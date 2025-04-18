@@ -11,6 +11,7 @@ import '../../../../constants/dummy_data/questions/msq.dart';
 import '../../../../constants/dummy_data/questions/nat.dart';
 import '../../../../constants/dummy_data/questions/subjective.dart';
 import 'components/context_generation_dialog.dart';
+import 'components/mcq_variation_dialog.dart';
 
 class Questions extends StatefulWidget {
   const Questions({super.key});
@@ -45,7 +46,7 @@ class QuestionsState extends State<Questions> {
     setState(() {
       filteredQuestions = allQuestions.where((question) {
         bool matchesSearch =
-        searchMode == "Search by question" ? question.question.toLowerCase().contains(searchQuery) : true;
+        searchMode == "Search by question" ? question.mcq.toLowerCase().contains(searchQuery) : true;
         bool matchesPoints =
         searchMode == "Filter by points" ? (question.points >= minPoints && question.points <= maxPoints) : true;
         bool matchesType = selectedType == "All" || question.runtimeType.toString() == selectedType;
@@ -208,14 +209,26 @@ class QuestionsState extends State<Questions> {
                                           IconButton(
                                             icon: Icon(Icons.lightbulb_outline_rounded, color: Colors.orange[700]),
                                             onPressed: () async {
-                                              await showDialog(context: context, builder: (context) =>
-                                                  ContextGenerationDialog(
-                                                    question: question.question,
+                                              await showDialog(
+                                                  context: context,
+                                                  builder: (context) => ContextGenerationDialog(
+                                                    question: question.mcq,
                                                     type: question.runtimeType.toString(),
                                                     id: question.id,
-                                                  )
-                                              );
+                                                  ));
                                               _refreshQuestions();
+                                            },
+                                          ),
+                                          SizedBox(width: 10),
+                                          if (question is MCQ)
+                                            IconButton(
+                                            icon: Icon(Icons.account_tree, color: Colors.blue[700]),
+                                            onPressed: () async {
+                                                await showDialog(
+                                                  context: context,
+                                                  builder: (context) => MCQVariationDialog(mcq: question),
+                                                );
+                                                _refreshQuestions();
                                             },
                                           ),
                                         ],
