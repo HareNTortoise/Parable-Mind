@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:logger/logger.dart';
-import 'package:sarasvant/repositories/ai/mcq_variation_generator.dart';
+import 'package:sarasvant/repositories/ai/variation_generator.dart';
 import 'package:uuid/uuid.dart';
 import '../../../../models/questions/mcq.dart';
 
