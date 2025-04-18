@@ -27,7 +27,7 @@ class MSQRequest(BaseModel):
         description="The original question to generate variations for.")
     options: List[str] = Field(
         description="The list of options for the question.")
-    answer_indices: List[int] = Field(
+    answerIndices: List[int] = Field(
         description="The indices of the correct answers in the options list.")
 
 # Define the structure for each MSQ variation

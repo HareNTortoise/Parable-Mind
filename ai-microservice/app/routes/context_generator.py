@@ -11,8 +11,6 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-print(os.environ.get("GOOGLE_API_KEY"))
-
 if "GOOGLE_API_KEY" not in os.environ:
     os.environ["GOOGLE_API_KEY"] = getpass.getpass(
         "You have not entered the GOOGLE_API_KEY in .env file. Enter your Google AI API key: ")

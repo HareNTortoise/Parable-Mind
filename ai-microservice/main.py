@@ -22,6 +22,7 @@ from app.routes.question_segmentation import router as question_segmentation_rou
 
 # ─────────────────────────────────────────────────────────────────────────────
 
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     logger.info("🔄 Application startup")
@@ -51,7 +52,7 @@ app = FastAPI(
 
 # 🌐 CORS configuration
 origins = [
-    "*"  # Change to your frontend URL in prod (e.g., "https://yourdomain.com")
+    "*"
 ]
 
 app.add_middleware(
@@ -69,14 +70,22 @@ logger.info("🚪 PORT set to: %s", os.getenv("PORT", "8000"))
 
 # 🧠 Register routers
 app.include_router(ping_router, prefix="", tags=["Ping"])
-app.include_router(context_generator_router, prefix="", tags=["Context Generator"])
-app.include_router(mcq_variation_generator_router, prefix="", tags=["MCQ Variation Generator"])
-app.include_router(msq_variation_generator_router, prefix="", tags=["MSQ Variation Generator"])
-app.include_router(variable_detector_router, prefix="", tags=["Variable Detector"])
-app.include_router(variable_randomizer_router, prefix="", tags=["Variable Randomizer"])
-app.include_router(question_segmentation_router, prefix="", tags=["Question Segmentation"])
+app.include_router(context_generator_router, prefix="",
+                   tags=["Context Generator"])
+app.include_router(mcq_variation_generator_router,
+                   prefix="", tags=["MCQ Variation Generator"])
+app.include_router(msq_variation_generator_router,
+                   prefix="", tags=["MSQ Variation Generator"])
+app.include_router(variable_detector_router, prefix="",
+                   tags=["Variable Detector"])
+app.include_router(variable_randomizer_router, prefix="",
+                   tags=["Variable Randomizer"])
+app.include_router(question_segmentation_router, prefix="",
+                   tags=["Question Segmentation"])
 
 # 📦 Custom OpenAPI schema
+
+
 def custom_openapi():
     if app.openapi_schema:
         return app.openapi_schema
@@ -89,21 +98,28 @@ def custom_openapi():
     app.openapi_schema = openapi_schema
     return app.openapi_schema
 
+
 app.openapi = custom_openapi
 
 # ─────────────────────────────────────────────────────────────────────────────
 
 # ✅ Health check endpoint
+
+
 @app.get("/health", tags=["Health"])
 async def health():
     return {"status": "ok"}
 
 # ✅ Root endpoint
+
+
 @app.get("/", tags=["Root"])
 async def root():
     return {"message": f"{settings.APP_NAME} is running."}
 
 # ✅ Log each request
+
+
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
     logger.info(f"📥 {request.method} {request.url}")

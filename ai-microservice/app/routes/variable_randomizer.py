@@ -15,7 +15,7 @@ router = APIRouter()
 
 class FilterAndRandomizerRequest(BaseModel):
     question: str = Field(description="The question to analyze for variables.")
-    user_prompt: str = Field(
+    userPrompt: str = Field(
         description="The user-defined prompt for extracting filters.")
 
 # Define the structure for each variable

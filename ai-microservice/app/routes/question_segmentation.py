@@ -30,7 +30,7 @@ class QuestionSegmentationRequest(BaseModel):
 
 
 class QuestionSegmentationResponse(BaseModel):
-    segmented_question: str = Field(
+    segmentedQuestion: str = Field(
         description="The segmented parts of the original question as a single text."
     )
 
