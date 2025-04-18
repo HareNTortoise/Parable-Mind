@@ -64,3 +64,18 @@ func PatchMSQ(id string, updates map[string]interface{}) error {
 	_, err := firebase.Client.Collection("msqs").Doc(id).Set(context.Background(), updates, firestore.MergeAll)
 	return err
 }
+
+func SaveBulkMSQs(msqs []questions.MSQ) error {
+	ctx := context.Background()
+	bw := firebase.Client.BulkWriter(ctx)
+
+	for _, m := range msqs {
+		ref := firebase.Client.Collection("msqs").Doc(m.ID)
+		if _, err := bw.Create(ref, m); err != nil {
+			return err
+		}
+	}
+
+	bw.End()
+	return nil
+}

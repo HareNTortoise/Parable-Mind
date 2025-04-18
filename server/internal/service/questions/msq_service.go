@@ -29,3 +29,7 @@ func UpdateMSQ(id string, updated questions.MSQ) error {
 func PatchMSQ(id string, updates map[string]interface{}) error {
 	return repo.PatchMSQ(id, updates)
 }
+
+func CreateBulkMSQs(msqs []questions.MSQ) error {
+	return repo.SaveBulkMSQs(msqs)
+}

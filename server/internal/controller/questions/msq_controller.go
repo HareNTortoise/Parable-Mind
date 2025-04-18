@@ -127,3 +127,29 @@ func PatchMSQ(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "MSQ updated"})
 }
+
+// @Summary Bulk Create MSQs
+// @Tags MSQs
+// @Accept json
+// @Produce json
+// @Param msqs body []questions.MSQ true "List of MSQs"
+// @Success 201 {object} map[string]string
+// @Router /msqs/bulk [post]
+func CreateBulkMSQs(c *gin.Context) {
+	var msqs []questions.MSQ
+	if err := c.ShouldBindJSON(&msqs); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	for i := range msqs {
+		msqs[i].ID = uuid.New().String()
+	}
+
+	if err := service.CreateBulkMSQs(msqs); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create MSQs"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "MSQs created successfully"})
+}

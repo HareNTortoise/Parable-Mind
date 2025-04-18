@@ -67,13 +67,15 @@ func PatchMCQ(id string, updates map[string]interface{}) error {
 
 func SaveBulkMCQs(mcqs []questions.MCQ) error {
 	ctx := context.Background()
-	batch := firebase.Client.Batch()
+	bw := firebase.Client.BulkWriter(ctx)
 
 	for _, m := range mcqs {
 		ref := firebase.Client.Collection("mcqs").Doc(m.ID)
-		batch.Set(ref, m)
+		if _, err := bw.Create(ref, m); err != nil {
+			return err
+		}
 	}
 
-	_, err := batch.Commit(ctx)
-	return err
+	bw.End()
+	return nil
 }

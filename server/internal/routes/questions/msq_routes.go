@@ -15,5 +15,6 @@ func RegisterMSQRoutes(r *gin.Engine) {
 		group.PUT(":id", questions.UpdateMSQ)
 		group.PATCH(":id", questions.PatchMSQ)
 		group.DELETE(":id", questions.DeleteMSQ)
+		group.POST("/bulk", questions.CreateBulkMSQs)
 	}
 }
