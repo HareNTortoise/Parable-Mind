@@ -6,6 +6,7 @@ import (
 	questionsService "server/internal/service/questions"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // @Summary Create Subjective
@@ -121,4 +122,30 @@ func PatchSubjective(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Updated"})
+}
+
+// @Summary Bulk Create Subjectives
+// @Tags Subjectives
+// @Accept json
+// @Produce json
+// @Param data body []questions.Subjective true "List of Subjective Questions"
+// @Success 201 {object} map[string]string
+// @Router /subjectives/bulk [post]
+func CreateBulkSubjectives(c *gin.Context) {
+	var subjectives []questionsModel.Subjective
+	if err := c.ShouldBindJSON(&subjectives); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	for i := range subjectives {
+		subjectives[i].ID = uuid.New().String()
+	}
+
+	if err := questionsService.CreateBulkSubjectives(subjectives); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create subjectives"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "Subjectives created successfully"})
 }

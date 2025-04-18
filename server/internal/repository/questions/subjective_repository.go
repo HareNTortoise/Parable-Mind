@@ -64,3 +64,18 @@ func PatchSubjective(id string, updates map[string]interface{}) error {
 	_, err := firebase.Client.Collection("subjectives").Doc(id).Set(context.Background(), updates, firestore.MergeAll)
 	return err
 }
+
+func SaveBulkSubjectives(subjectives []questions.Subjective) error {
+	ctx := context.Background()
+	bw := firebase.Client.BulkWriter(ctx)
+
+	for _, s := range subjectives {
+		ref := firebase.Client.Collection("subjectives").Doc(s.ID)
+		if _, err := bw.Create(ref, s); err != nil {
+			return err
+		}
+	}
+
+	bw.End()
+	return nil
+}

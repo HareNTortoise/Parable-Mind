@@ -15,5 +15,6 @@ func RegisterSubjectiveRoutes(r *gin.Engine) {
 		s.PUT(":id", questions.UpdateSubjective)
 		s.PATCH(":id", questions.PatchSubjective)
 		s.DELETE(":id", questions.DeleteSubjective)
+		s.POST("/bulk", questions.CreateBulkSubjectives)
 	}
 }

@@ -29,3 +29,7 @@ func UpdateSubjective(id string, updated questions.Subjective) error {
 func PatchSubjective(id string, updates map[string]interface{}) error {
 	return repo.PatchSubjective(id, updates)
 }
+
+func CreateBulkSubjectives(subjectives []questions.Subjective) error {
+	return repo.SaveBulkSubjectives(subjectives)
+}
