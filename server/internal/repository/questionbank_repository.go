@@ -36,8 +36,8 @@ func GetAllQuestionBanks(filters map[string]string) ([]model.QuestionBank, error
 	if topic, ok := filters["topic"]; ok && topic != "" {
 		q = q.Where("topic", "==", topic)
 	}
-	if chapter, ok := filters["chapter"]; ok && chapter != "" {
-		q = q.Where("chapter", "==", chapter)
+	if name, ok := filters["name"]; ok && name != "" {
+		q = q.Where("name", "==", name)
 	}
 	if teacherId, ok := filters["teacherId"]; ok && teacherId != "" {
 		q = q.Where("teacherId", "==", teacherId)

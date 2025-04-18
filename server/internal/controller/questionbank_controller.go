@@ -73,7 +73,7 @@ func DeleteQuestionBank(c *gin.Context) {
 func GetAllQuestionBanks(c *gin.Context) {
 	filters := map[string]string{
 		"topic":     c.Query("topic"),
-		"chapter":   c.Query("chapter"),
+		"name":      c.Query("name"),
 		"teacherId": c.Query("teacherId"),
 		"limit":     c.DefaultQuery("limit", "10"),
 		"offset":    c.DefaultQuery("offset", "0"),

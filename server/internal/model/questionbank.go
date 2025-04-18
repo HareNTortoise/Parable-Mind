@@ -2,7 +2,7 @@ package model
 
 type QuestionBank struct {
 	ID        string `json:"id" firestore:"id"`
-	Chapter   string `json:"chapter" firestore:"chapter"`
+	Name      string `json:"name" firestore:"name"`
 	Topic     string `json:"topic" firestore:"topic"`
 	TeacherID string `json:"teacherId" firestore:"teacherId"`
 }
