@@ -64,3 +64,16 @@ func PatchMCQ(id string, updates map[string]interface{}) error {
 	_, err := firebase.Client.Collection("mcqs").Doc(id).Set(context.Background(), updates, firestore.MergeAll)
 	return err
 }
+
+func SaveBulkMCQs(mcqs []questions.MCQ) error {
+	ctx := context.Background()
+	batch := firebase.Client.Batch()
+
+	for _, m := range mcqs {
+		ref := firebase.Client.Collection("mcqs").Doc(m.ID)
+		batch.Set(ref, m)
+	}
+
+	_, err := batch.Commit(ctx)
+	return err
+}

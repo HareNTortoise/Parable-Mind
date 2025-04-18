@@ -29,3 +29,7 @@ func UpdateMCQ(id string, updated questions.MCQ) error {
 func PatchMCQ(id string, updates map[string]interface{}) error {
 	return repo.PatchMCQ(id, updates)
 }
+
+func CreateBulkMCQs(mcqs []questions.MCQ) error {
+	return repo.SaveBulkMCQs(mcqs)
+}
