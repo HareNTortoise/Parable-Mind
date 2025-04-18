@@ -80,7 +80,7 @@ def generate_mcq_variations(request: MCQRequest):
         formatted_prompt = prompt_template.format(
             question=request.question,
             options=", ".join(request.options),
-            answer_index=request.answer_index,
+            answerIndex=request.answerIndex,
         )
         # Create a HumanMessage with the formatted prompt
         message = HumanMessage(content=formatted_prompt)

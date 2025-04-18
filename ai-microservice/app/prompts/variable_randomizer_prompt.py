@@ -15,7 +15,7 @@ Question: "Calculate the area of a rectangle with width 5 and length 15"
 
 Based on the above example, the output is a list of dictionaries where each dictionary contains the variable name and its associated filters. if any variable is not present in the question but is given in user prompt, it should be ignored.
 
-User Prompt: {user_prompt}
+User Prompt: {userPrompt}
 
 Question: {question}
 
