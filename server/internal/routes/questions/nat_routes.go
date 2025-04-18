@@ -15,5 +15,7 @@ func RegisterNATRoutes(r *gin.Engine) {
 		n.PUT(":id", questions.UpdateNAT)
 		n.PATCH(":id", questions.PatchNAT)
 		n.DELETE(":id", questions.DeleteNAT)
+		n.POST("/bulk", questions.CreateBulkNATs)
+
 	}
 }

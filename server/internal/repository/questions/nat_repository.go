@@ -64,3 +64,18 @@ func PatchNAT(id string, updates map[string]interface{}) error {
 	_, err := firebase.Client.Collection("nats").Doc(id).Set(context.Background(), updates, firestore.MergeAll)
 	return err
 }
+
+func SaveBulkNATs(nats []questions.NAT) error {
+	ctx := context.Background()
+	bw := firebase.Client.BulkWriter(ctx)
+
+	for _, n := range nats {
+		ref := firebase.Client.Collection("nats").Doc(n.ID)
+		if _, err := bw.Create(ref, n); err != nil {
+			return err
+		}
+	}
+
+	bw.End()
+	return nil
+}

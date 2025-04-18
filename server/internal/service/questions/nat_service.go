@@ -29,3 +29,7 @@ func UpdateNAT(id string, updated questions.NAT) error {
 func PatchNAT(id string, updates map[string]interface{}) error {
 	return repo.PatchNAT(id, updates)
 }
+
+func CreateBulkNATs(nats []questions.NAT) error {
+	return repo.SaveBulkNATs(nats)
+}

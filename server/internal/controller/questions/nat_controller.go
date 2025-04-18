@@ -127,3 +127,29 @@ func PatchNAT(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "NAT updated"})
 }
+
+// @Summary Bulk Create NATs
+// @Tags NATs
+// @Accept json
+// @Produce json
+// @Param nats body []questions.NAT true "List of NATs"
+// @Success 201 {object} map[string]string
+// @Router /nats/bulk [post]
+func CreateBulkNATs(c *gin.Context) {
+	var nats []questions.NAT
+	if err := c.ShouldBindJSON(&nats); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	for i := range nats {
+		nats[i].ID = uuid.New().String()
+	}
+
+	if err := service.CreateBulkNATs(nats); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create NATs"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, gin.H{"message": "NATs created successfully"})
+}
