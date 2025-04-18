@@ -111,9 +111,9 @@ definitions:
     type: object
   model.QuestionBank:
     properties:
-      chapter:
-        type: string
       id:
+        type: string
+      name:
         type: string
       teacherId:
         type: string
@@ -282,8 +282,8 @@ definitions:
 host: localhost:8080
 info:
   contact: {}
-  description: API for managing assignments with different question types.
-  title: Assignment API
+  description: Backend API for managing assignments, questions, classrooms and more.
+  title: ParableMind API
   version: "1.0"
 paths:
   /assignments:
@@ -795,6 +795,31 @@ paths:
       summary: Update MCQ
       tags:
       - MCQs
+  /mcqs/bulk:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: List of MCQs
+        in: body
+        name: mcqs
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/questions.MCQ'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Bulk Create MCQs
+      tags:
+      - MCQs
   /msqs:
     get:
       parameters:
@@ -810,6 +835,8 @@ paths:
         in: query
         name: offset
         type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
@@ -817,7 +844,7 @@ paths:
             items:
               $ref: '#/definitions/questions.MSQ'
             type: array
-      summary: Get all MSQs
+      summary: Get All MSQs
       tags:
       - MSQs
     post:
@@ -928,6 +955,31 @@ paths:
       summary: Update MSQ
       tags:
       - MSQs
+  /msqs/bulk:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: List of MSQs
+        in: body
+        name: msqs
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/questions.MSQ'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Bulk Create MSQs
+      tags:
+      - MSQs
   /nats:
     get:
       parameters:
@@ -943,6 +995,8 @@ paths:
         in: query
         name: offset
         type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
@@ -950,13 +1004,7 @@ paths:
             items:
               $ref: '#/definitions/questions.NAT'
             type: array
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Get all NATs
+      summary: Get All NATs
       tags:
       - NATs
     post:
@@ -976,18 +1024,6 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/questions.NAT'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
       summary: Create NAT
       tags:
       - NATs
@@ -1002,12 +1038,6 @@ paths:
       responses:
         "200":
           description: OK
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
           schema:
             additionalProperties:
               type: string
@@ -1029,12 +1059,6 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/questions.NAT'
-        "404":
-          description: Not Found
-          schema:
-            additionalProperties:
-              type: string
-            type: object
       summary: Get NAT by ID
       tags:
       - NATs
@@ -1059,18 +1083,6 @@ paths:
       responses:
         "200":
           description: OK
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
           schema:
             additionalProperties:
               type: string
@@ -1100,36 +1112,51 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/questions.NAT'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
       summary: Update NAT
+      tags:
+      - NATs
+  /nats/bulk:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: List of NATs
+        in: body
+        name: nats
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/questions.NAT'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Bulk Create NATs
       tags:
       - NATs
   /posts:
     get:
       parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: string
+      - description: Offset
+        in: query
+        name: offset
+        type: string
       - description: Filter by user ID
         in: query
         name: userId
         type: string
-      - description: Pagination limit
-        in: query
-        name: limit
-        type: string
-      - description: Pagination offset
-        in: query
-        name: offset
-        type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
@@ -1137,7 +1164,7 @@ paths:
             items:
               $ref: '#/definitions/model.Post'
             type: array
-      summary: Get all Posts
+      summary: Get All Posts
       tags:
       - Posts
     post:
@@ -1392,6 +1419,14 @@ paths:
   /students:
     get:
       parameters:
+      - description: Limit
+        in: query
+        name: limit
+        type: string
+      - description: Offset
+        in: query
+        name: offset
+        type: string
       - description: Filter by email
         in: query
         name: email
@@ -1400,14 +1435,8 @@ paths:
         in: query
         name: rollNo
         type: string
-      - description: Pagination limit
-        in: query
-        name: limit
-        type: string
-      - description: Pagination offset
-        in: query
-        name: offset
-        type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
@@ -1415,13 +1444,7 @@ paths:
             items:
               $ref: '#/definitions/model.Student'
             type: array
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Get all students
+      summary: Get All Students
       tags:
       - Students
     post:
@@ -1441,19 +1464,7 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/model.Student'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Create a student
+      summary: Create Student
       tags:
       - Students
   /students/{id}:
@@ -1471,13 +1482,7 @@ paths:
             additionalProperties:
               type: string
             type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Delete a student
+      summary: Delete Student
       tags:
       - Students
     get:
@@ -1494,13 +1499,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Student'
-        "404":
-          description: Not Found
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Get a student by ID
+      summary: Get Student by ID
       tags:
       - Students
     patch:
@@ -1552,7 +1551,7 @@ paths:
         name: id
         required: true
         type: string
-      - description: Updated student
+      - description: Updated Student
         in: body
         name: student
         required: true
@@ -1565,19 +1564,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Student'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Update a student
+      summary: Update Student
       tags:
       - Students
   /subjectives:
@@ -1713,17 +1700,35 @@ paths:
       summary: Update Subjective
       tags:
       - Subjectives
+  /subjectives/bulk:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: List of Subjective Questions
+        in: body
+        name: data
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/questions.Subjective'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Bulk Create Subjectives
+      tags:
+      - Subjectives
   /submissions:
     get:
-      parameters:
-      - description: Filter by student ID
-        in: query
-        name: studentId
-        type: string
-      - description: Filter by assignment ID
-        in: query
-        name: assignmentId
-        type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
@@ -1731,13 +1736,7 @@ paths:
             items:
               $ref: '#/definitions/model.Submission'
             type: array
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Get all submissions
+      summary: Get All Submissions
       tags:
       - Submissions
     post:
@@ -1757,19 +1756,7 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/model.Submission'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Create a submission
+      summary: Create Submission
       tags:
       - Submissions
   /submissions/{id}:
@@ -1787,13 +1774,7 @@ paths:
             additionalProperties:
               type: string
             type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Delete a submission
+      summary: Delete Submission
       tags:
       - Submissions
     get:
@@ -1810,13 +1791,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Submission'
-        "404":
-          description: Not Found
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Get a submission by ID
+      summary: Get Submission by ID
       tags:
       - Submissions
     patch:
@@ -1881,40 +1856,13 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Submission'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Update a submission
+      summary: Update Submission
       tags:
       - Submissions
   /teachers:
     get:
-      parameters:
-      - description: Filter by email
-        in: query
-        name: email
-        type: string
-      - description: Filter by phone
-        in: query
-        name: phone
-        type: string
-      - description: Pagination limit
-        in: query
-        name: limit
-        type: string
-      - description: Pagination offset
-        in: query
-        name: offset
-        type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
@@ -1922,13 +1870,7 @@ paths:
             items:
               $ref: '#/definitions/model.Teacher'
             type: array
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Get all teachers
+      summary: Get All Teachers
       tags:
       - Teachers
     post:
@@ -1948,19 +1890,7 @@ paths:
           description: Created
           schema:
             $ref: '#/definitions/model.Teacher'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Create a teacher
+      summary: Create Teacher
       tags:
       - Teachers
   /teachers/{id}:
@@ -1978,13 +1908,7 @@ paths:
             additionalProperties:
               type: string
             type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Delete a teacher
+      summary: Delete Teacher
       tags:
       - Teachers
     get:
@@ -2001,13 +1925,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Teacher'
-        "404":
-          description: Not Found
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Get a teacher by ID
+      summary: Get Teacher by ID
       tags:
       - Teachers
     patch:
@@ -2072,19 +1990,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/model.Teacher'
-        "400":
-          description: Bad Request
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-        "500":
-          description: Internal Server Error
-          schema:
-            additionalProperties:
-              type: string
-            type: object
-      summary: Update a teacher
+      summary: Update Teacher
       tags:
       - Teachers
   /variables:
@@ -2098,6 +2004,8 @@ paths:
         in: query
         name: offset
         type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
@@ -2105,7 +2013,7 @@ paths:
             items:
               $ref: '#/definitions/model.Variable'
             type: array
-      summary: Get all Variables
+      summary: Get All Variables
       tags:
       - Variables
     post:
@@ -2195,12 +2103,12 @@ paths:
       consumes:
       - application/json
       parameters:
-      - description: ID
+      - description: Variable ID
         in: path
         name: id
         required: true
         type: string
-      - description: Variable
+      - description: Updated Variable
         in: body
         name: variable
         required: true

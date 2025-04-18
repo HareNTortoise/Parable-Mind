@@ -662,6 +662,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/mcqs/bulk": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MCQs"
+                ],
+                "summary": "Bulk Create MCQs",
+                "parameters": [
+                    {
+                        "description": "List of MCQs",
+                        "name": "mcqs",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/questions.MCQ"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/mcqs/{id}": {
             "get": {
                 "produces": [
@@ -798,10 +837,13 @@ const docTemplate = `{
         },
         "/msqs": {
             "get": {
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "MSQs"
                 ],
-                "summary": "Get all MSQs",
+                "summary": "Get All MSQs",
                 "parameters": [
                     {
                         "type": "string",
@@ -861,6 +903,45 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/questions.MSQ"
+                        }
+                    }
+                }
+            }
+        },
+        "/msqs/bulk": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "MSQs"
+                ],
+                "summary": "Bulk Create MSQs",
+                "parameters": [
+                    {
+                        "description": "List of MSQs",
+                        "name": "msqs",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/questions.MSQ"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
@@ -1002,10 +1083,13 @@ const docTemplate = `{
         },
         "/nats": {
             "get": {
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "NATs"
                 ],
-                "summary": "Get all NATs",
+                "summary": "Get All NATs",
                 "parameters": [
                     {
                         "type": "string",
@@ -1033,15 +1117,6 @@ const docTemplate = `{
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/questions.NAT"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
                             }
                         }
                     }
@@ -1075,18 +1150,39 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/questions.NAT"
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
+                    }
+                }
+            }
+        },
+        "/nats/bulk": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "NATs"
+                ],
+                "summary": "Bulk Create NATs",
+                "parameters": [
+                    {
+                        "description": "List of NATs",
+                        "name": "nats",
+                        "in": "body",
+                        "required": true,
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/questions.NAT"
                             }
                         }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -1120,15 +1216,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/questions.NAT"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
                         }
                     }
                 }
@@ -1168,24 +1255,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/questions.NAT"
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
                     }
                 }
             },
@@ -1206,15 +1275,6 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -1263,51 +1323,36 @@ const docTemplate = `{
                                 "type": "string"
                             }
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
                     }
                 }
             }
         },
         "/posts": {
             "get": {
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "Posts"
                 ],
-                "summary": "Get all Posts",
+                "summary": "Get All Posts",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Filter by user ID",
-                        "name": "userId",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Pagination limit",
+                        "description": "Limit",
                         "name": "limit",
                         "in": "query"
                     },
                     {
                         "type": "string",
-                        "description": "Pagination offset",
+                        "description": "Offset",
                         "name": "offset",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Filter by user ID",
+                        "name": "userId",
                         "in": "query"
                     }
                 ],
@@ -1707,11 +1752,26 @@ const docTemplate = `{
         },
         "/students": {
             "get": {
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "Students"
                 ],
-                "summary": "Get all students",
+                "summary": "Get All Students",
                 "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Limit",
+                        "name": "limit",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Offset",
+                        "name": "offset",
+                        "in": "query"
+                    },
                     {
                         "type": "string",
                         "description": "Filter by email",
@@ -1723,18 +1783,6 @@ const docTemplate = `{
                         "description": "Filter by roll number",
                         "name": "rollNo",
                         "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Pagination limit",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Pagination offset",
-                        "name": "offset",
-                        "in": "query"
                     }
                 ],
                 "responses": {
@@ -1744,15 +1792,6 @@ const docTemplate = `{
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/model.Student"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
                             }
                         }
                     }
@@ -1768,7 +1807,7 @@ const docTemplate = `{
                 "tags": [
                     "Students"
                 ],
-                "summary": "Create a student",
+                "summary": "Create Student",
                 "parameters": [
                     {
                         "description": "Student JSON",
@@ -1786,24 +1825,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.Student"
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
                     }
                 }
             }
@@ -1816,7 +1837,7 @@ const docTemplate = `{
                 "tags": [
                     "Students"
                 ],
-                "summary": "Get a student by ID",
+                "summary": "Get Student by ID",
                 "parameters": [
                     {
                         "type": "string",
@@ -1831,15 +1852,6 @@ const docTemplate = `{
                         "description": "OK",
                         "schema": {
                             "$ref": "#/definitions/model.Student"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
                         }
                     }
                 }
@@ -1854,7 +1866,7 @@ const docTemplate = `{
                 "tags": [
                     "Students"
                 ],
-                "summary": "Update a student",
+                "summary": "Update Student",
                 "parameters": [
                     {
                         "type": "string",
@@ -1864,7 +1876,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Updated student",
+                        "description": "Updated Student",
                         "name": "student",
                         "in": "body",
                         "required": true,
@@ -1879,24 +1891,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.Student"
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
                     }
                 }
             },
@@ -1904,7 +1898,7 @@ const docTemplate = `{
                 "tags": [
                     "Students"
                 ],
-                "summary": "Delete a student",
+                "summary": "Delete Student",
                 "parameters": [
                     {
                         "type": "string",
@@ -1917,15 +1911,6 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -2061,6 +2046,45 @@ const docTemplate = `{
                         "description": "Created",
                         "schema": {
                             "$ref": "#/definitions/questions.Subjective"
+                        }
+                    }
+                }
+            }
+        },
+        "/subjectives/bulk": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Subjectives"
+                ],
+                "summary": "Bulk Create Subjectives",
+                "parameters": [
+                    {
+                        "description": "List of Subjective Questions",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/questions.Subjective"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
@@ -2202,24 +2226,13 @@ const docTemplate = `{
         },
         "/submissions": {
             "get": {
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "Submissions"
                 ],
-                "summary": "Get all submissions",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Filter by student ID",
-                        "name": "studentId",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by assignment ID",
-                        "name": "assignmentId",
-                        "in": "query"
-                    }
-                ],
+                "summary": "Get All Submissions",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2227,15 +2240,6 @@ const docTemplate = `{
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/model.Submission"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
                             }
                         }
                     }
@@ -2251,7 +2255,7 @@ const docTemplate = `{
                 "tags": [
                     "Submissions"
                 ],
-                "summary": "Create a submission",
+                "summary": "Create Submission",
                 "parameters": [
                     {
                         "description": "Submission JSON",
@@ -2269,24 +2273,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.Submission"
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
                     }
                 }
             }
@@ -2299,7 +2285,7 @@ const docTemplate = `{
                 "tags": [
                     "Submissions"
                 ],
-                "summary": "Get a submission by ID",
+                "summary": "Get Submission by ID",
                 "parameters": [
                     {
                         "type": "string",
@@ -2315,15 +2301,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.Submission"
                         }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
                     }
                 }
             },
@@ -2337,7 +2314,7 @@ const docTemplate = `{
                 "tags": [
                     "Submissions"
                 ],
-                "summary": "Update a submission",
+                "summary": "Update Submission",
                 "parameters": [
                     {
                         "type": "string",
@@ -2362,24 +2339,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.Submission"
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
                     }
                 }
             },
@@ -2387,7 +2346,7 @@ const docTemplate = `{
                 "tags": [
                     "Submissions"
                 ],
-                "summary": "Delete a submission",
+                "summary": "Delete Submission",
                 "parameters": [
                     {
                         "type": "string",
@@ -2400,15 +2359,6 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -2481,36 +2431,13 @@ const docTemplate = `{
         },
         "/teachers": {
             "get": {
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "Teachers"
                 ],
-                "summary": "Get all teachers",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "Filter by email",
-                        "name": "email",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Filter by phone",
-                        "name": "phone",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Pagination limit",
-                        "name": "limit",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "Pagination offset",
-                        "name": "offset",
-                        "in": "query"
-                    }
-                ],
+                "summary": "Get All Teachers",
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -2518,15 +2445,6 @@ const docTemplate = `{
                             "type": "array",
                             "items": {
                                 "$ref": "#/definitions/model.Teacher"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
                             }
                         }
                     }
@@ -2542,7 +2460,7 @@ const docTemplate = `{
                 "tags": [
                     "Teachers"
                 ],
-                "summary": "Create a teacher",
+                "summary": "Create Teacher",
                 "parameters": [
                     {
                         "description": "Teacher JSON",
@@ -2560,24 +2478,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.Teacher"
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
                     }
                 }
             }
@@ -2590,7 +2490,7 @@ const docTemplate = `{
                 "tags": [
                     "Teachers"
                 ],
-                "summary": "Get a teacher by ID",
+                "summary": "Get Teacher by ID",
                 "parameters": [
                     {
                         "type": "string",
@@ -2606,15 +2506,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.Teacher"
                         }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
                     }
                 }
             },
@@ -2628,7 +2519,7 @@ const docTemplate = `{
                 "tags": [
                     "Teachers"
                 ],
-                "summary": "Update a teacher",
+                "summary": "Update Teacher",
                 "parameters": [
                     {
                         "type": "string",
@@ -2653,24 +2544,6 @@ const docTemplate = `{
                         "schema": {
                             "$ref": "#/definitions/model.Teacher"
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
                     }
                 }
             },
@@ -2678,7 +2551,7 @@ const docTemplate = `{
                 "tags": [
                     "Teachers"
                 ],
-                "summary": "Delete a teacher",
+                "summary": "Delete Teacher",
                 "parameters": [
                     {
                         "type": "string",
@@ -2691,15 +2564,6 @@ const docTemplate = `{
                 "responses": {
                     "200": {
                         "description": "OK",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
                         "schema": {
                             "type": "object",
                             "additionalProperties": {
@@ -2772,10 +2636,13 @@ const docTemplate = `{
         },
         "/variables": {
             "get": {
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "Variables"
                 ],
-                "summary": "Get all Variables",
+                "summary": "Get All Variables",
                 "parameters": [
                     {
                         "type": "string",
@@ -2875,13 +2742,13 @@ const docTemplate = `{
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "ID",
+                        "description": "Variable ID",
                         "name": "id",
                         "in": "path",
                         "required": true
                     },
                     {
-                        "description": "Variable",
+                        "description": "Updated Variable",
                         "name": "variable",
                         "in": "body",
                         "required": true,
@@ -3140,10 +3007,10 @@ const docTemplate = `{
         "model.QuestionBank": {
             "type": "object",
             "properties": {
-                "chapter": {
+                "id": {
                     "type": "string"
                 },
-                "id": {
+                "name": {
                     "type": "string"
                 },
                 "teacherId": {
@@ -3406,8 +3273,8 @@ var SwaggerInfo = &swag.Spec{
 	Host:             "localhost:8080",
 	BasePath:         "/",
 	Schemes:          []string{},
-	Title:            "Assignment API",
-	Description:      "API for managing assignments with different question types.",
+	Title:            "ParableMind API",
+	Description:      "Backend API for managing assignments, questions, classrooms and more.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",
