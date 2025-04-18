@@ -22,7 +22,7 @@ class QuestionBankPageState extends State<QuestionBankPage> {
     setState(() {
       searchQuery = query.toLowerCase();
       filteredQuestionBanks = dummyQuestionBanks.where((bank) {
-        return bank.chapter.toLowerCase().contains(searchQuery) ||
+        return bank.name.toLowerCase().contains(searchQuery) ||
             bank.topic.toLowerCase().contains(searchQuery);
       }).toList();
     });
@@ -105,7 +105,7 @@ class QuestionBankPageState extends State<QuestionBankPage> {
                                     ),
                                     child: ListTile(
                                       title: Text(
-                                        bank.chapter,
+                                        bank.name,
                                         style: GoogleFonts.poppins(
                                           fontSize: 18,
                                           fontWeight: FontWeight.w600,

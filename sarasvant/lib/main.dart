@@ -2,7 +2,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:sarasvant/apps/teacher/blocs/mcq_variation_generation/mcq_variation_bloc.dart';
 import 'package:sarasvant/repositories/ai/context_generator.dart';
+import 'package:sarasvant/repositories/ai/mcq_variation_generator.dart';
 import 'package:sarasvant/router/router.dart';
 import 'apps/auth/blocs/auth_bloc.dart';
 import 'apps/auth/cubit/phone_form/phone_number_form_cubit.dart';
@@ -33,6 +35,7 @@ class Sarasvant extends StatelessWidget {
         RepositoryProvider(create: (context) => GoogleAuth()),
         RepositoryProvider(create: (context) => PhoneAuth()),
         RepositoryProvider(create: (context) => AIRepository()),
+        RepositoryProvider(create: (context) => MCQVariationRepository()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -46,6 +49,11 @@ class Sarasvant extends StatelessWidget {
           BlocProvider(
             create: (context) => ContextGeneratorBloc(
               RepositoryProvider.of<AIRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => MCQVariationBloc(
+              RepositoryProvider.of<MCQVariationRepository>(context),
             ),
           ),
         ],
