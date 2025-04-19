@@ -9,7 +9,7 @@
         .header { text-align: center; margin-bottom: 40px; }
         .question { margin-bottom: 25px; }
         .type-header { margin-top: 40px; font-size: 20px; font-weight: bold; }
-        .type-label { font-size: 12px; color: #666; }
+        .type-label { font-size: 12px; color: #666; margin-left: 10px; }
     </style>
 </head>
 <body>
@@ -19,48 +19,46 @@
     <p>Generated on {{ now }}</p>
 </div>
 
+{{ $questionIndex := 0 }}
 {{range .Grouped}}
-<div class="type-header">{{.Type}} Questions</div>
-
-{{range $i, $q := .Questions}}
-<div class="question">
-    <p><strong>Q{{$i | add1}}.</strong> {{$q.Question}}</p>
-
     {{if $.ShowType}}
-        <div class="type-label">[{{$q.Type}}]</div>
+        <div class="type-header">{{.Type}} Questions</div>
     {{end}}
 
-    {{if $q.Options}}
-        {{range $j, $opt := $q.Options}}<p>{{$j | add1}}. {{$opt}}</p>{{end}}
-    {{end}}
-
-    {{if $.ShowAnswers}}
-
-        {{if and (eq $q.Type "MCQ") $q.AnswerIndex}}
-            {{with $q.AnswerIndex}}
-            <p><strong>Answer:</strong> {{index $q.Options (dereference $q.AnswerIndex)}}</p>
-            {{end}}
-        {{end}}
-
-        {{if and (eq $q.Type "MSQ") (gt (len $q.AnswerIndices) 0)}}
-            <p><strong>Answers:</strong>
-                {{range $idx := $q.AnswerIndices}} {{index $q.Options $idx}} {{end}}
+    {{range $q := .Questions}}
+        {{ $questionIndex = add1 $questionIndex }}
+        <div class="question">
+            <p>
+                <strong>Q{{$questionIndex}}.</strong> {{$q.Question}}
+                {{if $.ShowType}}<span class="type-label">[{{$q.Type}}]</span>{{end}}
             </p>
-        {{end}}
 
-        {{if and (eq $q.Type "NAT") $q.Answer}}
-            <p><strong>Answer:</strong> {{$q.Answer}}</p>
-        {{end}}
+            {{if $q.Options}}
+                {{range $j, $opt := $q.Options}}<p>{{$j | add1}}. {{$opt}}</p>{{end}}
+            {{end}}
 
-        {{if eq $q.Type "Subjective"}}
-            {{if $q.IdealAnswer}}<p><strong>Ideal Answer:</strong> {{$q.IdealAnswer}}</p>{{end}}
-        {{end}}
+            {{if $.ShowAnswers}}
+                {{if and (eq $q.Type "MCQ") $q.AnswerIndex}}
+                    <p><strong>Answer:</strong> {{index $q.Options (dereference $q.AnswerIndex)}}</p>
+                {{end}}
 
+                {{if and (eq $q.Type "MSQ") (gt (len $q.AnswerIndices) 0)}}
+                    <p><strong>Answers:</strong>
+                        {{range $idx := $q.AnswerIndices}} {{index $q.Options $idx}} {{end}}
+                    </p>
+                {{end}}
+
+                {{if and (eq $q.Type "NAT") $q.Answer}}
+                    <p><strong>Answer:</strong> {{$q.Answer}}</p>
+                {{end}}
+
+                {{if eq $q.Type "Subjective"}}
+                    {{if $q.IdealAnswer}}<p><strong>Ideal Answer:</strong> {{$q.IdealAnswer}}</p>{{end}}
+                {{end}}
+            {{end}}
+
+        </div>
     {{end}}
-
-</div>
-{{end}}
-
 {{end}}
 
 </body>
