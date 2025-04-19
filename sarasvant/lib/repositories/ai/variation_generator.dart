@@ -33,11 +33,4 @@ class VariationRepository {
       return dioError.response!;
     }
   }
-
-      return response;
-    } catch (e) {
-      _logger.e('Error generating MCQ variations: $e');
-      throw Exception('Failed to generate MCQ variations');
-    }
-  }
 }
