@@ -24,32 +24,28 @@ class MCQVariationBloc extends Bloc<MCQVariationEvent, MCQVariationState> {
     try {
       final Response response = await mcqVariationRepository.generateMCQVariations(event.mcq);
 
-      List<MCQ> variations = [];
-
-      for (var item in response.data['variations']) {
-        variations.add(MCQ.fromJson({
-          ...item as Map<String, dynamic>,
-          "id": Uuid().v4(),
-          "bankId": event.mcq.bankId,
-          "variableIds": [],
-          "points": event.mcq.points,
-        }));
-      }
-
       if (response.statusCode! >= 400) {
-        throw StateError(
-          response.data['error'] ?? 'An error occurred while logging in.',
-        );
+        throw StateError(response.data['error'] ?? 'An error occurred while generating MCQ variations.');
       }
+
+      List<MCQ> variations = response.data['variations']
+          .map<MCQ>((item) => MCQ.fromJson({
+                ...item as Map<String, dynamic>,
+                "id": Uuid().v4(),
+                "bankId": event.mcq.bankId,
+                "variableIds": [],
+                "points": event.mcq.points,
+              }))
+          .toList();
 
       emit(MCQVariationSuccess(variations));
-    } on DioException catch (e) {
-      emit(MCQVariationFailure('Network error: ${e.message}'));
     } on StateError catch (e) {
       emit(MCQVariationFailure(e.message));
+    } on DioException catch (e) {
+      emit(MCQVariationFailure("Network error: ${e.message}"));
     } catch (e) {
       Logger().e('Error generating MCQ variations: $e');
-      emit(MCQVariationFailure(e.toString()));
+      emit(MCQVariationFailure("Unexpected error: $e"));
     }
   }
 }

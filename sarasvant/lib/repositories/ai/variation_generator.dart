@@ -3,6 +3,7 @@ import 'package:logger/logger.dart';
 
 import '../../constants/app_constants.dart';
 import '../../models/questions/mcq.dart';
+import '../../models/questions/msq.dart';
 
 class VariationRepository {
   final Dio _client = Dio(
@@ -15,7 +16,7 @@ class VariationRepository {
 
   Future<Response> generateMCQVariations(MCQ mcq) async {
     try {
-      final response = await _client.post(
+      return await _client.post(
         '/generate-mcq-variations',
         data: {
           'question': mcq.question,
@@ -23,6 +24,15 @@ class VariationRepository {
           'answerIndex': mcq.answerIndex,
         },
       );
+    } on DioException catch (dioError, stackTrace) {
+      _logger.e(
+        'Error generating MCQ variations: Status code ${dioError.response?.statusCode}',
+        error: dioError,
+        stackTrace: stackTrace,
+      );
+      return dioError.response!;
+    }
+  }
 
       return response;
     } catch (e) {
