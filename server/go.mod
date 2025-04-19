@@ -23,6 +23,7 @@ require (
 	cloud.google.com/go/compute/metadata v0.6.0 // indirect
 	cloud.google.com/go/longrunning v0.6.2 // indirect
 	github.com/KyleBanks/depth v1.2.1 // indirect
+	github.com/SebastiaanKlippert/go-wkhtmltopdf v1.9.3
 	github.com/bytedance/sonic v1.13.2 // indirect
 	github.com/bytedance/sonic/loader v0.2.4 // indirect
 	github.com/cloudwego/base64x v0.1.5 // indirect
