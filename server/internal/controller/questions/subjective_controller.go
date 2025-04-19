@@ -22,10 +22,14 @@ func CreateSubjective(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	s.ID = uuid.New().String()
+
 	if err := questionsService.CreateSubjective(s); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create Subjective"})
 		return
 	}
+
 	c.JSON(http.StatusCreated, s)
 }
 
