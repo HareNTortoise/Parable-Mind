@@ -11,7 +11,7 @@ A  MSQ (Multiple Select Question) is a question that can have more than one corr
 
 Question: {question}
 Options: {options}
-Correct Answer Indices: {answer_indices}
+Correct Answer Indices: {answerIndices}
 
 Below are some variation generation examples, that can be used only as a reference. Do not use them as a template for your own variations:
 

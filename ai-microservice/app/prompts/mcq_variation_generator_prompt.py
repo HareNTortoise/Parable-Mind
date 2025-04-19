@@ -10,7 +10,7 @@ The variations should not be same as the original question.
 
 Question: {question}
 Options: {options}
-Correct Answer Index: {answer_index}
+Correct Answer Index: {answerIndex}
 
 Below are some variation generation examples, that can be used only as a reference. Do not use them as a template for your own variations:
 

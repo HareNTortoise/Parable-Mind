@@ -59,7 +59,7 @@ router = APIRouter()
 
 class FilterAndRandomizerRequest(BaseModel):
     question: str = Field(description="The question to analyze for variables.")
-    user_prompt: str = Field(
+    userPrompt: str = Field(
         description="The user-defined prompt for extracting filters.")
 
 # Define the structure for each variable
@@ -116,7 +116,7 @@ def extract_and_randomize(request: FilterAndRandomizerRequest):
     try:
         # Format the prompt using the question and user prompt
         formatted_prompt = prompt_template.format(
-            question=request.question, user_prompt=request.user_prompt
+            question=request.question, user_prompt=request.userPrompt
         )
         # Create a HumanMessage with the formatted prompt
         message = HumanMessage(content=formatted_prompt)

@@ -38,7 +38,7 @@ class MSQQuestion(BaseModel):
         description="The variation of the original question.")
     options: List[str] = Field(
         description="The list of options for the variation.")
-    answer_indices: List[int] = Field(
+    answerIndices: List[int] = Field(
         description="The indices of the correct answers in the options list.")
 
 # Define the response model
@@ -80,7 +80,7 @@ def generate_msq_variations(request: MSQRequest):
         formatted_prompt = prompt_template.format(
             question=request.question,
             options=", ".join(request.options),
-            answer_indices=", ".join(map(str, request.answer_indices)),
+            answerIndices=", ".join(map(str, request.answerIndices)),
         )
         # Create a HumanMessage with the formatted prompt
         message = HumanMessage(content=formatted_prompt)
