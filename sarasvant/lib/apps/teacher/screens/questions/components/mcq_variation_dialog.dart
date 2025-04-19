@@ -61,47 +61,41 @@ class MCQVariationDialogState extends State<MCQVariationDialog> {
                 },
                 builder: (context, state) {
                   if (state is MCQVariationSuccess) {
-                    return Expanded(
-                      child: Column(
-                        children: [
-                          Expanded(
-                            child: ListView.builder(
-                              itemCount: state.variations.length,
-                              itemBuilder: (context, index) {
-                                final variation = state.variations[index];
-                                return Card(
-                                  margin: const EdgeInsets.symmetric(vertical: 10),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(15),
-                                  ),
-                                  child: CheckboxListTile(
-                                    title: Text(
-                                      variation.question,
-                                      style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                                    ),
-                                    subtitle: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Options:"),
-                                        ...variation.options.asMap().entries.map((entry) => Text(
-                                          "${String.fromCharCode(97 + entry.key)}) ${entry.value}",
-                                        )),
-                                        Text("Answer: ${variation.options[variation.answerIndex]}"),
-                                      ],
-                                    ),
-                                    value: _selectedVariations.contains(variation),
-                                    onChanged: (_) => _toggleSelection(variation),
-                                  ),
-                                );
-                              },
-                            ),
+
+                    List<CheckboxListTile> checkboxes = [];
+
+                    for (var variation in state.variations) {
+                      checkboxes.add(
+                        CheckboxListTile(
+                          title: Text(
+                            variation.question,
+                            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
                           ),
-                          ElevatedButton(
-                            onPressed: _selectedVariations.isNotEmpty ? _addSelectedVariations : null,
-                            child: Text('Add Selected Questions'),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text("Options:"),
+                              ...variation.options.asMap().entries.map((entry) => Text(
+                                "${String.fromCharCode(97 + entry.key)}) ${entry.value}",
+                              )),
+                              Text("Answer: ${variation.options[variation.answerIndex]}"),
+                            ],
                           ),
-                        ],
-                      ),
+                          value: _selectedVariations.contains(variation),
+                          onChanged: (_) => _toggleSelection(variation),
+                        ),
+                      );
+                    }
+
+                    return Column(
+                      spacing: 30,
+                      children: [
+                        ...checkboxes,
+                        ElevatedButton(
+                          onPressed: _selectedVariations.isNotEmpty ? _addSelectedVariations : null,
+                          child: Text('Add Selected Questions'),
+                        ),
+                      ],
                     );
                   } else if (state is MCQVariationInitial) {
                     return Column(
