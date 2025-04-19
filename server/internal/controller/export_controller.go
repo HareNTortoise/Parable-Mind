@@ -5,6 +5,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"os"
 	"path/filepath"
 	"time"
 
@@ -21,12 +22,12 @@ type GeneratePDFRequest struct {
 	ShowType    bool     `json:"showType"`
 }
 
-// @Summary Generate a PDF of mixed question types
+// @Summary Generate a PDF of mixed question types and return file path
 // @Tags Export
 // @Accept json
-// @Produce application/pdf
+// @Produce json
 // @Param data body GeneratePDFRequest true "Question IDs and flags"
-// @Success 200 {file} file "PDF download"
+// @Success 200 {object} map[string]string
 // @Failure 400 {object} map[string]string
 // @Failure 500 {object} map[string]string
 // @Router /generate-pdf [post]
@@ -50,7 +51,7 @@ func GenerateQuestionPDF(c *gin.Context) {
 			if ptr != nil {
 				return *ptr
 			}
-			return -1 // fallback to safe index
+			return -1
 		},
 	}
 
@@ -85,7 +86,27 @@ func GenerateQuestionPDF(c *gin.Context) {
 		return
 	}
 
-	c.Header("Content-Type", "application/pdf")
-	c.Header("Content-Disposition", "attachment; filename=questions_"+uuid.New().String()+".pdf")
-	c.Data(http.StatusOK, "application/pdf", pdfg.Bytes())
+	// ✅ Save the PDF to media/ folder
+	outputDir := "media/assignments"
+	if _, err := os.Stat(outputDir); os.IsNotExist(err) {
+		if err := os.MkdirAll(outputDir, os.ModePerm); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create media folder"})
+			return
+		}
+	}
+
+	fileName := "questions_" + uuid.New().String() + ".pdf"
+	filePath := filepath.Join(outputDir, fileName)
+
+	err = os.WriteFile(filePath, pdfg.Bytes(), 0644)
+	if err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to save PDF file: " + err.Error()})
+		return
+	}
+
+	// ✅ Return the file path instead of streaming
+	c.JSON(http.StatusOK, gin.H{
+		"message":  "PDF generated successfully",
+		"filePath": "/" + filePath, // or just `fileName` if used with /media static server
+	})
 }

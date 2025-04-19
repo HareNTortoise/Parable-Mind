@@ -64,6 +64,8 @@ func main() {
 	router := gin.Default()
 	router.Use(cors.Default())
 
+	router.Static("/media", "./media")
+
 	// Register all routes
 	registerRoutes(router)
 

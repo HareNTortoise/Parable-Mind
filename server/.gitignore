@@ -35,3 +35,6 @@ node_modules/
 
 # Coverage reports
 coverage.out
+
+# Ignore generated PDF exports
+/media/assignments/
