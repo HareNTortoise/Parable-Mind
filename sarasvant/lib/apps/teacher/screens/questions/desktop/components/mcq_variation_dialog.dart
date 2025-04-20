@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../models/questions/mcq.dart';
-import '../../../blocs/mcq_variation_generation/mcq_variation_bloc.dart';
+import '../../../../../../models/questions/mcq.dart';
+import '../../../../blocs/mcq_variation_generation/mcq_variation_bloc.dart';
 
 class MCQVariationDialog extends StatefulWidget {
   final MCQ mcq;

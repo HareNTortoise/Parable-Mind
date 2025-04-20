@@ -6,10 +6,10 @@ import 'package:sarasvant/models/questions/mcq.dart';
 import 'package:sarasvant/models/questions/msq.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../constants/dummy_data/questions/mcq.dart';
-import '../../../../constants/dummy_data/questions/msq.dart';
-import '../../../../constants/dummy_data/questions/nat.dart';
-import '../../../../constants/dummy_data/questions/subjective.dart';
+import '../../../../../constants/dummy_data/questions/mcq.dart';
+import '../../../../../constants/dummy_data/questions/msq.dart';
+import '../../../../../constants/dummy_data/questions/nat.dart';
+import '../../../../../constants/dummy_data/questions/subjective.dart';
 import 'components/context_generation_dialog.dart';
 import 'components/mcq_variation_dialog.dart';
 
