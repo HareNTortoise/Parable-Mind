@@ -133,7 +133,7 @@ func PatchNAT(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param nats body []questions.NAT true "List of NATs"
-// @Success 201 {object} map[string]string
+// @Success 201 {array} questions.NAT
 // @Router /nats/bulk [post]
 func CreateBulkNATs(c *gin.Context) {
 	var nats []questions.NAT
@@ -151,5 +151,5 @@ func CreateBulkNATs(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "NATs created successfully"})
+	c.JSON(http.StatusCreated, nats)
 }
