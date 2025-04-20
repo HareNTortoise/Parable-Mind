@@ -10,6 +10,7 @@ import '../apps/teacher/screens/question_bank/question_bank.dart';
 import '../apps/teacher/screens/questions/questions.dart';
 
 final GoRouter router = GoRouter(
+  initialLocation: '/teacher-dashboard',
   routes: [
     GoRoute(path: '/', pageBuilder: (context, state) => const MaterialPage(child: LoadingPage())),
     GoRoute(
@@ -18,7 +19,7 @@ final GoRouter router = GoRouter(
     ),
     GoRoute(
       path: '/teacher-dashboard',
-      pageBuilder: (context, state) => MaterialPage(child: TeacherDashboard()),
+      pageBuilder: (context, state) => MaterialPage(child: DashboardPage()),
       routes: [
         GoRoute(path: '/question-banks', pageBuilder: (context, state) => MaterialPage(child: QuestionBankPage())),
         GoRoute(path: '/questions', pageBuilder: (context, state) => MaterialPage(child: Questions())),
