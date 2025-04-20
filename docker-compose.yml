@@ -35,4 +35,4 @@ services:
 
 networks:
   default:
-    name: platelink-net
+    name: parablemind-net
