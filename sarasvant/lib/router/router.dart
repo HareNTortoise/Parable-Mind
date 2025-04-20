@@ -6,7 +6,7 @@ import '../apps/teacher/screens/assignments/assignments.dart';
 import '../apps/teacher/screens/add_question/add_question.dart';
 import '../apps/teacher/screens/classrooms/classrooms.dart';
 import '../apps/teacher/screens/dashboard/dashboard.dart';
-import '../apps/teacher/screens/question_bank/question_bank.dart';
+import '../apps/teacher/screens/question_bank/desktop/question_bank.dart';
 import '../apps/teacher/screens/questions/questions.dart';
 
 final GoRouter router = GoRouter(
@@ -21,7 +21,7 @@ final GoRouter router = GoRouter(
       path: '/teacher-dashboard',
       pageBuilder: (context, state) => MaterialPage(child: DashboardPage()),
       routes: [
-        GoRoute(path: '/question-banks', pageBuilder: (context, state) => MaterialPage(child: QuestionBankPage())),
+        GoRoute(path: '/question-banks', pageBuilder: (context, state) => MaterialPage(child: QuestionBankPageDesktop())),
         GoRoute(path: '/questions', pageBuilder: (context, state) => MaterialPage(child: Questions())),
         GoRoute(path: '/classrooms', pageBuilder: (context, state) => MaterialPage(child: ClassroomsPage())),
         GoRoute(path: '/assignments', pageBuilder: (context, state) => MaterialPage(child: AssignmentsPage())),

@@ -5,16 +5,16 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sarasvant/models/question_bank.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../constants/dummy_data/question_bank.dart';
+import '../../../../../constants/dummy_data/question_bank.dart';
 
-class QuestionBankPage extends StatefulWidget {
-  const QuestionBankPage({super.key});
+class QuestionBankPageDesktop extends StatefulWidget {
+  const QuestionBankPageDesktop({super.key});
 
   @override
-  QuestionBankPageState createState() => QuestionBankPageState();
+  QuestionBankPageDesktopState createState() => QuestionBankPageDesktopState();
 }
 
-class QuestionBankPageState extends State<QuestionBankPage> {
+class QuestionBankPageDesktopState extends State<QuestionBankPageDesktop> {
   List<QuestionBank> filteredQuestionBanks = dummyQuestionBanks;
   String searchQuery = "";
 
