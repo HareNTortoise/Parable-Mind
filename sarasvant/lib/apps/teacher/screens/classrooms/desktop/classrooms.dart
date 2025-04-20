@@ -5,8 +5,8 @@ import '../../../../../constants/dummy_data/assignments.dart';
 import '../../../../../constants/dummy_data/classroom.dart';
 import '../../../../../constants/dummy_data/teacher.dart';
 
-class ClassroomsPage extends StatelessWidget {
-  const ClassroomsPage({super.key});
+class ClassroomsPageDesktop extends StatelessWidget {
+  const ClassroomsPageDesktop({super.key});
 
   List<String> _getTeacherNames(List<String> teacherIds) {
     return teacherIds
