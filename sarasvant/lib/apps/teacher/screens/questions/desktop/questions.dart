@@ -13,14 +13,14 @@ import '../../../../../constants/dummy_data/questions/subjective.dart';
 import 'components/context_generation_dialog.dart';
 import 'components/mcq_variation_dialog.dart';
 
-class Questions extends StatefulWidget {
-  const Questions({super.key});
+class QuestionsDesktop extends StatefulWidget {
+  const QuestionsDesktop({super.key});
 
   @override
-  QuestionsState createState() => QuestionsState();
+  QuestionsDesktopState createState() => QuestionsDesktopState();
 }
 
-class QuestionsState extends State<Questions> {
+class QuestionsDesktopState extends State<QuestionsDesktop> {
   List<dynamic> allQuestions = [...dummyMCQs, ...dummyMSQs, ...dummyNATs, ...dummySubjectives];
   List<dynamic> filteredQuestions = [];
   String searchQuery = "";
