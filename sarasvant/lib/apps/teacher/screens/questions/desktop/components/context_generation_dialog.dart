@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../blocs/context_generation/context_generation_bloc.dart';
+import '../../../../blocs/context_generation/context_generation_bloc.dart';
 
 class ContextGenerationDialog extends StatefulWidget {
   final String question;
