@@ -6,4 +6,5 @@ type Classroom struct {
 	TeacherIDs    []string `json:"teacherIds" firestore:"teacherIds"`
 	AssignmentIDs []string `json:"assignmentIds" firestore:"assignmentIds"`
 	Credits       int      `json:"credits" firestore:"credits"`
+	Tags          []string `json:"tags" firestore:"tags"` // Added tags field
 }
