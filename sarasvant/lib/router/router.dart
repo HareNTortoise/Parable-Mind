@@ -4,7 +4,7 @@ import 'package:sarasvant/apps/auth/screens/sign_in.dart';
 import '../apps/auth/screens/loading.dart';
 import '../apps/teacher/screens/assignments/assignments.dart';
 import '../apps/teacher/screens/add_question/add_question.dart';
-import '../apps/teacher/screens/classrooms/classrooms.dart';
+import '../apps/teacher/screens/classrooms/desktop/classrooms.dart';
 import '../apps/teacher/screens/dashboard/dashboard.dart';
 import '../apps/teacher/screens/question_bank/question_bank.dart';
 import '../apps/teacher/screens/questions/questions.dart';
