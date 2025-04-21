@@ -1,103 +1,120 @@
 # 🧠 Parable Mind  
-_An AI-Powered Teaching Assistant for Indian Classrooms_
+_An AI-powered assistant to automate grading and feedback for Indian classrooms_
 
-**Parable Mind** automates the grading of all question types—MCQ, MSQ, NAT, and Subjective—while generating personalized feedback for each student.  
-Built to reduce teacher workload and enhance student learning outcomes, Parable Mind aligns with the vision of **UN SDG 4: Quality Education**.
-
----
-
-## 🔍 Problem Statement
-
-Teachers face:
-- High student-teacher ratios  
-- Limited time per student  
-- Lack of tools for giving **individualised feedback**
-
-This is even more challenging in under-resourced settings—leading to poorer student outcomes.
+Parable Mind helps teachers save time and improve student outcomes by automating assignment grading, providing AI-driven feedback, and streamlining academic workflows.
 
 ---
 
-## 🎯 Our Solution
+## 🚨 The Problem
 
-Parable Mind offers an AI-powered system to:
-- ✅ **Auto-grade assignments** (MCQ, MSQ, NAT, Subjective)
-- 🧠 **Generate AI-based feedback** using LLMs (OpenAI/Gemini)
-- 📚 **Simplify assignment and question management**
-- 📊 **Track student performance** *(coming soon)*
+Teachers are overwhelmed:
+- High student-teacher ratios
+- Time-consuming grading
+- Limited individualised feedback
 
----
-
-## ✨ Key Features
-
-| Feature                        | Description                                                                 |
-|-------------------------------|-----------------------------------------------------------------------------|
-| 🔍 **Automated Grading**       | Objective questions are graded instantly; subjective answers are AI-reviewed. |
-| 🧠 **AI Feedback Engine**      | Tailored feedback for every student—editable by teachers before finalising.   |
-| 📁 **Assignment Management**   | Create, tag, and assign questions. Use variables or generate content via AI. |
-| 🏫 **Classroom Management**    | Easily manage students, teachers, and assignment distribution.               |
-| 📈 **Performance Insights**    | *(Planned)* Visual dashboards with adaptive learning insights.               |
+This is especially challenging in under-resourced schools.
 
 ---
 
-## 🏗️ Tech Stack
+## ✅ The Solution
 
-| Layer            | Technology                           |
-|------------------|---------------------------------------|
-| **Frontend**      | Flutter Web                          |
-| **Backend**       | Go, Firebase (Auth, Firestore)       |
-| **Microservices** | Python (for grading, feedback)       |
-| **AI Services**   | OpenAI / Gemini APIs *(Planned)*     |
-| **Routing**       | GoRouter                             |
-| **State Mgmt**    | Flutter Bloc                         |
-| **UI Framework**  | Responsive Framework                 |
+Parable Mind empowers teachers with:
+- 📝 **Auto-grading** of MCQ, MSQ, NAT, and Subjective questions  
+- 💡 **AI-generated feedback** personalised to each student  
+- 📚 **Simplified assignment and classroom management**  
+- 📈 **(Coming soon)** Student performance tracking dashboards
+
+---
+
+## ✨ Core Features
+
+- 🧠 **AI Feedback Engine** — Uses LLMs (OpenAI/Gemini) to draft feedback  
+- ⚙️ **Assignment Builder** — Create questions, tag topics, add variables  
+- 🚀 **One-click Grading** — Review and finalise AI-generated marks + comments  
+- 🏫 **Teacher Tools** — Manage classes, track students, collaborate with staff  
+- 📊 **Performance Insights** — (Planned) Adaptive insights and trends
 
 ---
 
 ## 🧩 Architecture Overview
 
 ```
-[ Users (Teachers/Students) ]
-           ⬇️
-  [ Flutter Web App (UI) ]
-           ⬇️
-     [ Firebase Auth ]
-           ⬇️
-  [ Firestore Database ]
-           ⬇️
-[ AI Microservices (Python/Node.js) ]
-      ⬇️             ⬇️
- [ Auto-Grading ]   [ AI Feedback ]
-           ⬇️
-  [ Personalized Student Reports ]
+[ Flutter Web App ]
+       ⬇️
+[ Firebase Auth & Firestore ]
+       ⬇️
+[ Go Backend API ] <--> [ AI Microservice (FastAPI) ]
+       ⬇️
+[ PDF Reports | Feedback | Dashboard Views ]
 ```
 
 ---
 
-## 💻 GitHub Repo
+## ⚙️ Tech Stack
 
-👉 [**Parable Mind – GitHub Repository**](https://github.com/HareNTortoise/Parable-Mind/)
+| Layer         | Tech                                     |
+|--------------|-------------------------------------------|
+| Frontend      | Flutter Web (GoRouter + BLoC)            |
+| Backend       | Go, Gin, Firebase (Firestore, Auth)      |
+| AI Service    | Python, FastAPI, OpenAI/Gemini API       |
+| Docs          | Swagger (Swaggo), Postman                |
+| Infra         | .env-based local dev, container-ready    |
+
+---
+
+## 📦 Backend API (Go + Firebase)
+
+- Full CRUD for: Assignments, Students, Teachers, Submissions, Questions (MCQ, MSQ, NAT, Subjective)
+- Generates PDF reports using `wkhtmltopdf`
+- Structured MVC-style layout
+- Swagger docs & Postman collections included
+
+**Run locally:**
+
+```bash
+make run
+# or manually:
+swag init --output ./internal/docs
+go run cmd/server/main.go
+```
+
+**API Docs:**  
+- Swagger UI: `http://localhost:8080/docs`  
+- Sample `.env` included in `/server`
+
+---
+
+## 🤖 AI Microservice (FastAPI)
+
+- Grades Subjective/NAT answers
+- Generates student feedback using LLMs
+- Logs saved to `ai_microservice.log`
+
+**Run locally:**
+
+```bash
+pip install -r requirements.txt
+uvicorn main:app --host 0.0.0.0 --port 8000
+```
+
+**Docs:**  
+- Swagger UI: `http://localhost:8000/docs`  
+- ReDoc: `http://localhost:8000/redoc`
 
 ---
 
 ## 🤝 Contributing
 
-We welcome all contributions:  
-- 💡 Suggest new features  
-- 🐛 Report issues  
-- 🚀 Fork & submit PRs
+We welcome all contributions!
 
----
-
-## 📜 License
-
-This project is licensed under the **BSD 3-Clause License**.  
-See the [`LICENSE`](./LICENSE) file for full details.
+- 💡 Feature suggestions  
+- 🐛 Bug reports  
+- 📦 PRs and refactors  
+- 📚 Documentation fixes
 
 ---
 
 ## 🌍 UN SDG Alignment
 
-Parable Mind supports **UN Sustainable Development Goal 4**:  
+Parable Mind aligns with **UN Sustainable Development Goal 4**:  
 > _“Ensure inclusive and equitable quality education and promote lifelong learning opportunities for all.”_
-
----

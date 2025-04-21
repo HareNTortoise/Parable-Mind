@@ -64,6 +64,8 @@ func main() {
 	router := gin.Default()
 	router.Use(cors.Default())
 
+	router.Static("/media", "./media")
+
 	// Register all routes
 	registerRoutes(router)
 
@@ -105,6 +107,7 @@ func registerRoutes(router *gin.Engine) {
 	routes.RegisterSubmissionRoutes(router)
 	routes.RegisterTeacherRoutes(router)
 	routes.RegisterVariableRoutes(router)
+	routes.RegisterExportRoutes(router)
 
 	questions.RegisterMCQRoutes(router)
 	questions.RegisterMSQRoutes(router)

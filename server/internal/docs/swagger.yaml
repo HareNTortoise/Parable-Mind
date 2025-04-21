@@ -1,5 +1,16 @@
 basePath: /
 definitions:
+  controller.GeneratePDFRequest:
+    properties:
+      questionIds:
+        items:
+          type: string
+        type: array
+      showAnswers:
+        type: boolean
+      showType:
+        type: boolean
+    type: object
   model.Assignment:
     properties:
       body:
@@ -47,6 +58,11 @@ definitions:
         type: string
       subject:
         type: string
+      tags:
+        description: Added tags field
+        items:
+          type: string
+        type: array
       teacherIds:
         items:
           type: string
@@ -115,6 +131,11 @@ definitions:
         type: string
       name:
         type: string
+      tags:
+        description: Added tags field
+        items:
+          type: string
+        type: array
       teacherId:
         type: string
       topic:
@@ -662,6 +683,41 @@ paths:
       summary: Update Comment
       tags:
       - Comments
+  /generate-pdf:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Question IDs and flags
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/controller.GeneratePDFRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "400":
+          description: Bad Request
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+        "500":
+          description: Internal Server Error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Generate a PDF of mixed question types and return file path
+      tags:
+      - Export
   /mcqs:
     get:
       parameters:
@@ -814,9 +870,9 @@ paths:
         "201":
           description: Created
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            items:
+              $ref: '#/definitions/questions.MCQ'
+            type: array
       summary: Bulk Create MCQs
       tags:
       - MCQs
@@ -974,9 +1030,9 @@ paths:
         "201":
           description: Created
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            items:
+              $ref: '#/definitions/questions.MSQ'
+            type: array
       summary: Bulk Create MSQs
       tags:
       - MSQs
@@ -1134,9 +1190,9 @@ paths:
         "201":
           description: Created
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            items:
+              $ref: '#/definitions/questions.NAT'
+            type: array
       summary: Bulk Create NATs
       tags:
       - NATs
@@ -1282,13 +1338,17 @@ paths:
         in: query
         name: topic
         type: string
-      - description: Filter by chapter
+      - description: Filter by name
         in: query
-        name: chapter
+        name: name
         type: string
       - description: Filter by teacher ID
         in: query
         name: teacherId
+        type: string
+      - description: Tags (comma-separated)
+        in: query
+        name: tags
         type: string
       - description: Limit
         in: query
@@ -1298,6 +1358,8 @@ paths:
         in: query
         name: offset
         type: string
+      produces:
+      - application/json
       responses:
         "200":
           description: OK
@@ -1305,7 +1367,7 @@ paths:
             items:
               $ref: '#/definitions/model.QuestionBank'
             type: array
-      summary: Get all QuestionBanks
+      summary: Get All QuestionBanks
       tags:
       - QuestionBanks
     post:
@@ -1719,9 +1781,9 @@ paths:
         "201":
           description: Created
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            items:
+              $ref: '#/definitions/questions.Subjective'
+            type: array
       summary: Bulk Create Subjectives
       tags:
       - Subjectives

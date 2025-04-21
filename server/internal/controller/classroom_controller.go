@@ -74,6 +74,7 @@ func GetAllClassrooms(c *gin.Context) {
 		"offset":    c.DefaultQuery("offset", "0"),
 		"subject":   c.Query("subject"),
 		"teacherId": c.Query("teacherId"),
+		"tags":      c.Query("tags"), // Added tags filter
 	}
 	classrooms, err := service.GetAllClassrooms(filters)
 	if err != nil {

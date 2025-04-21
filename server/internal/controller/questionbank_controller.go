@@ -61,11 +61,13 @@ func DeleteQuestionBank(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"message": "Deleted"})
 }
 
-// @Summary Get all QuestionBanks
+// @Summary Get All QuestionBanks
 // @Tags QuestionBanks
+// @Produce json
 // @Param topic query string false "Filter by topic"
-// @Param chapter query string false "Filter by chapter"
+// @Param name query string false "Filter by name"
 // @Param teacherId query string false "Filter by teacher ID"
+// @Param tags query string false "Tags (comma-separated)"
 // @Param limit query string false "Limit"
 // @Param offset query string false "Offset"
 // @Success 200 {array} model.QuestionBank
@@ -75,6 +77,7 @@ func GetAllQuestionBanks(c *gin.Context) {
 		"topic":     c.Query("topic"),
 		"name":      c.Query("name"),
 		"teacherId": c.Query("teacherId"),
+		"tags":      c.Query("tags"), // Added tags filter
 		"limit":     c.DefaultQuery("limit", "10"),
 		"offset":    c.DefaultQuery("offset", "0"),
 	}

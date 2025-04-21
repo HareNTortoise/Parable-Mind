@@ -5,6 +5,7 @@ import (
 	"server/internal/firebase"
 	"server/internal/model"
 	"strconv"
+	"strings"
 
 	"cloud.google.com/go/firestore"
 )
@@ -41,6 +42,12 @@ func GetAllQuestionBanks(filters map[string]string) ([]model.QuestionBank, error
 	}
 	if teacherId, ok := filters["teacherId"]; ok && teacherId != "" {
 		q = q.Where("teacherId", "==", teacherId)
+	}
+	if tags, ok := filters["tags"]; ok && tags != "" {
+		tagList := strings.Split(tags, ",")
+		for _, tag := range tagList {
+			q = q.Where("tags", "array-contains", tag)
+		}
 	}
 
 	limit := 10

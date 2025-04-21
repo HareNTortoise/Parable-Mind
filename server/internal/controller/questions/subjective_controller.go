@@ -22,10 +22,14 @@ func CreateSubjective(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	s.ID = uuid.New().String()
+
 	if err := questionsService.CreateSubjective(s); err != nil {
-		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create Subjective"})
 		return
 	}
+
 	c.JSON(http.StatusCreated, s)
 }
 
@@ -129,7 +133,7 @@ func PatchSubjective(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param data body []questions.Subjective true "List of Subjective Questions"
-// @Success 201 {object} map[string]string
+// @Success 201 {array} questions.Subjective
 // @Router /subjectives/bulk [post]
 func CreateBulkSubjectives(c *gin.Context) {
 	var subjectives []questionsModel.Subjective
@@ -147,5 +151,5 @@ func CreateBulkSubjectives(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "Subjectives created successfully"})
+	c.JSON(http.StatusCreated, subjectives)
 }

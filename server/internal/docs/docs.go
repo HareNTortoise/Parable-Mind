@@ -592,6 +592,60 @@ const docTemplate = `{
                 }
             }
         },
+        "/generate-pdf": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Export"
+                ],
+                "summary": "Generate a PDF of mixed question types and return file path",
+                "parameters": [
+                    {
+                        "description": "Question IDs and flags",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/controller.GeneratePDFRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/mcqs": {
             "get": {
                 "tags": [
@@ -692,9 +746,9 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/questions.MCQ"
                             }
                         }
                     }
@@ -938,9 +992,9 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/questions.MSQ"
                             }
                         }
                     }
@@ -1184,9 +1238,9 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/questions.NAT"
                             }
                         }
                     }
@@ -1536,10 +1590,13 @@ const docTemplate = `{
         },
         "/question-banks": {
             "get": {
+                "produces": [
+                    "application/json"
+                ],
                 "tags": [
                     "QuestionBanks"
                 ],
-                "summary": "Get all QuestionBanks",
+                "summary": "Get All QuestionBanks",
                 "parameters": [
                     {
                         "type": "string",
@@ -1549,14 +1606,20 @@ const docTemplate = `{
                     },
                     {
                         "type": "string",
-                        "description": "Filter by chapter",
-                        "name": "chapter",
+                        "description": "Filter by name",
+                        "name": "name",
                         "in": "query"
                     },
                     {
                         "type": "string",
                         "description": "Filter by teacher ID",
                         "name": "teacherId",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "Tags (comma-separated)",
+                        "name": "tags",
                         "in": "query"
                     },
                     {
@@ -2081,9 +2144,9 @@ const docTemplate = `{
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/questions.Subjective"
                             }
                         }
                     }
@@ -2837,6 +2900,23 @@ const docTemplate = `{
         }
     },
     "definitions": {
+        "controller.GeneratePDFRequest": {
+            "type": "object",
+            "properties": {
+                "questionIds": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "showAnswers": {
+                    "type": "boolean"
+                },
+                "showType": {
+                    "type": "boolean"
+                }
+            }
+        },
         "model.Assignment": {
             "type": "object",
             "properties": {
@@ -2907,6 +2987,13 @@ const docTemplate = `{
                 },
                 "subject": {
                     "type": "string"
+                },
+                "tags": {
+                    "description": "Added tags field",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "teacherIds": {
                     "type": "array",
@@ -3012,6 +3099,13 @@ const docTemplate = `{
                 },
                 "name": {
                     "type": "string"
+                },
+                "tags": {
+                    "description": "Added tags field",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 },
                 "teacherId": {
                     "type": "string"

@@ -5,6 +5,7 @@ import (
 	"server/internal/firebase"
 	"server/internal/model"
 	"strconv"
+	"strings"
 
 	"cloud.google.com/go/firestore"
 )
@@ -40,6 +41,14 @@ func GetAllClassrooms(filters map[string]string) ([]model.Classroom, error) {
 	}
 	if o, err := strconv.Atoi(filters["offset"]); err == nil {
 		offset = o
+	}
+
+	// Apply tags filter if provided
+	if tags, ok := filters["tags"]; ok && tags != "" {
+		tagList := strings.Split(tags, ",")
+		for _, tag := range tagList {
+			q = q.Where("tags", "array-contains", tag)
+		}
 	}
 
 	iter := q.Offset(offset).Limit(limit).Documents(ctx)

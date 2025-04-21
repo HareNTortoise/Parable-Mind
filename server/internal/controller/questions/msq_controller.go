@@ -133,7 +133,7 @@ func PatchMSQ(c *gin.Context) {
 // @Accept json
 // @Produce json
 // @Param msqs body []questions.MSQ true "List of MSQs"
-// @Success 201 {object} map[string]string
+// @Success 201 {array} questions.MSQ
 // @Router /msqs/bulk [post]
 func CreateBulkMSQs(c *gin.Context) {
 	var msqs []questions.MSQ
@@ -151,5 +151,5 @@ func CreateBulkMSQs(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusCreated, gin.H{"message": "MSQs created successfully"})
+	c.JSON(http.StatusCreated, msqs)
 }
