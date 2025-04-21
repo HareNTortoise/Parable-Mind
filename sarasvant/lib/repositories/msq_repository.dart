@@ -60,4 +60,17 @@ class MSQRepository {
       return true;
     }
   }
+
+  Future<bool> createBulkMSQs(List<MSQ> msqs) async {
+    try {
+      final response = await _client.post(
+        '/msq/bulk',
+        data: msqs.map((msq) => msq.toJson()).toList(),
+      );
+      return response.statusCode == 201;
+    } catch (e) {
+      _logger.e('Error creating bulk MSQs: $e');
+      return false;
+    }
+  }
 }
