@@ -7,6 +7,7 @@ final List<Classroom> dummyClassrooms = [
     teacherIds: ['101'],
     assignmentIds: ['201'],
     credits: 4,
+    tags: ['mechanics', 'thermodynamics'],
   ),
   Classroom(
     id: '102',
@@ -14,6 +15,7 @@ final List<Classroom> dummyClassrooms = [
     teacherIds: ['102'],
     assignmentIds: ['202'],
     credits: 3,
+    tags: ['organic', 'inorganic'],
   ),
   Classroom(
     id: '103',
@@ -21,6 +23,7 @@ final List<Classroom> dummyClassrooms = [
     teacherIds: ['103'],
     assignmentIds: ['203'],
     credits: 2,
+    tags: ['algebra', 'geometry'],
   ),
   Classroom(
     id: '104',
@@ -28,6 +31,7 @@ final List<Classroom> dummyClassrooms = [
     teacherIds: ['104'],
     assignmentIds: ['204'],
     credits: 3,
+    tags: ['cell biology', 'genetics'],
   ),
   Classroom(
     id: '105',
@@ -35,6 +39,7 @@ final List<Classroom> dummyClassrooms = [
     teacherIds: ['105'],
     assignmentIds: ['205'],
     credits: 5,
+    tags: ['ancient', 'modern'],
   ),
   Classroom(
     id: '106',
@@ -42,5 +47,6 @@ final List<Classroom> dummyClassrooms = [
     teacherIds: ['106'],
     assignmentIds: ['206', '207'],
     credits: 5,
+    tags: ['quantum', 'relativity'],
   ),
 ];
