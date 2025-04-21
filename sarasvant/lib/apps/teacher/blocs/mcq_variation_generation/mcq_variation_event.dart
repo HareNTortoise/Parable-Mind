@@ -15,3 +15,10 @@ class GenerateMCQVariations extends MCQVariationEvent {
   @override
   List<Object> get props => [mcq];
 }
+
+class MCQVariationReset extends MCQVariationEvent {
+  const MCQVariationReset();
+
+  @override
+  List<Object> get props => [];
+}
