@@ -5,6 +5,8 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:sarasvant/apps/teacher/blocs/mcq_variation_generation/mcq_variation_bloc.dart';
 import 'package:sarasvant/repositories/ai/context_generator.dart';
 import 'package:sarasvant/repositories/ai/variation_generator.dart';
+import 'package:sarasvant/repositories/mcq_respository.dart';
+import 'package:sarasvant/repositories/msq_repository.dart';
 import 'package:sarasvant/router/router.dart';
 import 'apps/auth/blocs/auth_bloc.dart';
 import 'apps/auth/cubit/phone_form/phone_number_form_cubit.dart';
@@ -36,6 +38,9 @@ class Sarasvant extends StatelessWidget {
         RepositoryProvider(create: (context) => PhoneAuth()),
         RepositoryProvider(create: (context) => AIRepository()),
         RepositoryProvider(create: (context) => VariationRepository()),
+        RepositoryProvider(create: (context) => MCQRepository()),
+        RepositoryProvider(create: (context) => MSQRepository()),
+        // RepositoryProvider(create: (context) => TeacherRepository()),
       ],
       child: MultiBlocProvider(
         providers: [
@@ -54,6 +59,21 @@ class Sarasvant extends StatelessWidget {
           BlocProvider(
             create: (context) => MCQVariationBloc(
               RepositoryProvider.of<VariationRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => MSQVariationBloc(
+              RepositoryProvider.of<VariationRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => MCQBloc(
+              RepositoryProvider.of<MCQRepository>(context),
+            ),
+          ),
+          BlocProvider(
+            create: (context) => MSQBloc(
+              RepositoryProvider.of<MSQRepository>(context),
             ),
           ),
         ],

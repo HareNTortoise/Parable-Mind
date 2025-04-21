@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:logger/logger.dart';
-import 'package:sarasvant/constants/dummy_data/questions/msq.dart';
 import '../constants/app_constants.dart';
 import '../models/questions/msq.dart';
 
@@ -13,64 +12,71 @@ class MSQRepository {
 
   final Logger _logger = Logger();
 
-  Future<Map<String, dynamic>> createMSQ(MSQ msq) async {
+  Future<Response> createMSQ(MSQ msq) async {
     try {
-      final response = await _client.post('/msq', data: msq.toJson());
-      return response.data;
-    } catch (e) {
-      _logger.e('Error creating MSQ: $e');
-      dummyMSQs.add(msq);
-      return msq.toJson();
+      return await _client.post('/msq', data: msq.toJson());
+    } on DioException catch (dioError, stackTrace) {
+      _logger.e(
+        'Error creating MSQ: Status code ${dioError.response?.statusCode}',
+        error: dioError,
+        stackTrace: stackTrace,
+      );
+      return dioError.response!;
     }
   }
 
-  Future<List<MSQ>> getMSQs(String bankId) async {
+  Future<Response> getMSQs(String bankId) async {
     try {
-      final response = await _client.get('/msq/bank/$bankId');
-      return (response.data as List)
-          .map((item) => MSQ.fromJson(item as Map<String, dynamic>))
-          .toList();
-    } catch (e) {
-      _logger.e('Error fetching MSQs: $e');
-      return dummyMSQs.where((msq) => msq.bankId == bankId).toList();
+      return await _client.get('/msq/bank/$bankId');
+    } on DioException catch (dioError, stackTrace) {
+      _logger.e(
+        'Error fetching MSQs: Status code ${dioError.response?.statusCode}',
+        error: dioError,
+        stackTrace: stackTrace,
+      );
+      return dioError.response!;
     }
   }
 
-  Future<Map<String, dynamic>> updateMSQ(String id, MSQ msq) async {
+  Future<Response> updateMSQ(String id, MSQ msq) async {
     try {
-      final response = await _client.put('/msq/$id', data: msq.toJson());
-      return response.data;
-    } catch (e) {
-      _logger.e('Error updating MSQ: $e');
-      final index = dummyMSQs.indexWhere((item) => item.id == id);
-      if (index != -1) {
-        dummyMSQs[index] = msq;
-      }
-      return msq.toJson();
+      return await _client.put('/msq/$id', data: msq.toJson());
+    } on DioException catch (dioError, stackTrace) {
+      _logger.e(
+        'Error updating MSQ: Status code ${dioError.response?.statusCode}',
+        error: dioError,
+        stackTrace: stackTrace,
+      );
+      return dioError.response!;
     }
   }
 
-  Future<bool> deleteMSQ(String id) async {
+  Future<Response> deleteMSQ(String id) async {
     try {
-      await _client.delete('/msq/$id');
-      return true;
-    } catch (e) {
-      _logger.e('Error deleting MSQ: $e');
-      dummyMSQs.removeWhere((msq) => msq.id == id);
-      return true;
+      return await _client.delete('/msq/$id');
+    } on DioException catch (dioError, stackTrace) {
+      _logger.e(
+        'Error deleting MSQ: Status code ${dioError.response?.statusCode}',
+        error: dioError,
+        stackTrace: stackTrace,
+      );
+      return dioError.response!;
     }
   }
 
-  Future<bool> createBulkMSQs(List<MSQ> msqs) async {
+  Future<Response> createBulkMSQs(List<MSQ> msqs) async {
     try {
-      final response = await _client.post(
+      return await _client.post(
         '/msq/bulk',
         data: msqs.map((msq) => msq.toJson()).toList(),
       );
-      return response.statusCode == 201;
-    } catch (e) {
-      _logger.e('Error creating bulk MSQs: $e');
-      return false;
+    } on DioException catch (dioError, stackTrace) {
+      _logger.e(
+        'Error creating bulk MSQs: Status code ${dioError.response?.statusCode}',
+        error: dioError,
+        stackTrace: stackTrace,
+      );
+      return dioError.response!;
     }
   }
 }

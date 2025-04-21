@@ -9,7 +9,6 @@ part 'msq_event.dart';
 part 'msq_state.dart';
 
 
-
 class MSQBloc extends Bloc<MSQEvent, MSQState> {
   final MSQRepository repository;
 
@@ -17,8 +16,17 @@ class MSQBloc extends Bloc<MSQEvent, MSQState> {
     on<FetchMSQs>((event, emit) async {
       emit(MSQLoading());
       try {
-        final mSQs = await repository.getMSQs(event.bankId);
-        emit(MSQLoaded(mSQs));
+        final response = await repository.getMSQs(event.bankId);
+
+        if (response.statusCode! >= 400) {
+          throw StateError(response.data['error'] ?? 'Failed to fetch MSQs.');
+        }
+
+        final msqs = (response.data as List)
+            .map((item) => MSQ.fromJson(item as Map<String, dynamic>))
+            .toList();
+
+        emit(MSQLoaded(msqs));
       } catch (e) {
         emit(MSQError(e.toString()));
       }
@@ -26,8 +34,13 @@ class MSQBloc extends Bloc<MSQEvent, MSQState> {
 
     on<CreateMSQ>((event, emit) async {
       try {
-        await repository.createMSQ(event.msq);
-        add(FetchMSQs(event.msq.bankId));
+        final response = await repository.createMSQ(event.msq);
+
+        if (response.statusCode! >= 400) {
+          throw StateError(response.data['error'] ?? 'Failed to create MSQ.');
+        }
+
+        add(FetchMSQs(event.msq.bankId)); // Reload MSQs
       } catch (e) {
         emit(MSQError(e.toString()));
       }
@@ -35,7 +48,12 @@ class MSQBloc extends Bloc<MSQEvent, MSQState> {
 
     on<UpdateMSQ>((event, emit) async {
       try {
-        await repository.updateMSQ(event.id, event.msq);
+        final response = await repository.updateMSQ(event.id, event.msq);
+
+        if (response.statusCode! >= 400) {
+          throw StateError(response.data['error'] ?? 'Failed to update MSQ.');
+        }
+
         add(FetchMSQs(event.msq.bankId));
       } catch (e) {
         emit(MSQError(e.toString()));
@@ -44,7 +62,12 @@ class MSQBloc extends Bloc<MSQEvent, MSQState> {
 
     on<DeleteMSQ>((event, emit) async {
       try {
-        await repository.deleteMSQ(event.id);
+        final response = await repository.deleteMSQ(event.id);
+
+        if (response.statusCode! >= 400) {
+          throw StateError(response.data['error'] ?? 'Failed to delete MSQ.');
+        }
+
         add(FetchMSQs(event.id));
       } catch (e) {
         emit(MSQError(e.toString()));
@@ -54,12 +77,17 @@ class MSQBloc extends Bloc<MSQEvent, MSQState> {
     on<SaveBulkMSQs>((event, emit) async {
       emit(MSQLoading());
       try {
-        final success = await repository.createBulkMSQs(event.msqs);
-        if (success) {
-          emit(MSQLoaded(await repository.getMSQs(event.msqs.first.bankId)));
-        } else {
-          emit(MSQError("Failed to save bulk MSQs"));
+        final response = await repository.createBulkMSQs(event.msqs);
+
+        if (response.statusCode! >= 400) {
+          throw StateError(response.data['error'] ?? 'Failed to save bulk MSQs.');
         }
+
+        final msqs = (response.data['msqs'] as List)
+            .map((item) => MSQ.fromJson(item as Map<String, dynamic>))
+            .toList();
+
+        emit(MSQLoaded(msqs));
       } catch (e) {
         emit(MSQError(e.toString()));
       }
