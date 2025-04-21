@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../models/questions/nat.dart';
-import '../../../../repositories/nat.dart';
+import '../../../../repositories/nat_repository.dart';
 
 part 'nat_event.dart';
 part 'nat_state.dart';

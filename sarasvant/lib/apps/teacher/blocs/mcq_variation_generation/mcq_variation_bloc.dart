@@ -7,6 +7,7 @@ import 'package:uuid/uuid.dart';
 import '../../../../models/questions/mcq.dart';
 
 part 'mcq_variation_event.dart';
+
 part 'mcq_variation_state.dart';
 
 class MCQVariationBloc extends Bloc<MCQVariationEvent, MCQVariationState> {
@@ -14,6 +15,7 @@ class MCQVariationBloc extends Bloc<MCQVariationEvent, MCQVariationState> {
 
   MCQVariationBloc(this.mcqVariationRepository) : super(MCQVariationInitial()) {
     on<GenerateMCQVariations>(_onGenerateMCQVariations);
+    on<MCQVariationReset>(_onMCQVariationReset);
   }
 
   Future<void> _onGenerateMCQVariations(
@@ -47,5 +49,12 @@ class MCQVariationBloc extends Bloc<MCQVariationEvent, MCQVariationState> {
       Logger().e('Error generating MCQ variations: $e');
       emit(MCQVariationFailure("Unexpected error: $e"));
     }
+  }
+
+  Future<void> _onMCQVariationReset(
+    MCQVariationReset event,
+    Emitter<MCQVariationState> emit,
+  ) async {
+    emit(MCQVariationInitial());
   }
 }

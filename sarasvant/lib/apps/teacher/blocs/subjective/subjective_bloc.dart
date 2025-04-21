@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../models/questions/subjective.dart';
-import '../../../../repositories/subjective.dart';
+import '../../../../repositories/subjective_repository.dart';
 
 part 'subjective_event.dart';
 part 'subjective_state.dart';

@@ -2,24 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../../../../../models/questions/mcq.dart';
-import '../../../../blocs/mcq/mcq_bloc.dart';
-import '../../../../blocs/mcq_variation_generation/mcq_variation_bloc.dart';
+import '../../../../../../models/questions/msq.dart';
+import '../../../../blocs/msq/msq_bloc.dart';
+import '../../../../blocs/msq_variation_generation/msq_variation_bloc.dart';
 
+class MSQVariationDialog extends StatefulWidget {
+  final MSQ msq;
 
-class MCQVariationDialog extends StatefulWidget {
-  final MCQ mcq;
-
-  const MCQVariationDialog({super.key, required this.mcq});
+  const MSQVariationDialog({super.key, required this.msq});
 
   @override
-  MCQVariationDialogState createState() => MCQVariationDialogState();
+  MSQVariationDialogState createState() => MSQVariationDialogState();
 }
 
-class MCQVariationDialogState extends State<MCQVariationDialog> {
-  final List<MCQ> _selectedVariations = [];
+class MSQVariationDialogState extends State<MSQVariationDialog> {
+  final List<MSQ> _selectedVariations = [];
 
-  void _toggleSelection(MCQ variation) {
+  void _toggleSelection(MSQ variation) {
     setState(() {
       if (_selectedVariations.contains(variation)) {
         _selectedVariations.remove(variation);
@@ -31,14 +30,14 @@ class MCQVariationDialogState extends State<MCQVariationDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<MCQBloc, MCQState>(
+    return BlocListener<MSQBloc, MSQState>(
       listener: (context, state) {
-        if (state is MCQLoaded) {
+        if (state is MSQLoaded) {
           context.pop();
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('MCQ variants saved successfully')),
+            SnackBar(content: Text('MSQ variants saved successfully')),
           );
-        } else if (state is MCQError) {
+        } else if (state is MSQError) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Error: ${state.message}')),
           );
@@ -54,20 +53,20 @@ class MCQVariationDialogState extends State<MCQVariationDialog> {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Generate MCQ Variations',
+                  'Generate MSQ Variations',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 20),
-                BlocConsumer<MCQVariationBloc, MCQVariationState>(
+                BlocConsumer<MSQVariationBloc, MSQVariationState>(
                   listener: (context, state) {
-                    if (state is MCQVariationFailure) {
+                    if (state is MSQVariationFailure) {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(content: Text('Error: ${state.error}')),
                       );
                     }
                   },
                   builder: (context, state) {
-                    if (state is MCQVariationSuccess) {
+                    if (state is MSQVariationSuccess) {
                       List<CheckboxListTile> checkboxes = [];
 
                       for (var variation in state.variations) {
@@ -84,7 +83,9 @@ class MCQVariationDialogState extends State<MCQVariationDialog> {
                                 ...variation.options.asMap().entries.map((entry) => Text(
                                       "${String.fromCharCode(97 + entry.key)}) ${entry.value}",
                                     )),
-                                Text("Answer: ${variation.options[variation.answerIndex]}"),
+                                Text(
+                                  "Answers: ${variation.answerIndices.map((index) => variation.options[index]).join(', ')}",
+                                ),
                               ],
                             ),
                             value: _selectedVariations.contains(variation),
@@ -94,36 +95,27 @@ class MCQVariationDialogState extends State<MCQVariationDialog> {
                       }
 
                       return Column(
-                        spacing: 30,
                         children: [
                           ...checkboxes,
-                          BlocBuilder<MCQBloc, MCQState>(
-                            builder: (context, state) {
-                              if (state is MCQLoading) {
-                                return Center(child: CircularProgressIndicator());
-                              } else {
-                                return ElevatedButton(
-                                  onPressed: _selectedVariations.isNotEmpty
-                                      ? () => context.read<MCQBloc>().add(SaveBulkMCQs(_selectedVariations))
-                                      : null,
-                                  child: Text('Save Selected Questions'),
-                                );
-                              }
-                            },
+                          ElevatedButton(
+                            onPressed: _selectedVariations.isNotEmpty
+                                ? () => context.read<MSQBloc>().add(SaveBulkMSQs(_selectedVariations))
+                                : null,
+                            child: Text('Add Selected Questions'),
                           ),
                         ],
                       );
-                    } else if (state is MCQVariationInitial) {
+                    } else if (state is MSQVariationInitial) {
                       return Column(
                         children: [
                           Text(
-                            'Click the button below to generate MCQ variations.',
+                            'Click the button below to generate MSQ variations.',
                             style: TextStyle(fontSize: 16),
                           ),
                           const SizedBox(height: 20),
                           ElevatedButton(
                             onPressed: () {
-                              context.read<MCQVariationBloc>().add(GenerateMCQVariations(widget.mcq));
+                              context.read<MSQVariationBloc>().add(GenerateMSQVariations(widget.msq));
                             },
                             child: Text('Generate Variations'),
                           ),

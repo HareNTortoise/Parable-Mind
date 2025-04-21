@@ -44,3 +44,12 @@ class DeleteMCQ extends MCQEvent {
   @override
   List<Object?> get props => [id];
 }
+
+class SaveBulkMCQs extends MCQEvent {
+  final List<MCQ> mcqs;
+
+  const SaveBulkMCQs(this.mcqs);
+
+  @override
+  List<Object?> get props => [mcqs];
+}

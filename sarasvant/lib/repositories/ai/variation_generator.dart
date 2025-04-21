@@ -33,4 +33,24 @@ class VariationRepository {
       return dioError.response!;
     }
   }
+
+  Future<Response> generateMSQVariations(MSQ msq) async {
+    try {
+      return await _client.post(
+        '/generate-msq-variations',
+        data: {
+          'question': msq.question,
+          'options': msq.options,
+          'answerIndices': msq.answerIndices,
+        },
+      );
+    } on DioException catch (dioError, stackTrace) {
+      _logger.e(
+        'Error generating MSQ variations: Status code ${dioError.response?.statusCode}',
+        error: dioError,
+        stackTrace: stackTrace,
+      );
+      return dioError.response!;
+    }
+  }
 }

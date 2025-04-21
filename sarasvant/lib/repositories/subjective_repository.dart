@@ -60,4 +60,17 @@ class SubjectiveRepository {
       return true;
     }
   }
+
+  Future<bool> createBulkSubjectives(List<Subjective> subjectives) async {
+    try {
+      final response = await _client.post(
+        '/subjective/bulk',
+        data: subjectives.map((subjective) => subjective.toJson()).toList(),
+      );
+      return response.statusCode == 201;
+    } catch (e) {
+      _logger.e('Error creating bulk Subjectives: $e');
+      return false;
+    }
+  }
 }

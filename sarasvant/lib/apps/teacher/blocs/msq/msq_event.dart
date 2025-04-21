@@ -44,3 +44,12 @@ class DeleteMSQ extends MSQEvent {
   @override
   List<Object?> get props => [id];
 }
+
+class SaveBulkMSQs extends MSQEvent {
+  final List<MSQ> msqs;
+
+  const SaveBulkMSQs(this.msqs);
+
+  @override
+  List<Object?> get props => [msqs];
+}
