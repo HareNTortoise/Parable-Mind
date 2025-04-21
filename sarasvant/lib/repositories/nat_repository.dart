@@ -60,4 +60,17 @@ class NATRepository {
       return true;
     }
   }
+
+  Future<bool> createBulkNATs(List<NAT> nats) async {
+    try {
+      final response = await _client.post(
+        '/nat/bulk',
+        data: nats.map((nat) => nat.toJson()).toList(),
+      );
+      return response.statusCode == 201;
+    } catch (e) {
+      _logger.e('Error creating bulk NATs: $e');
+      return false;
+    }
+  }
 }

@@ -1,9 +1,9 @@
-import 'package:bloc/bloc.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:meta/meta.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../models/questions/msq.dart';
-import '../../../../repositories/msq.dart';
+import '../../../../repositories/msq_repository.dart';
 
 part 'msq_event.dart';
 part 'msq_state.dart';
@@ -46,6 +46,20 @@ class MSQBloc extends Bloc<MSQEvent, MSQState> {
       try {
         await repository.deleteMSQ(event.id);
         add(FetchMSQs(event.id));
+      } catch (e) {
+        emit(MSQError(e.toString()));
+      }
+    });
+
+    on<SaveBulkMSQs>((event, emit) async {
+      emit(MSQLoading());
+      try {
+        final success = await repository.createBulkMSQs(event.msqs);
+        if (success) {
+          emit(MSQLoaded(await repository.getMSQs(event.msqs.first.bankId)));
+        } else {
+          emit(MSQError("Failed to save bulk MSQs"));
+        }
       } catch (e) {
         emit(MSQError(e.toString()));
       }
