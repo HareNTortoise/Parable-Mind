@@ -93,7 +93,7 @@ class TeacherDashboardDesktop extends StatelessWidget {
                 child: Column(
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      spacing: 20,
                       children: [
                         Align(
                           alignment: Alignment.topLeft,
@@ -105,6 +105,18 @@ class TeacherDashboardDesktop extends StatelessWidget {
                               fontSize: 80,
                             ),
                           ),
+                        ),
+                        Spacer(),
+                        BlocBuilder<AuthBloc, AuthState>(
+                          builder: (context, state) {
+                            if (state is AuthSuccess && state.photoUrl != null) {
+                              return CircleAvatar(
+                                radius: 30,
+                                child: ClipOval(child: Image.network(state.photoUrl ?? '')),
+                              );
+                            }
+                            return SizedBox.shrink();
+                          },
                         ),
                         SizedBox(
                           width: 200,
