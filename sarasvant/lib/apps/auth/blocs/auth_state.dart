@@ -15,6 +15,7 @@ class AuthSuccess extends AuthState {
   final String email;
   final String? photoUrl;
   final String message;
+  final Teacher teacher;
 
   AuthSuccess({
     required this.id,
@@ -22,6 +23,7 @@ class AuthSuccess extends AuthState {
     required this.email,
     this.photoUrl,
     required this.message,
+    required this.teacher,
   });
 }
 
