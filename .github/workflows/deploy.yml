@@ -21,49 +21,39 @@ jobs:
           echo "${{ secrets.GCE_SSH_PRIVATE_KEY }}" > gce-deploy-key
           chmod 600 gce-deploy-key
 
-      # Add the GCE host to known hosts
+      # Add the GCE host to known hosts to prevent SSH authenticity issues
       - name: 🔁 Add SSH Host to Known Hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.GCE_HOST }} >> ~/.ssh/known_hosts
 
-      # Deploy the application to GCE
+      # Deploy the application to GCE using Docker Compose
       - name: 🚀 Deploy via SSH to GCE
         run: |
-          ssh -i gce-deploy-key ${{ secrets.GCE_USER }}@${{ secrets.GCE_HOST }} "
+          ssh -i gce-deploy-key ${{ secrets.GCE_USER }}@${{ secrets.GCE_HOST }} << 'EOF'
             set -e
-            echo 'Pulling latest code from the main branch...'
+            echo "Pulling latest code from the main branch..."
             cd Parable-Mind
             git pull origin main
-            echo 'Shutting down existing containers...'
+            echo "Shutting down existing containers..."
             docker-compose down
-            echo 'Starting new containers...'
+            echo "Starting new containers..."
             docker-compose up -d --build
-            echo 'Deployment to GCE complete!'
-          "
+            echo "Deployment to GCE complete!"
+          EOF
 
-      - name: Success Notification
+      # Notify Success to Discord
+      - name: ✅ Notify Success to Discord
         if: success()
-        uses: appleboy/discord-webhook@v1.1.0
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          username: GitHub Actions
-          avatar: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-          message: |
-            ✅ **Deployment Successful**  
-            **Repo:** ${{ github.repository }}  
-            **Commit:** [${GITHUB_SHA:0:7}}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})  
-            **Workflow:** [View Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "🚀 Deployment to Google Compute Engine was successful!"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
 
-      - name: Failure Notification
+      # Notify Failure to Discord
+      - name: ❌ Notify Failure to Discord
         if: failure()
-        uses: appleboy/discord-webhook@v1.1.0
-        with:
-          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          username: GitHub Actions
-          avatar: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
-          message: |
-            ❌ **Deployment Failed**  
-            **Repo:** ${{ github.repository }}  
-            **Commit:** [${GITHUB_SHA:0:7}}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})  
-            **Workflow:** [View Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "❌ Deployment to Google Compute Engine failed. Check the logs for more details."}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
