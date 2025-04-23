@@ -42,26 +42,28 @@ jobs:
             echo 'Deployment to GCE complete!'
           "
 
-      # Success notification
-      - name: ✅ Notify Success to Discord
+      - name: Success Notification
         if: success()
-        uses: Ilshidur/action-discord@master
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        uses: appleboy/discord-webhook@v1.1.0
         with:
-          args: '🚀 Deployment to Google Compute Engine was successful!  
-                 **Repository:** ${{ github.repository }}  
-                 **Commit:** ${{ github.sha }}  
-                 **Workflow:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: GitHub Actions
+          avatar: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+          message: |
+            ✅ **Deployment Successful**  
+            **Repo:** ${{ github.repository }}  
+            **Commit:** [${GITHUB_SHA:0:7}}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})  
+            **Workflow:** [View Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
 
-      # Failure notification
-      - name: ❌ Notify Failure to Discord
+      - name: Failure Notification
         if: failure()
-        uses: Ilshidur/action-discord@master
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        uses: appleboy/discord-webhook@v1.1.0
         with:
-          args: '❌ Deployment to Google Compute Engine failed!  
-                 **Repository:** ${{ github.repository }}  
-                 **Commit:** ${{ github.sha }}  
-                 **Workflow:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          username: GitHub Actions
+          avatar: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+          message: |
+            ❌ **Deployment Failed**  
+            **Repo:** ${{ github.repository }}  
+            **Commit:** [${GITHUB_SHA:0:7}}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})  
+            **Workflow:** [View Logs](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})
