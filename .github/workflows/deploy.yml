@@ -21,39 +21,47 @@ jobs:
           echo "${{ secrets.GCE_SSH_PRIVATE_KEY }}" > gce-deploy-key
           chmod 600 gce-deploy-key
 
-      # Add the GCE host to known hosts to prevent SSH authenticity issues
+      # Add the GCE host to known hosts
       - name: 🔁 Add SSH Host to Known Hosts
         run: |
           mkdir -p ~/.ssh
           ssh-keyscan -H ${{ secrets.GCE_HOST }} >> ~/.ssh/known_hosts
 
-      # Deploy the application to GCE using Docker Compose
+      # Deploy the application to GCE
       - name: 🚀 Deploy via SSH to GCE
         run: |
-          ssh -i gce-deploy-key ${{ secrets.GCE_USER }}@${{ secrets.GCE_HOST }} << 'EOF'
+          ssh -i gce-deploy-key ${{ secrets.GCE_USER }}@${{ secrets.GCE_HOST }} "
             set -e
-            echo "Pulling latest code from the main branch..."
+            echo 'Pulling latest code from the main branch...'
             cd Parable-Mind
             git pull origin main
-            echo "Shutting down existing containers..."
+            echo 'Shutting down existing containers...'
             docker-compose down
-            echo "Starting new containers..."
+            echo 'Starting new containers...'
             docker-compose up -d --build
-            echo "Deployment to GCE complete!"
-          EOF
+            echo 'Deployment to GCE complete!'
+          "
 
-      # Notify Success to Discord
+      # Success notification
       - name: ✅ Notify Success to Discord
         if: success()
-        run: |
-          curl -X POST -H "Content-Type: application/json" \
-          -d '{"content": "🚀 Deployment to Google Compute Engine was successful!"}' \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        with:
+          args: '🚀 Deployment to Google Compute Engine was successful!  
+                 **Repository:** ${{ github.repository }}  
+                 **Commit:** ${{ github.sha }}  
+                 **Workflow:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
 
-      # Notify Failure to Discord
+      # Failure notification
       - name: ❌ Notify Failure to Discord
         if: failure()
-        run: |
-          curl -X POST -H "Content-Type: application/json" \
-          -d '{"content": "❌ Deployment to Google Compute Engine failed. Check the logs for more details."}' \
-          ${{ secrets.DISCORD_WEBHOOK_URL }}
+        uses: Ilshidur/action-discord@master
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        with:
+          args: '❌ Deployment to Google Compute Engine failed!  
+                 **Repository:** ${{ github.repository }}  
+                 **Commit:** ${{ github.sha }}  
+                 **Workflow:** https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
