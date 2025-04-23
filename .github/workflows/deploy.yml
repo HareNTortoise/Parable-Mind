@@ -18,8 +18,9 @@ jobs:
       # Setup SSH key for connecting to GCE
       - name: 🔐 Setup SSH Key
         run: |
-          echo "${{ secrets.GCE_SSH_PRIVATE_KEY }}" > gce-deploy-key
-          chmod 600 gce-deploy-key
+          KEY_FILE="gce-deploy-key-$(date +%Y%m%d%H%M%S)"
+          echo "${{ secrets.GCE_SSH_PRIVATE_KEY }}" > $KEY_FILE
+          chmod 600 $KEY_FILE
 
       # Add the GCE host to known hosts to prevent SSH authenticity issues
       - name: 🔁 Add SSH Host to Known Hosts
@@ -30,13 +31,14 @@ jobs:
       # Deploy the application to GCE using Docker Compose
       - name: 🚀 Deploy via SSH to GCE
         run: |
-          ssh -i gce-deploy-key ${{ secrets.GCE_USER }}@${{ secrets.GCE_HOST }} << 'EOF'
+          ssh -i $KEY_FILE ${{ secrets.GCE_USER }}@${{ secrets.GCE_HOST }} << 'EOF'
             set -e
             echo "Pulling latest code from the main branch..."
             cd Parable-Mind
-            git pull origin main
+            git pull origin main || { echo "Failed to pull latest code"; exit 1; }
             echo "Shutting down existing containers..."
-            docker-compose down
+            docker-compose down --volumes --remove-orphans
+            sleep 10
             echo "Starting new containers..."
             docker-compose up -d --build
             echo "Deployment to GCE complete!"
@@ -47,7 +49,7 @@ jobs:
         if: success()
         run: |
           curl -X POST -H "Content-Type: application/json" \
-          -d '{"content": "🚀 Deployment to Google Compute Engine was successful!"}' \
+          -d '{"content": "🚀 Deployment to Google Compute Engine was successful! Branch: main Commit: ${{ github.sha }}"}' \
           ${{ secrets.DISCORD_WEBHOOK_URL }}
 
       # Notify Failure to Discord
