@@ -19,19 +19,30 @@ jobs:
           echo "${{ secrets.GCE_SSH_PRIVATE_KEY }}" > gce-deploy-key
           chmod 600 gce-deploy-key
 
-      - name: 🔁 Create SSH Directory and Add SSH Host to Known Hosts
+      - name: 🔁 Add SSH Host to Known Hosts
         run: |
-          mkdir -p ~/.ssh
-          echo "${{ secrets.GCE_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
           ssh-keyscan -H ${{ secrets.GCE_HOST }} >> ~/.ssh/known_hosts
 
       - name: 🚀 Deploy via SSH
         run: |
-          ssh -i ~/.ssh/id_rsa ${{ secrets.GCE_USER }}@${{ secrets.GCE_HOST }} << 'EOF'
+          ssh -i gce-deploy-key ${{ secrets.GCE_USER }}@${{ secrets.GCE_HOST }} << 'EOF'
             set -e
             cd Parable-Mind
             git pull origin main
             docker-compose down
             docker-compose up -d --build
           EOF
+
+      - name: Notify Success to Discord
+        if: success()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "🚀 Deployment to Google Compute Engine was successful!"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: Notify Failure to Discord
+        if: failure()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"content": "❌ Deployment to Google Compute Engine failed!"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
