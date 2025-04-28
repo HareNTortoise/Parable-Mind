@@ -60,3 +60,19 @@ func PatchVariable(id string, updates map[string]interface{}) error {
 	_, err := firebase.Client.Collection("variables").Doc(id).Set(context.Background(), updates, firestore.MergeAll)
 	return err
 }
+
+func SaveBulkVariables(variables []model.Variable) error {
+	ctx := context.Background()
+	bulkWriter := firebase.Client.BulkWriter(ctx)
+	collection := firebase.Client.Collection("variables")
+
+	for _, v := range variables {
+		docRef := collection.Doc(v.ID)
+		bulkWriter.Create(docRef, v)
+	}
+
+	// Close the bulk writer and wait for all operations to complete
+	bulkWriter.End()
+
+	return nil
+}

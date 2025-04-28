@@ -125,3 +125,29 @@ func PatchVariable(c *gin.Context) {
 	}
 	c.JSON(http.StatusOK, gin.H{"message": "Updated"})
 }
+
+// @Summary Bulk Create Variables
+// @Tags Variables
+// @Accept json
+// @Produce json
+// @Param variables body []model.Variable true "List of Variables"
+// @Success 201 {array} model.Variable
+// @Router /variables/bulk [post]
+func CreateBulkVariables(c *gin.Context) {
+	var variables []model.Variable
+	if err := c.ShouldBindJSON(&variables); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	for i := range variables {
+		variables[i].ID = uuid.New().String() // Auto-generate IDs
+	}
+
+	if err := service.CreateBulkVariables(variables); err != nil {
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to create variables"})
+		return
+	}
+
+	c.JSON(http.StatusCreated, variables)
+}

@@ -2764,6 +2764,45 @@ const docTemplate = `{
                 }
             }
         },
+        "/variables/bulk": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Variables"
+                ],
+                "summary": "Bulk Create Variables",
+                "parameters": [
+                    {
+                        "description": "List of Variables",
+                        "name": "variables",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Variable"
+                            }
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "schema": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/model.Variable"
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/variables/{id}": {
             "get": {
                 "produces": [
