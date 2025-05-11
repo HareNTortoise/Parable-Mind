@@ -137,10 +137,6 @@ class QuestionBankPageDesktopState extends State<QuestionBankPageDesktop> {
                               'Total Banks: ${dummyQuestionBanks.length}',
                               style: GoogleFonts.poppins(fontSize: 26),
                             ),
-                            Text(
-                              'Filtered Banks: ${filteredQuestionBanks.length}',
-                              style: GoogleFonts.poppins(fontSize: 26),
-                            ),
                           ],
                         ),
                       ),
