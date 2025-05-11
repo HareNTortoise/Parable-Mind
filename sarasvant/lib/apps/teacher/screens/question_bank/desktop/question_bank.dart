@@ -6,6 +6,7 @@ import 'package:sarasvant/models/question_bank.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../../../constants/dummy_data/question_bank.dart';
+import 'components/question_bank_tile.dart';
 
 class QuestionBankPageDesktop extends StatefulWidget {
   const QuestionBankPageDesktop({super.key});
@@ -22,8 +23,7 @@ class QuestionBankPageDesktopState extends State<QuestionBankPageDesktop> {
     setState(() {
       searchQuery = query.toLowerCase();
       filteredQuestionBanks = dummyQuestionBanks.where((bank) {
-        return bank.name.toLowerCase().contains(searchQuery) ||
-            bank.topic.toLowerCase().contains(searchQuery);
+        return bank.name.toLowerCase().contains(searchQuery) || bank.topic.toLowerCase().contains(searchQuery);
       }).toList();
     });
   }
@@ -37,6 +37,7 @@ class QuestionBankPageDesktopState extends State<QuestionBankPageDesktop> {
     return ResponsiveScaledBox(
       width: 1920,
       child: Scaffold(
+        backgroundColor: Colors.white,
         floatingActionButton: FloatingActionButton(
           onPressed: _navigateToAddQuestionBankPage,
           child: Icon(Icons.add),
@@ -68,7 +69,7 @@ class QuestionBankPageDesktopState extends State<QuestionBankPageDesktop> {
                       child: Container(
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
@@ -77,13 +78,18 @@ class QuestionBankPageDesktopState extends State<QuestionBankPageDesktop> {
                             Row(
                               children: [
                                 Expanded(
-                                  child: TextField(
+                                  child: SearchBar(
                                     onChanged: _filterQuestionBanks,
-                                    decoration: InputDecoration(
-                                      hintText: 'Search by chapter or topic...',
-                                      prefixIcon: Icon(Icons.search, color: Colors.teal[700]),
-                                      border: OutlineInputBorder(
-                                        borderRadius: BorderRadius.circular(10),
+                                    leading: Padding(
+                                      padding: const EdgeInsets.only(left: 12.0),
+                                      child: const Icon(Icons.search),
+                                    ),
+                                    backgroundColor: WidgetStateProperty.all(Colors.white),
+                                    hintText: "Search question banks",
+                                    hintStyle: WidgetStateProperty.all(
+                                      GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        color: Colors.black,
                                       ),
                                     ),
                                   ),
@@ -93,32 +99,14 @@ class QuestionBankPageDesktopState extends State<QuestionBankPageDesktop> {
                             const SizedBox(height: 20),
                             // Question Banks List
                             SizedBox(
-                              height: 500, // Fixed height for ListView
-                              child: ListView.builder(
+                              height: 580, // Fixed height for ListView
+                              child: ListView.separated(
                                 itemCount: filteredQuestionBanks.length,
                                 itemBuilder: (context, index) {
                                   final bank = filteredQuestionBanks[index];
-                                  return Card(
-                                    margin: const EdgeInsets.symmetric(vertical: 10),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(15),
-                                    ),
-                                    child: ListTile(
-                                      title: Text(
-                                        bank.name,
-                                        style: GoogleFonts.poppins(
-                                          fontSize: 18,
-                                          fontWeight: FontWeight.w600,
-                                        ),
-                                      ),
-                                      subtitle: Text(
-                                        'Topic: ${bank.topic}',
-                                        style: GoogleFonts.poppins(fontSize: 16),
-                                      ),
-                                      isThreeLine: false,
-                                    ),
-                                  );
+                                  return QuestionBankTile(bank: bank);
                                 },
+                                separatorBuilder: (context, index) => const SizedBox(height: 18),
                               ),
                             ),
                           ],
@@ -134,28 +122,24 @@ class QuestionBankPageDesktopState extends State<QuestionBankPageDesktop> {
                         height: 700,
                         padding: const EdgeInsets.all(40),
                         decoration: BoxDecoration(
-                          color: Colors.grey[200],
+                          color: Colors.grey[100],
                           borderRadius: BorderRadius.circular(20),
                         ),
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          spacing: 30,
                           children: [
                             Text(
-                              'Info',
-                              style: GoogleFonts.poppins(
-                                fontSize: 24,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              'Info Card',
+                              style: GoogleFonts.jost(fontSize: 42, fontWeight: FontWeight.w600),
                             ),
-                            const SizedBox(height: 20),
                             Text(
                               'Total Banks: ${dummyQuestionBanks.length}',
-                              style: GoogleFonts.poppins(fontSize: 18),
+                              style: GoogleFonts.poppins(fontSize: 26),
                             ),
-                            const SizedBox(height: 10),
                             Text(
                               'Filtered Banks: ${filteredQuestionBanks.length}',
-                              style: GoogleFonts.poppins(fontSize: 18),
+                              style: GoogleFonts.poppins(fontSize: 26),
                             ),
                           ],
                         ),
