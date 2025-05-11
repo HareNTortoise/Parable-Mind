@@ -29,3 +29,7 @@ func UpdateVariable(id string, updated model.Variable) error {
 func PatchVariable(id string, updates map[string]interface{}) error {
 	return repo.PatchVariable(id, updates)
 }
+
+func CreateBulkVariables(variables []model.Variable) error {
+	return repo.SaveBulkVariables(variables)
+}

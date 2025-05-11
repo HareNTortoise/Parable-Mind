@@ -1,0 +1,54 @@
+name: 🚀 Deploy to Google Compute Engine
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    name: Deploy to GCE VM
+    runs-on: ubuntu-latest
+    environment: production   # ✅ Enables Deployment status on GitHub repo
+
+    steps:
+      - name: ⬇️ Checkout Code
+        uses: actions/checkout@v3
+
+      - name: 🔐 Setup SSH Key
+        run: |
+          echo "${{ secrets.GCE_SSH_PRIVATE_KEY }}" > gce-deploy-key
+          chmod 600 gce-deploy-key
+
+      - name: 🔁 Add SSH Host to Known Hosts
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H ${{ secrets.GCE_HOST }} >> ~/.ssh/known_hosts
+
+      - name: 🚀 Deploy via SSH to GCE
+        run: |
+          ssh -i gce-deploy-key -o StrictHostKeyChecking=no ${{ secrets.GCE_USER }}@${{ secrets.GCE_HOST }} << 'EOF'
+            set -e
+            echo "Pulling latest code from the main branch..."
+            cd Parable-Mind
+            git pull origin main
+            echo "Shutting down existing containers..."
+            docker-compose down
+            echo "Starting new containers..."
+            docker-compose up -d --build
+            echo "Deployment to GCE complete!"
+          EOF
+
+      - name: ✅ Notify Success to Discord
+        if: success()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"username": "GitHub Bot", "content": "✅ Deployment to GCE was successful!"}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+      - name: ❌ Notify Failure to Discord
+        if: failure()
+        run: |
+          curl -X POST -H "Content-Type: application/json" \
+          -d '{"username": "GitHub Bot", "content": "❌ Deployment to GCE failed. Check logs for details."}' \
+          ${{ secrets.DISCORD_WEBHOOK_URL }}

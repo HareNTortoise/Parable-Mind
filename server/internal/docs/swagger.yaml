@@ -2186,4 +2186,29 @@ paths:
       summary: Update Variable
       tags:
       - Variables
+  /variables/bulk:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: List of Variables
+        in: body
+        name: variables
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/model.Variable'
+          type: array
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            items:
+              $ref: '#/definitions/model.Variable'
+            type: array
+      summary: Bulk Create Variables
+      tags:
+      - Variables
 swagger: "2.0"
