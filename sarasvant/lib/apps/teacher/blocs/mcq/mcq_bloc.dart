@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import '../../../../models/questions/mcq.dart';
-import '../../../../repositories/mcq_respository.dart';
+import '../../../../repositories/mcq_repository.dart';
 
 part 'mcq_event.dart';
 part 'mcq_state.dart';
