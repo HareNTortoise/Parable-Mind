@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SearchDropdown extends StatefulWidget {
-  const SearchDropdown({super.key, required this.items, this.selectedValue, this.onChanged});
+  const SearchDropdown({super.key, required this.items, this.selectedValue, this.onChanged, this.backgroundColor = Colors.white});
 
   final List<String> items;
   final String? selectedValue;
   final ValueChanged<String?>? onChanged;
+  final Color backgroundColor;
 
   @override
   State<SearchDropdown> createState() => _SearchDropdownState();
@@ -24,6 +25,7 @@ class _SearchDropdownState extends State<SearchDropdown> {
       child: DropdownButton2<String>(
         key: dropdownKey,
         customButton: Material(
+          color: Colors.white,
           borderRadius: BorderRadius.circular(24),
           elevation: 2,
           child: InkWell(
@@ -140,8 +142,10 @@ class _SearchDropdownState extends State<SearchDropdown> {
         ),
         dropdownStyleData: DropdownStyleData(
           maxHeight: 500,
+          width: 300,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(35),
+            color: Colors.white
           ),
           scrollbarTheme: ScrollbarThemeData(
             radius: const Radius.circular(40),
@@ -150,7 +154,6 @@ class _SearchDropdownState extends State<SearchDropdown> {
           ),
         ),
         menuItemStyleData: MenuItemStyleData(
-          // overlayColor: MaterialStateProperty.all(Colors.redAccent),
           height: 70,
           padding: EdgeInsets.only(left: 14, right: 14),
         ),
