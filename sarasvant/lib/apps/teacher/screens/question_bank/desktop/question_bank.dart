@@ -70,7 +70,7 @@ class QuestionBankPageDesktopState extends State<QuestionBankPageDesktop> {
                         padding: const EdgeInsets.all(20),
                         decoration: BoxDecoration(
                           color: Colors.grey[100],
-                          borderRadius: BorderRadius.circular(20),
+                          borderRadius: BorderRadius.circular(30),
                         ),
                         child: Column(
                           children: [
@@ -131,7 +131,7 @@ class QuestionBankPageDesktopState extends State<QuestionBankPageDesktop> {
                           children: [
                             Text(
                               'Info Card',
-                              style: GoogleFonts.jost(fontSize: 42, fontWeight: FontWeight.w600),
+                              style: GoogleFonts.jost(fontSize: 42, fontWeight: FontWeight.w400),
                             ),
                             Text(
                               'Total Banks: ${dummyQuestionBanks.length}',
